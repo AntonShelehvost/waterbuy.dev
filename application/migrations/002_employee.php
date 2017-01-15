@@ -62,9 +62,12 @@ class Migration_employee extends CI_Migration
 
         $this->dbforge->add_key('emp_id',TRUE);
         $this->dbforge->create_table('employee', TRUE);
+
         $this->db->query('ALTER TABLE `employee` ADD FOREIGN KEY(`emp_employees_groups_id`) REFERENCES `employees_groups`(`emg_id`) ON DELETE CASCADE ON UPDATE CASCADE;');
-        $this->db->query("INSERT IGNORE INTO `employee` (`emp_employees_groups_id`, `emp_fname`, `emp_lname`, `emp_email`, `emp_password`, `emp_online_date`, `emp_online`) VALUES
-	                      (5, 'Admin', '', 'admin@waterbuy.net', 'a0da9a5392771279f68a7bf8d26e73b1', '".date('Y-m-d H:i:s')."', 0);");
+
+        $this->db->query("INSERT INTO employee (emp_id, emp_employees_groups_id, emp_fname, emp_lname, emp_email, 
+                            emp_password, emp_online_date, emp_online, emp_salt, emp_confirm) 
+                            VALUES (1, 5, 'Admin', '', 'admin@waterbuy.net', 'd54bbdef05bdc249ff19f05045dc9ba6', '2017-01-15 14:34:30', 0, '6fb6b846e', 1)");
 
     }
 

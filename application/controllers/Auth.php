@@ -38,6 +38,16 @@ class Auth extends CI_Controller {
 
         $this->page['content'] = $this->load->view('admin/auth/login', $this->page, true);
     }
+
+    public function generate_p()
+    {
+        $this->load->model('model_employee');
+        $p = $this->input->get('p');
+        $salt = $this->model_employee->generate_salt();
+        echo $salt;
+        echo '<br>';
+        echo $this->model_employee->generate_password($salt, $p);
+    }
     
     /**
      * Login to admin panel

@@ -99,7 +99,7 @@ class Model_auth extends CI_Model
             return false;
         }
 
-        $query = $this->db->select('emp_password')
+        $query = $this->db->select('emp_password,emp_salt')
             ->where('emp_id', $id)
             ->limit(1)
             ->get('employee');
@@ -110,7 +110,7 @@ class Model_auth extends CI_Model
             return false;
         }
 
-        $db_password = md5($password);
+        $db_password = md5($hash_password_db->emp_salt . md5($hash_password_db->emp_salt . md5($password)));
 
         return ($db_password == $hash_password_db->emp_password) ? true : false;
     }
