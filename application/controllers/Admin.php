@@ -21,9 +21,15 @@ class Admin extends CI_Controller
 
     public function index()
     {
+        $data = array(
+            'content' => $this->load->view('/admin/stat', array(
+                'get_stat_enter_site' => get_stat_enter_site(),
+                'country' => '',
+            ), true),
 
-        $data = array('content' => '');
+        );
         $this->load->view('/admin/main', $data);
+
     }
 
     public function login()

@@ -61,3 +61,24 @@ function enter_site()
     fputs($fp, $entry_line);
     fclose($fp);
 }
+
+function get_stat_enter_site()
+{
+    $string = file_get_contents('./application/logs/logs.txt');
+    $enter = [];
+    $enter = explode(PHP_EOL, $string);
+    $ip = [];
+    $allip = [];
+
+    foreach ($enter as $item) {
+        if (!empty($item)) {
+            $str = explode('|', $item);
+            $str2 = explode(' - ', $str[0]);
+            $allip[] = $str2[1];
+            if (!in_array($str2[1], $ip)) $ip[] = $str2[1];
+
+        }
+    }
+
+    return count(array_unique($allip));
+}
