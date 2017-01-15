@@ -127,7 +127,7 @@ $success = $this->session->flashdata('success');
                     </div>
                     <div class="form-group <?= (!empty(form_error('pro_organization')) ? 'has-error' : '') ?>">
                         <label class="control-label col-xs-12 col-md-3" for="postalAddress">Адрес поставщика:</label>
-                        <div class="col-xs-12 col-md-4">
+                        <div class="col-xs-12 col-md-3">
                             <label for="pro_id_country">Страна</label>
                             <select value="<?php echo set_value('pro_id_country'); ?>" class="form-control country"
                                     name="pro_id_country" <?= (!empty(form_error('pro_id_city')) ? 'has-error' : '') ?>>
@@ -136,25 +136,19 @@ $success = $this->session->flashdata('success');
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-xs-12 col-md-5">
+                        <div class="col-xs-12 col-md-3">
                             <label for="postalAddress">Область</label>
-                            <select class="form-control region">
-
+                            <select name="pro_region" class="form-control region"></select>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            <label for="pro_id_city">Город:</label>
+                            <select value="<?php echo set_value('pro_id_city'); ?>" class="form-control city"
+                                    name="pro_id_city" <?= (!empty(form_error('pro_id_city')) ? 'has-error' : '') ?>>
                             </select>
                         </div>
                     </div>
                     <div class="form-group ">
                         <label class="control-label col-xs-12 col-md-3" for="postalAddress">&nbsp;</label>
-
-                        <div class="col-xs-12 col-md-3">
-                            <label for="pro_id_city">Город:</label>
-                            <select value="<?php echo set_value('pro_id_city'); ?>" class="form-control city"
-                                    name="pro_id_city" <?= (!empty(form_error('pro_id_city')) ? 'has-error' : '') ?>>
-                                <?php foreach ($city as $item) { ?>
-                                    <option value="<?= $item->cit_id; ?>"><?= trim($item->cit_name); ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
                         <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_street')) ? 'has-error' : '') ?>">
                             <label for="pro_street">Улица:</label>
                             <input type="text" value="<?php echo set_value('pro_street'); ?>" class="form-control"
@@ -238,32 +232,32 @@ $success = $this->session->flashdata('success');
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_reception_orders[]" value="3"> ВТ
+                                            <input type="checkbox" name="pro_days_reception_orders[]" value="2"> ВТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_reception_orders[]" value="5"> СР
+                                            <input type="checkbox" name="pro_days_reception_orders[]" value="3"> СР
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_reception_orders[]" value="7"> ЧТ
+                                            <input type="checkbox" name="pro_days_reception_orders[]" value="4"> ЧТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_reception_orders[]" value="9"> ПТ
+                                            <input type="checkbox" name="pro_days_reception_orders[]" value="5"> ПТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_reception_orders[]" value="11"> СБ
+                                            <input type="checkbox" name="pro_days_reception_orders[]" value="6"> СБ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_reception_orders[]" value="13"> ВС
+                                            <input type="checkbox" name="pro_days_reception_orders[]" value="7"> ВС
                                         </label>
                                     </div>
 
@@ -296,32 +290,32 @@ $success = $this->session->flashdata('success');
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="3"> ВТ
+                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="2"> ВТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="5"> СР
+                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="3"> СР
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="7"> ЧТ
+                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="4"> ЧТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="9"> ПТ
+                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="5"> ПТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="11"> СБ
+                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="6"> СБ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="13"> ВС
+                                            <input type="checkbox" name="pro_days_delivery_orders[]" value="7"> ВС
                                         </label>
                                     </div>
 

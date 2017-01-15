@@ -74,15 +74,23 @@ class Model_users extends CI_Model {
 	}
 	
 	public function insert() {
-		$_POST['use_password'] = $this->hash_password($this->input->post('use_password'));
-		if ($this->db->insert('users', $this->input->post())) {
+
+        $_POST['use_birthday'] = date('Y-m-d', strtotime($this->input->post('year') . '-' . $this->input->post('month') . '-' . $this->input->post('day')));
+        unset($_POST['year']);
+        unset($_POST['day']);
+        unset($_POST['month']);
+        if ($this->db->insert('users', $this->input->post())) {
 			return $this->db->insert_id();
 		}
 		return false;
 	}
 	
 	public function update($id){
-		return $this->db->update('users',$this->input->post(),'use_id='.$id,1);
+        $_POST['use_birthday'] = date('Y-m-d', strtotime($this->input->post('year') . '-' . $this->input->post('month') . '-' . $this->input->post('day')));
+        unset($_POST['year']);
+        unset($_POST['day']);
+        unset($_POST['month']);
+        return $this->db->update('users', $this->input->post(), 'use_id=' . $id, 1);
 	}
 	
 	

@@ -250,6 +250,7 @@ class Admin extends CI_Controller
 
         $this->load->model('model_users');
         $this->load->model('model_city');
+        $this->load->model('model_country');
         $this->load->model('model_employee');
 
         $success = false;
@@ -305,11 +306,11 @@ class Admin extends CI_Controller
             ],
         );
 
-        $city = $this->model_city->get_all();
+        $country = $this->model_country->get_all();
         $data = array(
             'content' => $this->load->view('/admin/edit_managers', [
                 'client' => $client,
-                'city' => $city,
+                'country' => $country,
             ], true),
             'bred' => $bred,
         );
@@ -334,8 +335,8 @@ class Admin extends CI_Controller
             $this->form_validation->set_rules('pro_email_logist', 'pro_email_logist', 'trim|required');
             $this->form_validation->set_rules('pro_phone_logist', 'pro_phone_logist', 'trim|required');
 
-           /* $this->form_validation->set_rules('pro_password', 'password', 'trim|required|min_length[5]');
-            $this->form_validation->set_rules('passconf', 'password', 'trim|required|min_length[5]|matches[pro_password]');*/
+            /* $this->form_validation->set_rules('pro_password', 'password', 'trim|required|min_length[5]');
+             $this->form_validation->set_rules('passconf', 'password', 'trim|required|min_length[5]|matches[pro_password]');*/
 
             $this->form_validation->set_rules('pro_id_country', 'pro_id_country', 'trim|required');
             $this->form_validation->set_rules('pro_id_city', 'pro_id_city', 'trim|required');
@@ -365,15 +366,15 @@ class Admin extends CI_Controller
                 );
                 $emp_id = $this->model_employee->add_employee($data);
                 $this->model_employee->create_access_account($emp_id);
-               /* foreach ($delivery_citys as $citys) { // переноситься в ЛК поставщика
-                    $data_delivery_city = [
-                        'dci_id_country' => $this->input->post('pro_id_country'),
-                        'dci_id_city' => $citys,
-                        'dci_id_providers' => $id,
-                        'dci_active' => 1,
-                    ];
-                    $this->model_delivery_city->insert($data_delivery_city);
-                }*/
+                /* foreach ($delivery_citys as $citys) { // переноситься в ЛК поставщика
+                     $data_delivery_city = [
+                         'dci_id_country' => $this->input->post('pro_id_country'),
+                         'dci_id_city' => $citys,
+                         'dci_id_providers' => $id,
+                         'dci_active' => 1,
+                     ];
+                     $this->model_delivery_city->insert($data_delivery_city);
+                 }*/
 
                 $success = 'Данные о поставщике успешно добавлены. ID поставщика ' . $id . '<p><a href="/admin/view_providers/' . $id . '">Просмотреть карточку поставщика</a></p>';
 
@@ -458,7 +459,7 @@ class Admin extends CI_Controller
 
                 $this->model_providers->update($id);
 
-                $this->model_delivery_city->delete_by_providers($id);
+                /*$this->model_delivery_city->delete_by_providers($id);
                 foreach ($delivery_citys as $citys) {
                     $data_delivery_city = [
                         'dci_id_country' => $this->input->post('pro_id_country'),
@@ -467,7 +468,7 @@ class Admin extends CI_Controller
                         'dci_active' => 1,
                     ];
                     $this->model_delivery_city->insert($data_delivery_city);
-                }
+                }*/
 
                 $success = 'Данные о поставщике успешно обновлены. ID пользователя ' . $id . '<p><a href="/admin/view_clients/' . $id . '">Просмотреть карточку поставщика</a></p>';
 
@@ -493,12 +494,12 @@ class Admin extends CI_Controller
                 'flat' => false,
             ],
             [
-                'url' => '/admin/clients',
+                'url' => '/admin/providers',
                 'title' => 'Список поставщиков',
                 'flat' => true,
             ],
             [
-                'url' => '/admin/view_clients/' . $id,
+                'url' => '/admin/edit_providers/' . $id,
                 'title' => 'Потставщик',
                 'flat' => true,
             ],
@@ -659,7 +660,8 @@ class Admin extends CI_Controller
         $this->load->view('/admin/main', $data);
     }
 
-    public function delete_location(){
+    public function delete_location()
+    {
         $success = false;
         if ($this->input->method() == 'post') {
 
@@ -696,10 +698,11 @@ class Admin extends CI_Controller
                 }
             }
         }
-        echo json_encode(array('success' => $success,'message'=>($success===false)?$this->db->error():''));
+        echo json_encode(array('success' => $success, 'message' => ($success === false) ? $this->db->error() : ''));
 
         return $success;
     }
+
     public function add_location()
     {
         $success = false;
@@ -818,8 +821,6 @@ class Admin extends CI_Controller
             $this->form_validation->set_rules('use_last_name', 'use_last_name', 'trim|required');
             $this->form_validation->set_rules('use_name', 'use_name', 'trim|required');
             $this->form_validation->set_rules('use_email', 'login', 'trim|required|is_unique[users.use_email]');
-            $this->form_validation->set_rules('use_password', 'password', 'trim|required|min_length[5]');
-            $this->form_validation->set_rules('passconf', 'password', 'trim|required|min_length[5]|matches[use_password]');
             $this->form_validation->set_rules('use_street', 'use_street', 'trim|required');
             $this->form_validation->set_rules('use_id_city', 'use_id_city', 'trim|required');
             $this->form_validation->set_rules('use_building', 'use_building', 'trim|required');
@@ -840,14 +841,14 @@ class Admin extends CI_Controller
                 $this->load->model('model_users');
                 $this->load->model('model_employee');
                 $id = $this->model_users->insert();
-                $data = array(
+                $data = [
                     'emp_employees_groups_id' => 4,
                     'emp_fname' => $this->input->post('use_last_name'),
                     'emp_lname' => $this->input->post('use_name'),
                     'emp_email' => $this->input->post('use_email'),
-                    'emp_password' => md5($this->input->post('use_password')),
-                );
-                $this->model_employee->add_employee($data);
+                ];
+                $emp_id = $this->model_employee->add_employee($data);
+                $this->model_employee->create_access_account($emp_id);
                 $success = 'Данные о менеджере успешно добавлены. ID менеджера ' . $id . '<p><a href="/admin/view_managers/' . $id . '">Просмотреть карточку менеджера</a></p>';
 
                 $this->session->set_flashdata(array('success' => $success));
@@ -858,7 +859,7 @@ class Admin extends CI_Controller
         }
         $this->load->model('model_city');
         $this->load->model('model_country');
-        $city = $this->model_city->get_all();
+        $country = $this->model_country->get_all();
         $bred = array(
             [
                 'url' => '/admin',
@@ -872,7 +873,7 @@ class Admin extends CI_Controller
             ],
         );
         $data = array(
-            'content' => $this->load->view('/admin/add_managers', array('city' => $city), true),
+            'content' => $this->load->view('/admin/add_managers', array('country' => $country), true),
             'bred' => $bred,
         );
         $this->load->view('/admin/main', $data);

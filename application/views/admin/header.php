@@ -259,12 +259,6 @@
                                         <span> Список поставщиков</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="/admin/managers">
-                                        <i class="glyphicon glyphicon-user"></i>
-                                        <span> Список менеджеров</span>
-                                    </a>
-                                </li>
                                 <!--<li>
                                     <a class="ajax-link" href="icon.html">
                                         <i class="glyphicon glyphicon-stats"></i>
@@ -294,6 +288,13 @@
                             <?php endif; ?>
                             <?php if ($this->session->userdata('emp_employees_groups_id') == 5) : ?>
                                 <li class="nav-header hidden-md">Слежебная</li>
+
+                                <li>
+                                    <a href="/admin/managers">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                        <span> Список менеджеров</span>
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="/admin/location">
                                         <i class="glyphicon glyphicon-plus"></i>
@@ -306,6 +307,7 @@
                                         <span> Категория товаров</span>
                                     </a>
                                 </li>
+
                                 <!--<li>
                                     <a class="ajax-link" href="icon.html">
                                         <i class="glyphicon glyphicon-stats"></i>

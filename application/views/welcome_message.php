@@ -27,7 +27,7 @@
         <div id="mobile_menu">
             <ul class="nav nav-pills nav-stacked">
                 <li><a href="#templatemo_banner_top">Главная</a></li>
-                <li><a href="#templatemo_upcomming_event">Акции</a></li>
+                <li><a href="#templatemo_upcomming_event">Типы воды</a></li>
                 <li><a href="#templatemo_pricing">Цена</a></li>
                 <li><a href="#templatemo_blog">Отзывы</a></li>
                 <li><a href="http://www.facebook.com/templatemo" class="external-link" target="_parent">Заказ</a></li>
@@ -39,11 +39,11 @@
     <div id="templatemo_banner_top" class="container_wapper">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <p><a href="www.waterbuy.net">Связаться с менеджером</a> | <a href="tel:380675103223">067-510-3223</a></p>
-                </div>
-                <div class="col-md-4">
-                    <p class="right"><a href="http://n98814uc.beget.tech/auth/login">Вход</a> <span class="glyphicon glyphicon-user"></span></p>
+                <div class="col-md-12">
+                    <p><a href="http://n98814uc.beget.tech/auth/login">Вход</a> <span
+                            class="glyphicon glyphicon-user"></span> |<a href="www.waterbuy.net"> Менеджер</a> <a
+                            href="tel:380675103223">| <span class="glyphicon glyphicon-earphone"></span>
+                            067-510-3223</a></p>
                 </div>
             </div>
         </div>
@@ -59,6 +59,9 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-2 hidden-xs col-lg-2">&ensp;</div>
+        <div class="col-md-8 col-xs-12 col-lg-8 center-block">
     <div class="banner" id="templatemo_banner_slide">
         <ul>
             <li class="templatemo_banner_slide_01">
@@ -80,16 +83,17 @@
                 </div>
             </li>
         </ul>
-    </div>    
-
-
+    </div>
+        </div>
+        <div class="col-md-2 hidden-xs col-lg-2">&ensp;</div>
+    </div>
     <div id="templatemo_main_menu" class="container_wapper hidden-sm hidden-xs">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
                     <ul class="nav nav-justified">
                         <li><a href="#templatemo_banner_top">Главная</a></li>
-                        <li><a href="#templatemo_upcomming_event">Акции</a></li>
+                        <li><a href="#templatemo_upcomming_event">Типы воды</a></li>
                         <li><a href="#templatemo_pricing">Цена</a></li>
                         <li><a href="#templatemo_blog">Отзывы</a></li>
                         <li><a href="http://www.facebook.com/templatemo" class="external-link" target="_parent"> Заказ</a></li>
@@ -103,104 +107,82 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 section_header">
-                    <h1>Акции</h1>
+                    <h1>Типы воды</h1>
                 </div>
                 <div class="col-md-6 col-md-offset-3 col-md-offset-3">
-                    <p>Здесь Вы можете ознакомиться с акционными предложениями нашего сервиса! </p>
+                    <p>Вода одно из самых распространенных веществ в природе. Она является базовым элементом
+                        жизнеобеспечения на нашей планете. </p>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-sm-6 col-md-3">
                     <div class="event_box event_animate_left">
-                        <img src="/assets/bower_components/main-page/images/event_01.jpg" alt="Event 1" class="img-responsive" />
-                        <ul>
-                            <li>
-                                    <span class="glyphicon glyphicon-calendar"></span>Wednesday<br />
-                                    <span class="glyphicon">&nbsp;</span>3<sup>rd</sup> September 2084<br />
-                            </li>
-                            <li>
-                                    <span class="glyphicon glyphicon-time"></span>Time<br />
-                                    <span class="glyphicon">&nbsp;</span>10:00 AM to 4:00 PM<br />
-                            </li>
-                            <li>
-                                    <span class="glyphicon glyphicon-map-marker"></span>Venue X<br />
-                                    <span class="glyphicon">&nbsp;</span>Lifestyle Mall<br />  
-                                    <span class="glyphicon">&nbsp;</span>Yangon, Myanmar<br />
-                            </li>
-                        </ul>
+                        <img src="/assets/bower_components/main-page/images/voda-1.jpg" alt="Артезианская вода"
+                             class="img-responsive"/>
+                        <h2 class="text-center padding-10"><span class="blue"> Артезианская<br> вода </span></h2>
+                        <p class="voda">На химический состав грунтовых обычных вод влияют условия формирования, кроме
+                            того, руда, приближенная к воде, вносит изменения в состав. Например, воды насыщаются
+                            соединениями железа, когда вблизи железной руды протекают. Также в составе появляются
+                            вредные и достаточно опасные соединения. Это значит, что без предварительной очистки воду
+                            такую использовать нельзя, ее следует обязательно очищать от всех примесей и опасных
+                            веществ.
+                            Артезианский вид насыщен необходимым кальцием, полезным магнием, а также железом и фтором.
+                            Отличаются такие воды уникальным сбалансированным составом и исключительными вкусовыми
+                            качествами. Полезный состав воды и такой необходимый показатель, как мягкость, не имеют
+                            ничего общего. После кипячения также может появляться осадок, аналогичный тому, что
+                            появляется от жесткой обычной воды.</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="event_box event_animate_left">
-                        <img src="/assets/bower_components/main-page/images/event_02.jpg" alt="Event 2" class="img-responsive" />
-                        <ul>
-                            <li>
-                                    <span class="glyphicon glyphicon-calendar"></span>Thursday<br />
-                                    <span class="glyphicon">&nbsp;</span>9<sup>th</sup> August 2084<br />
-                            </li>
-                            <li>
-                                    <span class="glyphicon glyphicon-time"></span>Time<br />
-                                    <span class="glyphicon">&nbsp;</span>7:15 PM to 9:15 PM<br />
-                            </li>
-                            <li>
-                                    <span class="glyphicon glyphicon-map-marker"></span>New Studio<br />
-                                    <span class="glyphicon">&nbsp;</span>Walking Street<br />  
-                                    <span class="glyphicon">&nbsp;</span>Mandalay, Myanmar<br />
-                            </li>
-                        </ul>
+                        <img src="/assets/bower_components/main-page/images/voda-miner.jpg" alt="Минеральные воды"
+                             class="img-responsive"/>
+                        <h2 class="text-center padding-10"><span class="blue"> Минеральные<br> воды</span></h2>
+                        <p class="voda">Разлив минвод в герметически закрытую посуду после предварительного газирования
+                            углекислым газом позволяет сохранить их солевой состав и лечебные свойства. Это даёт
+                            возможность применять лечебно-питьевые воды и во внекурортной обстановке.
+                            На многих курортах для бутылочного разлива используется, как правило, небольшое количество
+                            источников. Но в торговую сеть поступают минеральные воды большого числа производителей. При
+                            выборе следует учитывать рекомендации на этикетке: «Применяется при заболеваниях желудка,
+                            кишечника, печени, желчевыводящих путей», или ещё короче: «Применяется при болезнях органов
+                            пищеварения». Ни то, ни другое не даёт возможности ориентироваться в выборе воды даже врачу.
+                            Чтобы подобрать нужную при данном заболевании лечебно-питьевую воду, необходимо знать, к
+                            какому типу она относится. А знание её аналогов поможет в случае отсутствия назначенной воды
+                            выбрать равноценную замену.</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="event_box event_animate_right">
-                        <img src="/assets/bower_components/main-page/images/event_03.jpg" alt="Event 3" class="img-responsive" />
-                        <ul>
-                            <li>
-                                    <span class="glyphicon glyphicon-calendar"></span>Sunday<br />
-                                    <span class="glyphicon">&nbsp;</span>6<sup>th</sup> July 2084<br />
-                            </li>
-                            <li>
-                                    <span class="glyphicon glyphicon-time"></span>Time<br />
-                                    <span class="glyphicon">&nbsp;</span>10:00 AM ~ 5:00 PM<br />
-                            </li>
-                            <li>
-                                    <span class="glyphicon glyphicon-map-marker"></span>Digital Hall<br />
-                                    <span class="glyphicon">&nbsp;</span>Patong Beach<br />  
-                                    <span class="glyphicon">&nbsp;</span>Phuket, Thailand<br />
-                            </li>
-                        </ul>
+                        <img src="/assets/bower_components/main-page/images/voda-ochischena.jpg" alt="Очищенная вода"
+                             class="img-responsive"/>
+                        <h2 class="text-center padding-10"><span class="blue"> Очищенная <br> вода</span></h2>
+                        <p class="voda">Вода очищенная может быть получена из питьевой воды методами дистилляции
+                            (дистиллированная вода), ионного обмена, обратного осмоса или электродиализа.
+                            Предпочтительными и наиболее экономичными методами получения воды очищенной эксперты считают
+                            ионный обмен или обратный осмос.
+                            Вода очищенная должна приготовляться в специальном помещении, в котором запрещены другие
+                            виды работ. В помещении должны быть созданы асептические условия («чистое помещение»).
+                            Воздух помещения периодически стерилизуют бактерицидными ультрафиолетовыми лампами.
+                            Зачастую для получения воды очищенной природная или водопроводная вода должна пройти одну
+                            или несколько стадий предварительной водоподготовки. Это связано с нестабильностью качества
+                            водопроводной или другой исходной воды (колодезной, артезианской, речной).</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="event_box event_animate_right">
-                        <img src="/assets/bower_components/main-page/images/event_04.jpg" alt="Event 4" class="img-responsive" />
-                        <ul>
-                            <li>
-                                    <span class="glyphicon glyphicon-calendar"></span>Saturday<br />
-                                    <span class="glyphicon">&nbsp;</span>2<sup>nd</sup> June 2084<br />
-                            </li>
-                            <li>
-                                     <span class="glyphicon glyphicon-time"></span>Time<br />
-                                   <span class="glyphicon">&nbsp;</span>11:30 AM to 2:30 PM<br />
-                            </li>
-                            <li>
-                                   <span class="glyphicon glyphicon-map-marker"></span>Open Hall<br />
-                                   <span class="glyphicon">&nbsp;</span>Night Market<br /> 
-                                   <span class="glyphicon">&nbsp;</span>Hua Hin, Thailand<br />
-                            </li>
-                        </ul>
+                        <img src="/assets/bower_components/main-page/images/voda-rod.jpg" alt="Родниковая вода"
+                             class="img-responsive"/>
+                        <h2 class="text-center padding-10"><span class="blue"> Родниковая <br> вода</span></h2>
+                        <p class="voda">Пробиваясь на поверхность, родниковая вода проходит через слои гравия и песка,
+                            что обеспечивает ей естественную природную фильтрацию. То есть, фильтрация происходит на
+                            очень грубом уровне, вода очищается лишь от крупных механических примесей. Солевой и
+                            бактериальный состав воды остаётся тем же, что и был, когда вода вошла под землю.
+                            Одновременно с грубой механической фильтрацией происходит частичное растворение породы,
+                            через которую идёт вода. Соответственно, вода насыщается теми или иными микро- и
+                            макроэлементами. Поскольку каждая подземная вода проходит через свои слои камней, скал,
+                            песка и глины, то её насыщают различные вещества. </p>
                     </div>
                 </div>
-                <div class="templatemo_clear">
-                    <div class="col-xs-6 event_animate_left" id="prev_event_btn">
-                            <p>
-                                <a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>
-                            </p>
-                    </div>
-                    <div class="col-xs-6 event_animate_right" id="next_event_btn">
-                            <p>
-                                <a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a>
-                            </p>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -208,59 +190,66 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 section_header">
-                    <h1>Pricing</h1>
+                    <h1>Цены</h1>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-md-4 pricing_icon_wapper">
-                    <p class="cycle_icon"><span class="glyphicon glyphicon-heart"></span></p>
-                    <div class="clearfix"></div>
-                    <h1>Silver</h1>
-                    <p>Ut enim ad minim veniam, quis nostrud. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                </div>
-                <div class="col-md-4 pricing_icon_wapper">
-                    <p class="cycle_icon"><span class="glyphicon glyphicon-phone"></span></p>
-                    <div class="clearfix"></div>
-                    <h1>Gold</h1>
-                    <p>Excepteur sint occaecat cupidatat non proident. Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                </div>
-                <div class="col-md-4 pricing_icon_wapper">
-                    <p class="cycle_icon"><span class="glyphicon glyphicon-pencil"></span></p>
-                    <div class="clearfix"></div>
-                    <h1>Platinum</h1>
-                    <p>Integer justo lacus, dictum non lectus vel, aliquam tempor velit. Nulla a nulla odio. Fusce elit tellus, tempus nec ornare sit amet, placerat nec dolor.</p>
-                </div>
+
                 <div class="clearfix"></div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="price_table_box">
-                        <h1>USD 450</h1>
+                        <h1>ОТ 25 ГРН</h1>
                         <ul>
-                            <li><span class="glyphicon glyphicon-pencil"></span> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</li>
-                            <li><span class="glyphicon glyphicon-download-alt"></span> Excepteur sint occaecat  non proident, sunt in.</li>
-                            <li><span class="glyphicon glyphicon-folder-close"></span> Duis aute irure dolor in reprehenderit in cupidatat voluptate.</li>
+                            <li>
+                                <h4 class="text-center"> Артезианская<br> вода</h4>
+                                <p class="min-height">Артезиа́нские во́ды (от Artesium, латинского названия французской
+                                    провинции Артуа, где эти воды использовались с XII века) — напорные подземные воды,
+                                    заключённые в водоносных пластах горных пород между водоупорными слоями.</p></li>
                         </ul>
-                        <div><p><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a></p></div>
+                        <div><p><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Заказать</a></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="price_table_box">
-                        <h1>USD 650</h1>
+                        <h1>ОТ 25 ГРН</h1>
                         <ul>
-                            <li><span class="glyphicon glyphicon-pencil"></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut lado consequat. </li>
-                            <li><span class="glyphicon glyphicon-download-alt"></span> Duis aute irure dolor in reprehenderit in voluptate.</li>
-                            <li><span class="glyphicon glyphicon-folder-close"></span> Sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+                            <li>
+                                <h4 class="text-center"> Минеральные<br> воды</h4>
+                                <p class="min-height">Минеральные воды – это подземные воды с повышенным содержанием
+                                    минеральных или органических компонентов. Они обладают специфическими
+                                    физико-химическими свойствами, на этом основано их действие на организм человека и
+                                    лечебное применение.</p></li>
                         </ul>
-                        <div><p><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a></p></div>
+                        <div><p><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Заказать</a></p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="price_table_box">
-                        <h1>USD 750</h1>
+                        <h1>ОТ 20 ГРН</h1>
                         <ul>
-                            <li><span class="glyphicon glyphicon-pencil"></span> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </li>
-                            <li><span class="glyphicon glyphicon-download-alt"></span> Duis aute irure dolor in reprehenderit in voluptate.</li>
-                            <li><span class="glyphicon glyphicon-folder-close"></span> Illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </li>
+                            <li>
+                                <h4 class="text-center"> Очищенная <br> вода</h4>
+                                <p class="min-height">Очищенная вода, это единственная вода которую нужно пить тем, кто
+                                    заботится о собственном здоровье и здоровье своей семьи.</p></li>
                         </ul>
-                        <div><p><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Buy</a></p></div>
+                        <div><p><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Заказать</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="price_table_box">
+                        <h1>ОТ 25 ГРН</h1>
+                        <ul>
+                            <li>
+                                <h4 class="text-center"> Родниковая <br> вода</h4>
+                                <p class="min-height">Родники, как выходы грунтовых и подземных вод на поверхность,
+                                    являются уникальными естественными водоёмами. Они имеют большое значение в питании и
+                                    других поверхностных водоёмов, поддержании водного баланса и сохранении стабильности
+                                    окружающих их биоценозов.</p></li>
+                        </ul>
+                        <div><p><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Заказать</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,10 +259,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 section_header">
-                    <h1>Blog</h1>
+                    <h1>Отзывы</h1>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-sm-4 event_animate_left">
+                <p class="text-center">К сожалению, здесь пока нет ни одного отзыва...</p>
+                <!--<div class="col-sm-4 event_animate_left">
                     <img src="/assets/bower_components/main-page//images/templatemo_blog_01.jpg" alt="Blog Post 1" class="img-responsive" />
                 </div>
                 <div class="col-sm-8 blog_text event_animate_right">
@@ -297,7 +287,7 @@
                         <span class="glyphicon glyphicon-bookmark"></span> <a href="#">Web Design</a>, <a href="#">New Trend</a>
                     </p>
                     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque lorem ipsum dolor Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusm amet architecto beatae vitae dicta sunt explicabo. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
@@ -305,33 +295,33 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 section_header">
-                    <h1>Contact</h1>
+                    <h1>Обратная <br> связь</h1>
                 </div>
                 <div class="col-md-6 col-md-offset-3 col-md-offset-3">
-                    <p>Feel free to send us a message regarding this website template. Pellentesque pulvinar, orci vel scelerisque suscipit, libero justo laoreet felis, ac consectetur est nisi quis ligula. Maecenas nec felis elit.</p>
+                    <p> Свяжитесь с нами, тспользуя эту форму</p>
                 </div>
-                <div id="templatemo_contact_map_wapper">
+                <!--<div id="templatemo_contact_map_wapper">
                     <div id="templatemo_contact_map"></div>
-                </div>
+                </div>-->
                 <form action="#" method="post">
                     <div class="col-md-4">
-                        <p>Your Name</p>
-                        <input type="text" name="name" id="name" placeholder="Full Name" />
+                        <p> Ваше имя</p>
+                        <input type="text" name="name" id="name" placeholder="Ваше имя"/>
                     </div>
                     <div class="col-md-4">
-                        <p>Your Email</p>
-                        <input type="text" name="email" id="email" placeholder="Your Email" />
+                        <p>Ваш Email</p>
+                        <input type="text" name="email" id="email" placeholder="Ваш Email"/>
                     </div>
                     <div class="col-md-4">
-                        <p>Subject</p>
-                        <input type="text" name="subject" id="subject" placeholder="Subject" />
+                        <p>Тема письма</p>
+                        <input type="text" name="subject" id="subject" placeholder="Тема письма"/>
                     </div>
                     <div class="col-xs-12">
-                        <p>Message</p>
-                        <textarea name="message" id="message" placeholder="Your message..." ></textarea>
+                        <p>Тест сообщения</p>
+                        <textarea name="message" id="message" placeholder="Введите Ваше сообщение..."></textarea>
                     </div>
                     <div class="col-md-4 col-xs-8">
-                        <button>Send Message</button>
+                        <button> Отправить сообщение</button>
                     </div>
                 </form>
             </div>
@@ -341,7 +331,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-                    <p>Copyright © 2084 Company Name</p>
+                    <p>Copyright © 2017 Waterbuy</p>
                 </div>
             </div>
         </div>

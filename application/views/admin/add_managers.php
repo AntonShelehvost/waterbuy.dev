@@ -71,7 +71,7 @@ $success = $this->session->flashdata('success');
 						</div>
 						<div class="col-xs-12 col-md-3">
 							<label for="yaer">Год:</label>
-							<select class="form-control" name="yaer">
+							<select class="form-control" name="year">
 								<?php for ($i = (int)date('Y') - 18; $i >= (int)date('Y') - 58; $i--) { ?>
 									<option value="<?=$i?>"><?= number_format($i, 0, '', ''); ?></option>
 								<?php } ?>
@@ -83,20 +83,6 @@ $success = $this->session->flashdata('success');
 						<div class="col-xs-12 col-md-9">
 							<input type="email" name="use_email" value="<?php echo set_value('use_email'); ?>"
 							       class="form-control" id="inputEmail" placeholder="Email">
-						</div>
-					</div>
-					<div class="form-group <?= (!empty(form_error('use_password')) ? 'has-error' : '') ?>">
-						<label class="control-label col-xs-12 col-md-3" for="inputPassword">Пароль*:</label>
-						<div class="col-xs-12 col-md-9">
-							<input type="password" name="use_password" value="" class="form-control" id="inputPassword"
-							       placeholder="Введите пароль">
-						</div>
-					</div>
-					<div class="form-group <?= (!empty(form_error('passconf')) ? 'has-error' : '') ?>">
-						<label class="control-label col-xs-12 col-md-3" for="confirmPassword">Подтвердите пароль*:</label>
-						<div class="col-xs-12 col-md-9">
-							<input type="password" name="passconf" class="form-control" id="confirmPassword"
-							       placeholder="Введите пароль ещё раз">
 						</div>
 					</div>
 					<div class="form-group <?= (!empty(form_error('use_phone')) ? 'has-error' : '') ?>">
@@ -119,40 +105,16 @@ $success = $this->session->flashdata('success');
 
 						<div class="col-xs-12 col-md-4">
 							<label for="">Страна:</label>
-							<select value="" class="form-control"
-									name="" >
-									<option value=""></option>
-
+							<select class="form-control country"
+									name="use_id_country">
+								<?php foreach ($country as $item) { ?>
+									<option value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
+								<?php } ?>
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-5">
 							<label for="postalAddress">Область</label>
-							<select class="form-control">
-								<option>Винницкая область</option>
-								<option>Волынская область</option>
-								<option selected>Днепропетровская область</option>
-								<option>Донецкая область</option>
-								<option>Житомирская область</option>
-								<option>Закарпатская область</option>
-								<option>Запорожская область</option>
-								<option>Ивано-Франковская область</option>
-								<option>Киевская область</option>
-								<option>Кировоградская область</option>
-								<option>Луганская область</option>
-								<option>Львовская область</option>
-								<option>Николаевская область</option>
-								<option>Одесская область</option>
-								<option>Полтавская область</option>
-								<option>Ровенская область</option>
-								<option>Сумская область</option>
-								<option>Тернопольская область</option>
-								<option>Харьковская область</option>
-								<option>Херсонская область</option>
-								<option>Хмельницкая область</option>
-								<option>Черкасская область</option>
-								<option>Черниговская область</option>
-								<option>Черновицкая область</option>
-
+							<select name="use_id_region" class="form-control region">
 							</select>
 						</div>
 					</div>
@@ -160,11 +122,8 @@ $success = $this->session->flashdata('success');
 						<label class="label col-xs-12 col-md-3" for="postalAddress">&nbsp;</label>
 						<div class="col-xs-12 col-md-3">
 							<label for="use_id_city">Город:</label>
-							<select value="<?php echo set_value('use_id_city'); ?>" class="form-control"
-							        name="use_id_city" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
-								<?php foreach ($city as $item) { ?>
-									<option value="<?= $item->cit_id; ?>"><?= trim($item->cit_name); ?></option>
-								<?php } ?>
+							<select class="form-control city"
+									name="use_id_city" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_street')) ? 'has-error' : '') ?>">
