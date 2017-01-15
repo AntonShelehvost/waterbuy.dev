@@ -1,0 +1,17 @@
+@media screen and (max-width: 650px) {
+    .size-8 {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 8px;
+        line-height: 1.42857143;
+        color: #555555;
+    }
+}
+
+.midle{
+    margin-top: 24px;!important;
+    margin-left: -19px;!important;
+}
+
+.chosen-container.chosen-container-single {
+    width: 250px !important;
+}

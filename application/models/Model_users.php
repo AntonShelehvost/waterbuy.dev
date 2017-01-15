@@ -1,0 +1,89 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: AntonSH
+ * Date: 23.10.14
+ * Time: 15:17
+ */
+class Model_users extends CI_Model {
+	
+	private $table = 'users';
+	
+	/**
+	 * Checking whether the user is logged in
+	 *
+	 * @return boolean
+	 * @author Tremor
+	 */
+	public function is_login() {
+		if (!$this->input->is_ajax_request() && !is_file($_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'])) {
+			$this->session->set_userdata('admin_redirect', $_SERVER['REQUEST_URI']);
+		}
+		return (bool) $this->session->userdata('login');
+	}
+	
+	/**
+	 *
+	 * @param $password
+	 *
+	 * @return password
+	 * @author Tremor
+	 */
+	public function hash_password($password) {
+		return md5($password);
+	}
+	
+	/**
+	 * Check login
+	 *
+	 * @param $login
+	 *
+	 * @return boolean
+	 * @author Tremor
+	 */
+	public function check_login($login) {
+		
+		$this->db->where('emp_email', $login);
+		$this->db->limit(1);
+		$result = $this->db->get('employee');
+		
+		if ($result->num_rows() === 1) {
+			$this->set_message('Такой login/email уже существует');
+			return false;
+		} else {
+			//            $this->set_message('Login/email не занят');
+			return true;
+		}
+		
+	}
+	
+	public function getFields() {
+		return $this->db->field_data($this->table);
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getMessage() {
+		return $this->message;
+	}
+	
+	public function find($id) {
+		return $this->db->where('use_id', $id)->join('city', 'city.cit_id=users.use_id_city')->get('users')->result();
+	}
+	
+	public function insert() {
+		$_POST['use_password'] = $this->hash_password($this->input->post('use_password'));
+		if ($this->db->insert('users', $this->input->post())) {
+			return $this->db->insert_id();
+		}
+		return false;
+	}
+	
+	public function update($id){
+		return $this->db->update('users',$this->input->post(),'use_id='.$id,1);
+	}
+	
+	
+} // endClass

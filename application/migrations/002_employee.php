@@ -1,0 +1,75 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * Created by PhpStorm.
+ * User: Администратор
+ * Date: 19.12.2016
+ * Time: 9:04
+ */
+class Migration_employee extends CI_Migration
+{
+
+    public function up()
+    {
+        // Структура таблицы `employees_groups`
+        //
+        // Создание: Дек 19 2016 г., 00:04
+        // Последнее обновление: Дек 19 2016 г., 00:32
+        //
+        $this->dbforge->add_field(array(
+            'emp_id' => array(
+                'type'=>'INT',
+                'constraint'=>11,
+                'unsigned'=>TRUE,
+                'null'=>FALSE,
+                'auto_increment'=>TRUE
+            ),
+            'emp_employees_groups_id'=>array(
+                'type'=>'INT',
+                'constraint'=>11,
+                'unsigned'=>TRUE,
+                'null'=>FALSE
+            ),
+            'emp_fname'=>array(
+                'type'=>'VARCHAR',
+                'constraint'=>255,
+                'null'=>TRUE
+            ),
+            'emp_lname'=>array(
+                'type'=>'VARCHAR',
+                'constraint'=>255,
+                'null'=>TRUE
+            ),
+            'emp_email'=>array(
+                'type'=>'VARCHAR',
+                'constraint'=>255,
+                'null'=>FALSE
+            ),
+            'emp_password'=>array(
+                'type'=>'VARCHAR',
+                'constraint'=>255,
+                'null'=>FALSE
+            ),
+            'emp_online_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            'emp_online'=>array(
+                'type'=>'tinyint',
+                'constraint'=>4,
+                'null'=>FALSE,
+                'default' =>'0'
+            ),
+
+        ));
+
+        $this->dbforge->add_key('emp_id',TRUE);
+        $this->dbforge->create_table('employee', TRUE);
+        $this->db->query('ALTER TABLE `employee` ADD FOREIGN KEY(`emp_employees_groups_id`) REFERENCES `employees_groups`(`emg_id`) ON DELETE CASCADE ON UPDATE CASCADE;');
+        $this->db->query("INSERT IGNORE INTO `employee` (`emp_employees_groups_id`, `emp_fname`, `emp_lname`, `emp_email`, `emp_password`, `emp_online_date`, `emp_online`) VALUES
+	                      (5, 'Admin', '', 'admin@waterbuy.net', 'a0da9a5392771279f68a7bf8d26e73b1', '".date('Y-m-d H:i:s')."', 0);");
+
+    }
+
+    public function down()
+    {
+        $this->dbforge->drop_table('employee');
+    }
+}

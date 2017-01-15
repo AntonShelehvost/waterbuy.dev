@@ -1,0 +1,19 @@
+AddDefaultCharset UTF-8
+AddType text/x-component .htc
+AddType video/ogg  .ogv
+AddType video/mp4  .mp4
+AddType video/webm .webm
+Options All +Indexes
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?$1 [L]
+
+Options -Indexes
+
+
+RewriteCond $1 !^(index\.php|images|uploads|assets|fonts|css|robots\.txt)
+RewriteRule ^(.*)$ /index.php/$1 [L]
+
