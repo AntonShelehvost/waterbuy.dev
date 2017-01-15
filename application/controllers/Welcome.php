@@ -21,6 +21,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
         parent::__construct();
+        enter_site();
         $this->load->view('welcome_message');
 	}
 }

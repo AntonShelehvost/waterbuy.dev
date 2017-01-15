@@ -40,3 +40,24 @@ function mega_send_email($to = false, $subject, $message, $config = array('mailt
     }
     return false;
 }
+
+function enter_site()
+{
+    $agent = $_SERVER['HTTP_USER_AGENT'];
+    $uri = $_SERVER['REQUEST_URI'];
+    $user = @$_SERVER['PHP_AUTH_USER'];
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $ref = @$_SERVER['HTTP_REFERER'];
+    $dtime = date('r');
+
+    if ($ref == "") {
+        $ref = "None";
+    }
+    if ($user == "") {
+        $user = "None";
+    }
+    $entry_line = "$dtime - IP: $ip | Agent: $agent | URL: $uri | Referrer: $ref | Username: $user " . PHP_EOL;
+    $fp = fopen("./application/logs/logs.txt", "a");
+    fputs($fp, $entry_line);
+    fclose($fp);
+}
