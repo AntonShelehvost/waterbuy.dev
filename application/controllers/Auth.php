@@ -52,7 +52,7 @@ class Auth extends CI_Controller {
     /**
      * Login to admin panel
      * @return nothing
-     * @author Tremor
+     * @author AntonSH
      */ 
     public function login(){
 
@@ -88,12 +88,54 @@ class Auth extends CI_Controller {
             $this->load->view('admin/auth/login', $data);
 
         }
+    } /**
+     * Login to admin panel
+     * @return nothing
+     * @author AntonSH
+     */ 
+    public function login_ajax(){
+
+        $data = array();
+        $this->load->helper('security');
+        $this->form_validation->set_rules('login', 'Login', 'required|trim|valid_email');
+        $this->form_validation->set_rules('password', 'Password', 'trim|trim|required');
+
+        if ($this->form_validation->run() == true){
+
+            if ($this->model_auth->login($this->input->post('login'), $this->input->post('password'),$this->input->post('employees_groups'))){
+
+                $this->session->set_flashdata('message', $this->model_auth->messages());
+                $data['login'] = $this->input->post('login');
+                $data['message'] = $this->model_auth->messages();
+                $data['auth'] = true;
+                $data['redirect'] = true;
+
+                echo json_encode($data);
+                return true;
+            }else{
+                $data['login'] = $this->input->post('login');
+                $data['message'] = $this->model_auth->messages();
+                $data['auth'] = false;
+
+                echo json_encode($data);
+                return false;
+            }
+
+        }else{
+
+            $data['login'] = $this->input->post('login');
+            $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            $data['auth'] = false;
+
+            echo json_encode($data);
+            return false;
+        }
     }
 
     /**
      * Logout admin
      * @return nothing
-     * @author Tremor
+     * @author AntonSH
      */
     public function logout(){
 
@@ -108,7 +150,7 @@ class Auth extends CI_Controller {
     /**
      * create test account
      * @return nothing
-     * @author Tremor
+     * @author AntonSH
      */
     public function ins(){
 

@@ -3,8 +3,8 @@ jQuery(function()
 {
     $ = jQuery ;
     $(window).load( function() {
-        $('.external-link').unbind('click');    
-    });    
+        $('.external-link').unbind('click');
+    });
     //templatemo_banner_slide function
     $('.banner').unslider({fluid: true});
     $(window).on("load scroll resize", function(){
@@ -41,7 +41,7 @@ jQuery(function()
     jQuery.fn.anchorAnimate = function(settings) {
         settings = jQuery.extend({
             speed : 1100
-        }, settings);	
+        }, settings);
         return this.each(function(){
             var caller = this
             $(caller).click(function (event){
@@ -72,8 +72,8 @@ jQuery(function()
     //define main menu position
     $(window).on("resize scroll load",function(){
         top_banner_and_slider_height = $("#templatemo_banner_top").outerHeight() + $("#templatemo_banner_slide").outerHeight() +  $("#templatemo_banner_logo").outerHeight() ;
-        if($(document).scrollTop() < (top_banner_and_slider_height - $(window).height() + 105) ){
-            menu_top = $(document).scrollTop() + $(window).height() - 105 ;
+        if($(document).scrollTop() < (top_banner_and_slider_height - $(window).height() + 45) ){
+            menu_top = $(document).scrollTop() + $(window).height() - 45 ;
             $("#templatemo_main_menu").css({"position":"absolute","top":menu_top});
         }else if( $(document).scrollTop() < top_banner_and_slider_height ){
             menu_top = 0;
@@ -199,5 +199,5 @@ function initialize(){
         title: 'Welcome to Yangon'
     });
 }
-google.maps.event.addDomListener(window, 'load', initialize); 
-google.maps.event.addDomListener(window, 'resize', initialize); 
+google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, 'resize', initialize);

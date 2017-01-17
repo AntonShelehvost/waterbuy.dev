@@ -29,15 +29,18 @@ class Model_auth extends CI_Model
      * @return boolean
      * @author Tremor
      */
-    public function login($login, $password)
+    public function login($login, $password,$role=false)
     {
-
 
         if (empty($login) || empty($password)) {
             return false;
         }
 
         $this->db->where('emp_email', $login);
+        $this->db->where('emp_password', $password);
+        if($role)
+            $this->db->where('emp_employees_groups_id', $role);
+
         $this->db->limit(1);
         $result = $this->db->get('employee');
 

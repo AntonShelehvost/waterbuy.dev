@@ -25,7 +25,7 @@
     <link href='/assets/css/uploadify.css' rel='stylesheet'>
     <link href='/assets/css/animate.min.css' rel='stylesheet'>
     <link href='/assets/bower_components/chosen/bootstrap-chosen.css' rel='stylesheet'>
-	<link href='/assets/css/my-style.css' rel='stylesheet'>
+    <link href='/assets/css/my-style.css' rel='stylesheet'>
     <!-- jQuery -->
     <script src="/assets/bower_components/jquery/jquery.min.js"></script>
     <!-- data table plugin -->
@@ -55,28 +55,33 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href=""> <img alt="Charisma Logo" src="/assets/img/logo20.png"
+            <a class="navbar-brand" href="/"> <img alt="Waterbuy Logo" src="/assets/img/logo.png"
                                                   class="hidden-xs"/>
                 <span>waterbuy</span></a>
 
-            <!-- user dropdown starts -->
-            <div class="btn-group pull-right">
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <i class="glyphicon glyphicon-user"></i><span
-                        class="hidden-sm hidden-xs"> <?= $this->session->userdata('email') ?></span>
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="/admin/profile">Профиль</a></li>
-                    <li><a href="/admin/add_clients">Добавить клиента</a></li>
-                    <li><a href="/admin/add_providers">Добавить поставщика</a></li>
-                    <li><a href="/admin/add_managers">Добавить менеджера</a></li>
-                    <li class="divider"></li>
-                    <li><a href="/auth/logout">Выход</a></li>
-                </ul>
-            </div>
-            <!-- user dropdown ends -->
-
+            <?php if (($this->session->userdata('emp_employees_groups_id')>0)) : ?>
+                <!-- user dropdown starts -->
+                <div class="btn-group pull-right">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <i class="glyphicon glyphicon-user"></i><span
+                            class="hidden-sm hidden-xs"> <?= $this->session->userdata('email') ?></span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/profile">Профиль</a></li>
+                        <?php if (($this->session->userdata('emp_employees_groups_id') == 4) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
+                            <li><a href="/admin/add_clients">Добавить клиента</a></li>
+                            <li><a href="/admin/add_providers">Добавить поставщика</a></li>
+                            <?php if ($this->session->userdata('emp_employees_groups_id') == 5): ?>
+                                <li><a href="/admin/add_managers">Добавить менеджера</a></li>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <li class="divider"></li>
+                        <li><a href="/auth/logout">Выход</a></li>
+                    </ul>
+                </div>
+                <!-- user dropdown ends -->
+            <?php endif; ?>
             <!-- theme selector starts -->
             <div class="btn-group pull-right theme-container animated tada hidden">
                 <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -112,7 +117,7 @@
             </div>
 
             <ul class="collapse navbar-collapse nav navbar-nav top-menu">
-                <li><a href="#"><i class="glyphicon glyphicon-globe"></i> На главную</a></li>
+                <li><a href="/"><i class="glyphicon glyphicon-globe"></i> На главную</a></li>
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-star"></i> Выбирите регион <span
                             class="caret"></span></a>
@@ -140,7 +145,9 @@
 <?php } ?>
 <div class="ch-container">
     <div class="row">
-        <?php if (!isset($no_visible_elements) || !$no_visible_elements) { ?>
+        <?php if (isset($profile)) {?>
+            <?php echo $this->load->view('/admin/profile_menu',null,true); ?>
+        <?php }elseif (!isset($no_visible_elements) || !$no_visible_elements) { ?>
 
             <!--left menu starts -->
             <div class="col-sm-2 col-lg-2">

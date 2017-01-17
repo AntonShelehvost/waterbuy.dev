@@ -9,26 +9,6 @@
 $this->load->view('admin/header');
 ?>
 
-<!--<div id="infoMessage"><?/*=(isset($message)) ? implode('<br>',json_decode($message,true))  : '';*/?></div>
-<form class="form-horizontal" role="form" action="/auth/login" method="post">
-  <div class="form-group">
-    <label for="login" class="col-sm-2 control-label">Login</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="login" placeholder="Email" name="login" value="<?/*=(isset($login)) ? $login : ''*/?>" required>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="password" placeholder="Password" name="password" value="<?/*=(isset($password)) ? $password : ''*/?>" required>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Войти</button>
-    </div>
-  </div>
-</form>-->
 <div class="ch-container">
 	<div class="row">
 		

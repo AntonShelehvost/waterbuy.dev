@@ -44,6 +44,7 @@ body {
 }
 #templatemo_mobile_menu_wap p#mobile_menu_btn {
     padding-top: 10px;
+    margin-right: 0px;
     font-size: 20px;
     text-align: right;
     width: 100%;
@@ -82,6 +83,7 @@ body {
     font-size: 14px;
     line-height: 45px;
     color: #fff;
+    cursor: pointer;
 }
 #templatemo_banner_top p.right {
     text-align: left;
@@ -172,12 +174,12 @@ body {
     z-index: 1500;
 }
 #templatemo_main_menu .nav-justified li {
-    height: 105px;
+    height: 45px;/*105 old*/
 }
 #templatemo_main_menu .nav-justified li a {
-    height: 105px;
-    font-size: 24px;
-    line-height: 75px;
+    height: 45px;/*105 old*/
+    font-size: 14px;/*24 old*/
+    line-height: 20px;/*75 old*/
     color: #000;
     margin-right:15px;
     margin-left:15px;
@@ -305,7 +307,7 @@ body {
 }
 #templatemo_pricing .price_table_box ul {
     margin: 0;
-    padding: 0 30px 25px 70px;
+    padding: 0 30px 25px 20px;
     list-style: none;
 }
 #templatemo_pricing .price_table_box ul li {
@@ -424,7 +426,79 @@ body {
 #templatemo_footer a {
     text-decoration: underline;
     color: #333333;
+
 }
+/*my style*/
+.voda{
+    font-size: 15px;
+    font-weight: 100;
+    padding: 10px;
+    min-height: 600px;!important;
+}
+.padding-10{
+    padding: 10px;
+    font-size: 23px;
+}
+.min-height{
+    min-height: 220px;!important;
+}
+
+/*login*/
+.bg-white{
+    background-color: white;
+}
+#login-dp{
+    min-width: 300px;/*old 250*/
+    padding: 14px 14px 0;
+    overflow:hidden;
+    background-color:rgba(255,255,255,.8);
+}
+#login-dp .help-block{
+    font-size:12px
+}
+#login-dp .bottom{
+    background-color:rgba(255,255,255,.8);
+    border-top:1px solid #ddd;
+    clear:both;
+    padding:14px;
+}
+#login-dp .social-buttons{
+    margin:12px 0
+}
+#login-dp .social-buttons a{
+    width: 49%;
+}
+#login-dp .form-group {
+    margin-bottom: 10px;
+}
+.btn-fb{
+    color: #fff;
+    background-color:#3b5998;
+}
+.btn-fb:hover{
+    color: #fff;
+    background-color:#496ebc
+}
+.btn-tw{
+    color: #fff;
+    background-color:#55acee;
+}
+.btn-tw:hover{
+    color: #fff;
+    background-color:#59b5fa;
+}
+@media(max-width:768px){
+    #login-dp{
+        background-color: inherit;
+        color: black;
+    }
+    #login-dp .bottom{
+        background-color: inherit;
+        border-top:0 none;
+    }
+}
+/*login*/
+/*end my style*/
 /*  Extra small devices (phones, less than 768px)  */
 @media (max-width: 768px ) { 
     #templatemo_banner_logo h1 {
@@ -457,6 +531,8 @@ body {
         color: #fff;
     }
 }
+
+
 /*  Small devices (tablets, 768px and up)  */
 @media (min-width: 768px ) { 
 
@@ -468,6 +544,12 @@ body {
     }
     #templatemo_banner_top {
         height: 45px;
+    }
+    .voda{
+        font-size: 15px;
+        font-weight: 100;
+        padding: 10px;
+        min-height: 700px;!important;
     }
 }
 /*  Large devices (large desktops, 1200px and up)  */

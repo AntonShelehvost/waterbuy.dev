@@ -16,6 +16,8 @@ class Admin extends CI_Controller
         $this->load->library('form_validation');
         if (!$this->model_auth->is_login()) {
             redirect('/auth/login');
+        }elseif(!in_array($this->session->userdata('emp_employees_groups_id'),[4,5])){
+            redirect('/profile');
         }
     }
 
@@ -1403,5 +1405,36 @@ class Admin extends CI_Controller
     {
         $this->load->model('model_district', 'district');
         echo json_encode($this->district->get_district($this->input->get('country'), $this->input->get('region'), $this->input->get('city')));
+    }
+
+    function profile()
+    {
+        $this->load->model('model_users');
+        $this->load->model('model_providers');
+
+        $bred = array(
+            [
+                'url' => '/admin',
+                'title' => 'Главная',
+                'flat' => false,
+            ],
+            [
+                'url' => '/profile',
+                'title' => 'Профиль',
+                'flat' => true,
+            ],
+        );
+        $id = $this->session->userdata('employee_id');
+        $client = $this->model_users->find($id);
+        $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
+
+        $data = array(
+            'content' => $this->load->view('/admin/profile_main', ['client'=>$client], true),
+            'profile'=>'',
+
+            'bred' => $bred,
+        );
+        $this->load->view('/admin/profile', $data);
+
     }
 }
