@@ -106,7 +106,7 @@ class Auth extends CI_Controller {
 
                 $this->session->set_flashdata('message', $this->model_auth->messages());
                 $data['login'] = $this->input->post('login');
-                $data['message'] = $this->model_auth->messages();
+                $data['message'] = 'Авторизация прошла успешно';
                 $data['auth'] = true;
                 $data['redirect'] = true;
 
@@ -114,7 +114,7 @@ class Auth extends CI_Controller {
                 return true;
             }else{
                 $data['login'] = $this->input->post('login');
-                $data['message'] = $this->model_auth->messages();
+                $data['message'] = '<span>Вы ввели некорректное имя или пароль. Пожалуйста, попробуйте еще раз.</span>';
                 $data['auth'] = false;
 
                 echo json_encode($data);
@@ -163,5 +163,33 @@ class Auth extends CI_Controller {
         );
 
         $this->db->insert('employee', $array_data);
+    }
+
+    function ajax_registration(){
+        $this->load->model('model_employee');
+        $this->load->model('model_auth');
+        if($this->model_auth->check_login($this->input->post('login'),$this->input->post('employees_groups'))) {
+
+            $data = [
+                'emp_employees_groups_id' => $this->input->post('employees_groups'),
+                'emp_fname' => '',
+                'emp_lname' => '',
+                'emp_email' => $this->input->post('login'),
+            ];
+            $emp_id = $this->model_employee->add_employee($data);
+            if($this->model_employee->create_access_account($emp_id)) {
+                $data['message'] = 'После создания аккаунта Waterbuy.net на указанный вами при регистрации адрес электронной почты придет письмо со ссылкой для подтверждения.';
+                $data['registration'] = true;
+            }else{
+                $data['message'] = '';
+                $data['registration'] = false;
+            }
+
+        }else{
+            $data['message'] = 'Пользователь с таким email уже существует.';
+            $data['registration'] = false;
+        }
+        echo json_encode($data);
+        return false;
     }
 } // end Class

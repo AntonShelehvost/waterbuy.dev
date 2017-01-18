@@ -54,13 +54,14 @@
                     <h4 class="modal-title" id="myModalLabel"><span class="blue"> Регистрация пользователя</span></h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" form_url="/auth/ajax_registration">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-2 hidden-xs">&ensp;</div>
                                 <div class="col-md-8 col-xs-12 text-center">
+                                    <div class="col-md-12 alert alert-warning hide" role="alert"></div>
                                     <label for="inputEmail">Адрес email:</label>
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Введите email">
+                                    <input type="email" name="login" class="form-control" id="inputEmail" placeholder="Введите email">
                                 </div>
                                 <div class="col-md-2 hidden-xs">&ensp;</div>
                             </div>
@@ -70,10 +71,10 @@
                                 <div class="col-md-2 hidden-xs">&ensp;</div>
                                 <div class="col-md-8 col-xs-12 text-center">
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" checked id="inlineRadio1" value="option1"> Клиент
+                                        <input type="radio" name="employees_groups" checked id="inlineRadio1" value="3"> Клиент
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Поставщик
+                                        <input type="radio" name="employees_groups" id="inlineRadio1" value="2"> Поставщик
                                     </label>
                                 </div>
                                 <div class="col-md-2 hidden-xs">&ensp;</div>
@@ -83,16 +84,11 @@
                 </div>
                 <div class="modal-footer text-center">
                     <button type="button" class="btn btn-default" data-dismiss="modal"> Отмена</button>
-                    <button type="button" class="btn btn-primary"> Регистрация</button>
+                    <button type="button" class="btn btn-primary ajaxRegistrForm"> Регистрация</button>
                 </div>
+
             </div>
         </div>
-    </div>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
     </div>
     <div id="templatemo_banner_top" class="container_wapper">
         <div class="container">
@@ -123,6 +119,8 @@
                                                     <input type="radio" name="employees_groups" id="inlineRadio1" value="2"> Поставщик
                                                 </label>
                                             </div>
+
+                                            <div class="col-md-12 alert alert-warning hide" role="alert"></div>
                                             <div class="form-group">
                                                 <label class="sr-only" for="exampleInputEmail2">Email адрес</label>
                                                 <input type="email" name="login" class="form-control" id="exampleInputEmail2" placeholder="Email адрес" required>
@@ -133,7 +131,7 @@
                                                 <div class="help-block text-right"><a href=""><span class="blue"> Забыли пароль?</span></a></div>
                                             </div>
                                             <div class="form-group">
-                                                <a type="submit"  class="btn btn-primary btn-block ajaxSubmitForm">Вход</a>
+                                                <button type="button" data-loading-text="Проверка..."  class="btn btn-primary btn-block ajaxSubmitForm">Вход</button>
                                             </div>
                                             <div class="checkbox">
                                                 <label>

@@ -37,13 +37,12 @@ class Model_auth extends CI_Model
         }
 
         $this->db->where('emp_email', $login);
-        $this->db->where('emp_password', $password);
+        //$this->db->where('emp_password', $password);
         if($role)
             $this->db->where('emp_employees_groups_id', $role);
 
         $this->db->limit(1);
         $result = $this->db->get('employee');
-
         if ($result->num_rows() === 1) {
             $employee = $result->row();
             $password = $this->hash_password_db($employee->emp_id, $password);
@@ -187,18 +186,19 @@ class Model_auth extends CI_Model
      * @return boolean
      * @author Tremor
      */
-    public function check_login($login)
+    public function check_login($login,$role=false)
     {
 
         $this->db->where('emp_email', $login);
+        if($role)
+            $this->db->where('emp_employees_groups_id', $role);
         $this->db->limit(1);
         $result = $this->db->get('employee');
-
+//var_dump($this->db->last_query(),$result->num_rows());die;
         if ($result->num_rows() === 1) {
             $this->set_message('Такой login/email уже существует');
             return false;
         } else {
-//            $this->set_message('Login/email не занят');
             return true;
         }
 

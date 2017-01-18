@@ -17,7 +17,7 @@ class Admin extends CI_Controller
         if (!$this->model_auth->is_login()) {
             redirect('/auth/login');
         }elseif(!in_array($this->session->userdata('emp_employees_groups_id'),[4,5])){
-            redirect('/profile');
+            //redirect('/profile');
         }
     }
 
