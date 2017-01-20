@@ -166,4 +166,10 @@ class Model_providers extends CI_Model
     {
         return md5($password);
     }
+
+    public function get_by_employee($id)
+    {
+        return $this->db->where('pro_id_employee', $id)->join('city', 'city.cit_id=pro_id_city')->get($this->table)->result();
+    }
+
 } // endClass

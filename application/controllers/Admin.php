@@ -16,7 +16,7 @@ class Admin extends CI_Controller
         $this->load->library('form_validation');
         if (!$this->model_auth->is_login()) {
             redirect('/auth/login');
-        }elseif(!in_array($this->session->userdata('emp_employees_groups_id'),[4,5])){
+        } elseif (!in_array($this->session->userdata('emp_employees_groups_id'), [4, 5])) {
             //redirect('/profile');
         }
     }
@@ -359,7 +359,6 @@ class Admin extends CI_Controller
                 $this->load->model('model_providers');
                 $this->load->model('model_employee');
                 $this->load->model('model_delivery_city');
-                $id = $this->model_providers->add_providers();
                 $data = array(
                     'emp_employees_groups_id' => 2,
                     'emp_fname' => $this->input->post('pro_last_name'),
@@ -367,6 +366,8 @@ class Admin extends CI_Controller
                     'emp_email' => $this->input->post('pro_email'),
                 );
                 $emp_id = $this->model_employee->add_employee($data);
+                $_POST['pro_id_employee'] = $emp_id;
+                $id = $this->model_providers->add_providers();
                 $this->model_employee->create_access_account($emp_id);
                 /* foreach ($delivery_citys as $citys) { // переноситься в ЛК поставщика
                      $data_delivery_city = [
@@ -377,11 +378,8 @@ class Admin extends CI_Controller
                      ];
                      $this->model_delivery_city->insert($data_delivery_city);
                  }*/
-
                 $success = 'Данные о поставщике успешно добавлены. ID поставщика ' . $id . '<p><a href="/admin/view_providers/' . $id . '">Просмотреть карточку поставщика</a></p>';
-
                 $this->session->set_flashdata(array('success' => $success));
-
                 redirect('/admin/add_providers/');
             }
         }
@@ -1411,7 +1409,20 @@ class Admin extends CI_Controller
     {
         $this->load->model('model_users');
         $this->load->model('model_providers');
+        $id = $this->session->userdata('employee_id');
+        if ($this->input->method() == 'post') {
+            $eprofile = $this->input->post('profile');
+            $post = $this->input->post();
 
+            switch ($eprofile) {
+                case 'edit_providers':
+                    $this->edit_providers_data($post);
+                    break;
+                case 'edit_logist':
+                    $this->edit_logist_data($post);
+                    break;
+            }
+        }
         $bred = array(
             [
                 'url' => '/admin',
@@ -1424,17 +1435,74 @@ class Admin extends CI_Controller
                 'flat' => true,
             ],
         );
-        $id = $this->session->userdata('employee_id');
-        $client = $this->model_users->find($id);
-        $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
 
-        $data = array(
-            'content' => $this->load->view('/admin/profile_main', ['client'=>$client], true),
-            'profile'=>'',
+        $part = $this->uri->segment(2);
+        echo "<pre>";
+        var_dump($part);
+        echo "</pre>";
 
-            'bred' => $bred,
-        );
+        switch ($part) {
+            case 'address':
+                $data = array(
+                    'content' => $this->load->view('/profile/main_address', ['address' => ''], true),
+                    'profile' => '',
+                    'bred' => $bred,
+                );
+                break;
+            default:
+                if ($this->session->userdata('emp_employees_groups_id') == 2) {
+                    $template = '/profile/main_providers';
+                    $client = $this->model_providers->get_by_employee($id);
+                    $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
+                    $var = 'providers';
+                } else {
+                    $template = '/profile/main_users';
+                    $client = $this->model_users->find($id);
+                    $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
+                    echo "<pre>";
+                    var_dump($id);
+                    echo "</pre>";
+                    $var = 'clients';
+                }
+                $data = array(
+                    'content' => $this->load->view($template, [$var => $client], true),
+                    'profile' => '',
+                    'bred' => $bred,
+                );
+                break;
+        }
+
         $this->load->view('/admin/profile', $data);
-
     }
+
+    function edit_providers_data($post)
+    {
+        $id = $this->session->userdata('employee_id');
+
+        $this->load->model('model_providers');
+        $data = $this->model_providers->get_by_employee($id);
+        $data = (isset($data[0]) && !empty($data[0]) ? $data[0] : false);
+        unset($_POST['profile']);
+        if ($this->model_providers->update($data->pro_id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function edit_logist_data($post)
+    {
+        $id = $this->session->userdata('employee_id');
+
+        $this->load->model('model_providers');
+        $data = $this->model_providers->get_by_employee($id);
+        $data = (isset($data[0]) && !empty($data[0]) ? $data[0] : false);
+        unset($_POST['profile']);
+        if ($this->model_providers->update($data->pro_id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
