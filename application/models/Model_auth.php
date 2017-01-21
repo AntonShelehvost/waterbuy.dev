@@ -37,7 +37,6 @@ class Model_auth extends CI_Model
         }
 
         $this->db->where('emp_email', $login);
-        //$this->db->where('emp_password', $password);
         if($role)
             $this->db->where('emp_employees_groups_id', $role);
 
@@ -59,11 +58,10 @@ class Model_auth extends CI_Model
                 ];
 
                 $this->session->set_userdata($session_data);
-                ////////////////////////////////////////////////////////////////////////////////
                 $this->db->set('emp_online', 1);
                 $this->db->where('emp_id', $employee->emp_id);
                 $this->db->update('employee');
-                ////////////////////////////////////////////////////////////////////////////////
+
                 $this->set_message('Авторизация прошла успешно');
                 return true;
             } else {
@@ -100,7 +98,6 @@ class Model_auth extends CI_Model
         if (empty($id) || empty($password)) {
             return false;
         }
-
         $query = $this->db->select('emp_password,emp_salt')
             ->where('emp_id', $id)
             ->limit(1)
@@ -111,7 +108,6 @@ class Model_auth extends CI_Model
         if ($query->num_rows() !== 1) {
             return false;
         }
-
         $db_password = md5($hash_password_db->emp_salt . md5($hash_password_db->emp_salt . md5($password)));
 
         return ($db_password == $hash_password_db->emp_password) ? true : false;
@@ -129,7 +125,6 @@ class Model_auth extends CI_Model
         if (empty($employee) || !is_array($employee)) {
             return false;
         }
-
         $session_data = array(
             'login' => $employee->emp_email,
             'fname' => $employee->emp_fname,
@@ -151,7 +146,6 @@ class Model_auth extends CI_Model
      **/
     public function logout()
     {
-
         $session_data = array(
             'login' => '',
             'fname' => '',
@@ -160,14 +154,8 @@ class Model_auth extends CI_Model
             'employee_id' => '',
             'emp_employees_groups_id' => ''
         );
-
-        ////////////////////////////////////////////////////////////////////////////////
         $this->db->query("update employee set emp_online = 0 where emp_id=" . $this->session->userdata('employee_id'));
-        ////////////////////////////////////////////////////////////////////////////////
-
         $this->session->unset_userdata($session_data);
-
-        //Destroy the session
         $this->session->sess_destroy();
 
         //Recreate the session
@@ -194,7 +182,6 @@ class Model_auth extends CI_Model
             $this->db->where('emp_employees_groups_id', $role);
         $this->db->limit(1);
         $result = $this->db->get('employee');
-//var_dump($this->db->last_query(),$result->num_rows());die;
         if ($result->num_rows() === 1) {
             $this->set_message('Такой login/email уже существует');
             return false;
