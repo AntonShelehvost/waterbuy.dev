@@ -255,13 +255,13 @@ function docReady() {
         var url = $(this).attr('form_url');
         var that = $(this).parent().parent();
         $.post(url, $(that).serialize(), function (data) {
-                if (data.success !== false) {
-                    $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.success + '</div>')
-                }
-                else {
-                    $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
-                }
-            }, 'json')
+            if (data.success !== false) {
+                $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.success + '</div>')
+            }
+            else {
+                $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
+            }
+        }, 'json')
             .fail(function (xhr, status, error) {
                 $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>');
             });
@@ -481,6 +481,62 @@ function docReady() {
 
         tour.restart();
     }
+
+
+    function post(url, data, callback, type) {
+        $.post(url, data, callback, type)
+            .fail(function (xhr, status, error) {
+                console.log(xhr, status, error);
+                return false;
+            });
+        return true;
+    }
+
+    $('a.ajaxSaveClientForm').on('click', function () {
+        var data = $('#SaveClientForm').serialize();
+        post('/profile', data, function (data) {
+            $('.alertSaveClientForm').addClass('hide');
+            $('.alertSaveClientForm').removeClass('alert-warning');
+            $('.alertSaveClientForm').removeClass('alert-success');
+            if (data.success) {
+                $('.alertSaveClientForm').addClass('alert-success');
+                $('.alertSaveClientForm').html(data.message);
+                $('.alertSaveClientForm').removeClass('hide');
+            } else {
+                $('.alertSaveClientForm').addClass('alert-warning');
+                $('.alertSaveClientForm').html(data.message);
+                $('.alertSaveClientForm').removeClass('hide');
+            }
+            console.log('/profile', data);
+        }, 'json');
+
+    });
+
+    $('a.saveNewAddress').on('click', function () {
+        var data = $('#addNewAddress').serialize();
+        post('/profile', data, function (data) {
+            $('.alertSaveNewAddress').addClass('hide');
+            $('.alertSaveNewAddress').removeClass('alert-warning');
+            $('.alertSaveNewAddress').removeClass('alert-success');
+            if (data.success) {
+                $('.alertSaveNewAddress').addClass('alert-success');
+                $('.alertSaveNewAddress').html(data.message);
+                $('.alertSaveNewAddress').removeClass('hide');
+            } else {
+                $('.alertSaveNewAddress').addClass('alert-warning');
+                $('.alertSaveNewAddress').html(data.message);
+                $('.alertSaveNewAddress').removeClass('hide');
+            }
+            console.log('/profile', data);
+        }, 'json');
+
+    });
+
+    $('.deleteAddress').on('click', function () {
+        $('#del_id').val($(this).attr('id'));
+    });
+
+
 
     //datatable
     $('.datatable').dataTable({

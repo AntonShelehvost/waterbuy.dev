@@ -1257,6 +1257,45 @@ class Admin extends CI_Controller
         echo json_encode($output);
     }
 
+    function ajax_address()
+    {
+        $this->load->model('model_delivery');
+        $id_user = $this->session->userdata('id_user');
+        $data = array();
+        if ($id_user) {
+            $list = $this->model_delivery->get_datatables();
+            foreach ($list as $delivery) {
+                $address = [
+                    $delivery->cit_name,
+                    $delivery->del_street,
+                    $delivery->del_building,
+                    $delivery->del_room,
+                    $delivery->del_intercom,
+                    $delivery->dis_name,
+                ];
+                $row = array();
+                $row[] = $delivery->del_name;
+                $row[] = date('d.m.Y H:i:s', strtotime($delivery->created_at));
+                $row[] = implode(' ', $address);
+                $row[] = '
+            <a class="btn btn-danger deleteAddress"  data-toggle="modal" href="#myModal4" id="' . $delivery->del_id . '">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                Delete
+            </a>';
+
+                $data[] = $row;
+            }
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->model_delivery->count_all(),
+            "recordsFiltered" => $this->model_delivery->count_filtered(),
+            "data" => $data,
+        );
+        echo json_encode($output);
+    }
+
     function ajax_products()
     {
         $this->load->model('model_products');
@@ -1409,20 +1448,33 @@ class Admin extends CI_Controller
     {
         $this->load->model('model_users');
         $this->load->model('model_providers');
-        $id = $this->session->userdata('employee_id');
+        $id_user = $this->session->userdata('id_user');
         if ($this->input->method() == 'post') {
             $eprofile = $this->input->post('profile');
             $post = $this->input->post();
-
+            $message = "<i class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"></i> <b>Изменения сохранены.</b>";
             switch ($eprofile) {
                 case 'edit_providers':
-                    $this->edit_providers_data($post);
+                    $result = $this->edit_providers_data($post);
                     break;
                 case 'edit_logist':
-                    $this->edit_logist_data($post);
+                    $result = $this->edit_logist_data($post);
+                    break;
+                case 'edit_user':
+                    $result = $this->edit_user();
+                    if (!$result)
+                        $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка сохранения. Обратитесь к администратору сайта!";
+                    break;
+                case 'saveNewAddress':
+                    $result = $this->saveNewAddress();
+                    if (!$result)
+                        $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка сохранения. Обратитесь к администратору сайта!";
                     break;
             }
+            echo json_encode(['success' => $result, 'message' => $message]);
+            return true;
         }
+
         $bred = array(
             [
                 'url' => '/admin',
@@ -1437,35 +1489,31 @@ class Admin extends CI_Controller
         );
 
         $part = $this->uri->segment(2);
-        echo "<pre>";
-        var_dump($part);
-        echo "</pre>";
-
+        $this->load->model('model_country');
+        $country = $this->model_country->get_all();
         switch ($part) {
             case 'address':
                 $data = array(
                     'content' => $this->load->view('/profile/main_address', ['address' => ''], true),
                     'profile' => '',
                     'bred' => $bred,
+                    'country' => $country
                 );
                 break;
             default:
                 if ($this->session->userdata('emp_employees_groups_id') == 2) {
                     $template = '/profile/main_providers';
-                    $client = $this->model_providers->get_by_employee($id);
+                    $client = $this->model_users->find($id_user);
                     $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
                     $var = 'providers';
                 } else {
                     $template = '/profile/main_users';
-                    $client = $this->model_users->find($id);
+                    $client = $this->model_users->find($id_user);
                     $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
-                    echo "<pre>";
-                    var_dump($id);
-                    echo "</pre>";
                     $var = 'clients';
                 }
                 $data = array(
-                    'content' => $this->load->view($template, [$var => $client], true),
+                    'content' => $this->load->view($template, [$var => $client, 'country' => $country], true),
                     'profile' => '',
                     'bred' => $bred,
                 );
@@ -1473,6 +1521,31 @@ class Admin extends CI_Controller
         }
 
         $this->load->view('/admin/profile', $data);
+    }
+
+    function edit_user()
+    {
+        $id_user = $this->session->userdata('id_user');
+        $this->load->model('model_users');
+        unset($_POST['profile']);
+        if ($this->model_users->update($id_user)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function saveNewAddress()
+    {
+        $id_user = $this->session->userdata('id_user');
+        $this->load->model('model_delivery');
+        unset($_POST['profile']);
+        $_POST['del_id_user'] = $id_user;
+        if ($this->model_delivery->insert()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function edit_providers_data($post)

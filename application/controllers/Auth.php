@@ -168,20 +168,28 @@ class Auth extends CI_Controller {
     function ajax_registration(){
         $this->load->model('model_employee');
         $this->load->model('model_auth');
+        $this->load->model('model_users');
         if($this->model_auth->check_login($this->input->post('login'),$this->input->post('employees_groups'))) {
 
-            $data = [
-                'emp_employees_groups_id' => $this->input->post('employees_groups'),
-                'emp_fname' => '',
-                'emp_lname' => '',
-                'emp_email' => $this->input->post('login'),
-            ];
-            $emp_id = $this->model_employee->add_employee($data);
-            if($this->model_employee->create_access_account($emp_id)) {
-                $data['message'] = 'После создания аккаунта Waterbuy.net на указанный вами при регистрации адрес электронной почты придет письмо со ссылкой для подтверждения.';
-                $data['registration'] = true;
+            $id_user = $this->model_users->createUser($this->input->post('login'));
+            if ($id_user) {
+                $data = [
+                    'emp_employees_groups_id' => $this->input->post('employees_groups'),
+                    'emp_id_user' => $id_user,
+                    'emp_fname' => '',
+                    'emp_lname' => '',
+                    'emp_email' => $this->input->post('login'),
+                ];
+                $emp_id = $this->model_employee->add_employee($data);
+                if ($this->model_employee->create_access_account($emp_id)) {
+                    $data['message'] = 'После создания аккаунта Waterbuy.net на указанный вами при регистрации адрес электронной почты придет письмо со ссылкой для подтверждения.';
+                    $data['registration'] = true;
+                } else {
+                    $data['message'] = '';
+                    $data['registration'] = false;
+                }
             }else{
-                $data['message'] = '';
+                $data['message'] = 'Извените! Ошибка создания пользователя. Обратитесь к администратору сайта!';
                 $data['registration'] = false;
             }
 

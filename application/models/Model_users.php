@@ -70,7 +70,7 @@ class Model_users extends CI_Model {
 	}
 	
 	public function find($id) {
-		return $this->db->where('use_id', $id)->join('city', 'city.cit_id=users.use_id_city')->get('users')->result();
+        return $this->db->where('use_id', $id)->join('city', 'city.cit_id=users.use_id_city', 'left')->get('users')->result();
 	}
 	
 	public function insert() {
@@ -84,12 +84,22 @@ class Model_users extends CI_Model {
 		}
 		return false;
 	}
+
+    public function createUser($email)
+    {
+        if ($this->db->insert('users', ['use_email' => $email])) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
 	
 	public function update($id){
-        $_POST['use_birthday'] = date('Y-m-d', strtotime($this->input->post('year') . '-' . $this->input->post('month') . '-' . $this->input->post('day')));
-        unset($_POST['year']);
-        unset($_POST['day']);
-        unset($_POST['month']);
+        if (isset($_POST['year']) && isset($_POST['day']) && isset($_POST['month'])) {
+            $_POST['use_birthday'] = date('Y-m-d', strtotime($this->input->post('year') . '-' . $this->input->post('month') . '-' . $this->input->post('day')));
+            unset($_POST['year']);
+            unset($_POST['day']);
+            unset($_POST['month']);
+        }
         return $this->db->update('users', $this->input->post(), 'use_id=' . $id, 1);
 	}
 	

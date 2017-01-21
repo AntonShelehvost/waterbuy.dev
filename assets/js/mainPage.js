@@ -37,5 +37,5 @@ $(document).ready(function () {
             .fail(function (xhr, status, error) {
                 console.log(xhr, status, error);
             });
-    })
+    });
 });

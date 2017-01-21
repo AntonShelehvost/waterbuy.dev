@@ -49,11 +49,12 @@ class Model_auth extends CI_Model
             if ($password === true) {
 
                 $session_data = [
+                    'employee_id' => $employee->emp_id,
+                    'id_user' => $employee->emp_id_user,
                     'login' => $employee->emp_email,
                     'fname' => $employee->emp_fname,
                     'lname' => $employee->emp_lname,
                     'email' => $employee->emp_email,
-                    'employee_id' => $employee->emp_id,
                     'emp_employees_groups_id' => $employee->emp_employees_groups_id
                 ];
 
