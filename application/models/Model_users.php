@@ -100,6 +100,7 @@ class Model_users extends CI_Model {
             unset($_POST['day']);
             unset($_POST['month']);
         }
+		$_POST['updated_at'] = date('Y-m-d H:i:s');
         return $this->db->update('users', $this->input->post(), 'use_id=' . $id, 1);
 	}
 	

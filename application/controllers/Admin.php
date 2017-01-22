@@ -1296,6 +1296,38 @@ class Admin extends CI_Controller
         echo json_encode($output);
     }
 
+    function ajax_address_region()
+    {
+        $this->load->model('model_delivery');
+        $id_user = $this->session->userdata('id_user');
+        $data = array();
+        if ($id_user) {
+            $list = $this->model_delivery->get_datatables();
+            foreach ($list as $delivery) {
+                $row = array();
+                $row[] = $delivery->cou_name;
+                $row[] = $delivery->reg_name;
+                $row[] = $delivery->cit_name;
+                $row[] = $delivery->dis_name;
+                $row[] = '
+            <a class="btn btn-danger deleteAddress"  data-toggle="modal" href="#myModal4" id="' . $delivery->del_id . '">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                Delete
+            </a>';
+
+                $data[] = $row;
+            }
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->model_delivery->count_all(),
+            "recordsFiltered" => $this->model_delivery->count_filtered(),
+            "data" => $data,
+        );
+        echo json_encode($output);
+    }
+
     function ajax_products()
     {
         $this->load->model('model_products');
@@ -1493,11 +1525,36 @@ class Admin extends CI_Controller
         $country = $this->model_country->get_all();
         switch ($part) {
             case 'address':
+                if ((int)$this->session->userdata('emp_employees_groups_id') == 3)
+                    $data = array(
+                        'content' => $this->load->view('/profile/main_address', ['country' => $country], true),
+                        'profile' => '',
+                        'bred' => $bred,
+
+                    );
+                else
+                    $data = array(
+                        'content' => $this->load->view('/profile/main_provider_address', ['country' => $country], true),
+                        'profile' => '',
+                        'bred' => $bred,
+
+                    );
+                break;
+            case 'change_password':
+                $client = $this->model_users->find($id_user);
+                $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
                 $data = array(
-                    'content' => $this->load->view('/profile/main_address', ['address' => ''], true),
+                    'content' => $this->load->view('/profile/main_password', ['clients' => $client], true),
                     'profile' => '',
                     'bred' => $bred,
-                    'country' => $country
+
+                );
+                break;
+            case 'template_order':
+                $data = array(
+                    'content' => $this->load->view('/profile/main_template_order', [], true),
+                    'profile' => '',
+                    'bred' => $bred,
                 );
                 break;
             default:

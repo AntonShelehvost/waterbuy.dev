@@ -23,7 +23,7 @@ CREATE TABLE `city` (
   `cit_id_region`  INT          NOT NULL,
   `cit_name`       varchar(128) NOT NULL,
   `created_at`     TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`     TIMESTAMP    NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`     TIMESTAMP    NULL,
 	PRIMARY KEY (`cit_id`)
 );
 CREATE TABLE `country` (
@@ -31,7 +31,7 @@ CREATE TABLE `country` (
   `cou_id_city` INT          NOT NULL,
   `cou_name`    varchar(128) NOT NULL,
   `created_at`  TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`  TIMESTAMP    NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`  TIMESTAMP    NULL,
 	PRIMARY KEY (`cou_id`)
 );
 CREATE TABLE `district` (
@@ -42,7 +42,7 @@ CREATE TABLE `district` (
   `dis_name`       varchar(255),
   `dis_active`     INT,
   `created_at`     TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`     TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`     TIMESTAMP NULL,
 	PRIMARY KEY (`dis_id`)
 );
 CREATE TABLE `region` (
@@ -51,7 +51,7 @@ CREATE TABLE `region` (
   `reg_id_city`    INT         NOT NULL,
   `reg_name`       varchar(64) NOT NULL,
   `created_at`     TIMESTAMP   NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`     TIMESTAMP   NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`     TIMESTAMP   NULL,
 	PRIMARY KEY (`reg_id`)
 );
 CREATE TABLE `employees_groups` (
@@ -79,9 +79,9 @@ CREATE TABLE `employee` (
   `emp_salt`                TEXT      NOT NULL,
   `emp_confirm`             INT       NOT NULL DEFAULT '0',
   `emp_online`              INT       NOT NULL DEFAULT '0',
-  `emp_online_date`         TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `emp_online_date`         TIMESTAMP NULL,
   `created_at`              TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`              TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`              TIMESTAMP NULL,
 	PRIMARY KEY (`emp_id`)
 );
 INSERT INTO employee (emp_id, emp_employees_groups_id, emp_fname, emp_lname, emp_email,
@@ -122,7 +122,7 @@ CREATE TABLE `users` (
   `use_ballance`                   FLOAT(10,2)        DEFAULT '0',
   `use_count_done_orders`          INT                DEFAULT '0',
   `created_at`                     TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`                     TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`                     TIMESTAMP NULL,
 	PRIMARY KEY (`use_id`)
 );
 CREATE TABLE `delivery` (
@@ -141,7 +141,7 @@ CREATE TABLE `delivery` (
   `del_destonation` VARCHAR(255),
   `del_active`      INT                DEFAULT '0',
   `created_at`      TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`      TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`      TIMESTAMP NULL,
 	PRIMARY KEY (`del_id`)
 );
 CREATE TABLE `products` (
@@ -158,7 +158,7 @@ CREATE TABLE `products` (
   `prd_rating`            INT                DEFAULT '0',
   `prd_id_category`       INT       NOT NULL,
   `created_at`            TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`            TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`            TIMESTAMP NULL,
 	PRIMARY KEY (`prd_id`)
 );
 CREATE TABLE `orders` (
@@ -182,7 +182,7 @@ CREATE TABLE `orders` (
   `ord_destonation`       TEXT(255),
   `ord_done`              INT                DEFAULT '0',
   `created_at`            TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`            TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`            TIMESTAMP NULL,
 	PRIMARY KEY (`odr_id`)
 );
 CREATE TABLE `category` (
@@ -190,7 +190,7 @@ CREATE TABLE `category` (
   `cat_pid`    INT,
   `cat_name`   varchar(255),
   `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL,
 	PRIMARY KEY (`cat_id`)
 );
 CREATE TABLE `orders_items` (
@@ -202,7 +202,7 @@ CREATE TABLE `orders_items` (
   `ori_done`        INT                DEFAULT '0',
   `ori_comments`    TEXT,
   `created_at`      TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`      TIMESTAMP NULL     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at`      TIMESTAMP NULL,
 	PRIMARY KEY (`ori_id`)
 );
 CREATE TABLE `payment` (

@@ -512,6 +512,26 @@ function docReady() {
 
     });
 
+    $('a.ajaxSaveLogistForm').on('click', function () {
+        var data = $('#SaveLogistForm').serialize();
+        post('/profile', data, function (data) {
+            $('.alertSaveLogistForm').addClass('hide');
+            $('.alertSaveLogistForm').removeClass('alert-warning');
+            $('.alertSaveLogistForm').removeClass('alert-success');
+            if (data.success) {
+                $('.alertSaveLogistForm').addClass('alert-success');
+                $('.alertSaveLogistForm').html(data.message);
+                $('.alertSaveLogistForm').removeClass('hide');
+            } else {
+                $('.alertSaveLogistForm').addClass('alert-warning');
+                $('.alertSaveLogistForm').html(data.message);
+                $('.alertSaveLogistForm').removeClass('hide');
+            }
+            console.log('/profile', data);
+        }, 'json');
+
+    });
+
     $('a.saveNewAddress').on('click', function () {
         var data = $('#addNewAddress').serialize();
         post('/profile', data, function (data) {
@@ -527,6 +547,7 @@ function docReady() {
                 $('.alertSaveNewAddress').html(data.message);
                 $('.alertSaveNewAddress').removeClass('hide');
             }
+            table.ajax.reload();
             console.log('/profile', data);
         }, 'json');
 

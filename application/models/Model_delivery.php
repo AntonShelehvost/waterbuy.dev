@@ -17,13 +17,13 @@ class Model_delivery extends CI_Model
     private function _get_datatables_query()
     {
 
-        $this->db->select('delivery.*,cit_name,dis_name');
+        $this->db->select('delivery.*,cit_name,dis_name,cou_name,reg_name');
         $this->db->from($this->table);
 
         $this->db->join('country', 'delivery.del_id_country = country.cou_id', 'left');
-        $this->db->join('region', 'delivery.del_id_country = region.reg_id', 'left');
-        $this->db->join('city', 'delivery.del_id_country = city.cit_id', 'left');
-        $this->db->join('district', 'delivery.del_id_country = district.dis_id', 'left');
+        $this->db->join('region', 'delivery.del_id_region = region.reg_id', 'left');
+        $this->db->join('city', 'delivery.del_id_city = city.cit_id', 'left');
+        $this->db->join('district', 'delivery.del_id_district = district.dis_id', 'left');
         $i = 0;
 
         $this->db->where('del_id_user', $this->session->userdata('id_user'));
