@@ -913,7 +913,7 @@ class Admin extends CI_Controller
         $this->load->model('model_providers');
         $this->load->model('model_city');
         $this->load->model('model_country');
-        $this->load->model('model_delivery_city_products');
+        /*$this->load->model('model_delivery_city_products');*/
 
 
         if ($this->input->method() == 'post') {
@@ -994,10 +994,10 @@ class Admin extends CI_Controller
         );
 
         $providers = $this->model_providers->get_all();
-        $city = $this->model_city->get_all();
+        //$city = $this->model_city->get_all();
         $country = $this->model_country->get_all();
-        $data['fields'] = array_slice($this->products->getFields(), 1);
-        $data['city'] = $city;
+        //$data['fields'] = array_slice($this->products->getFields(), 1);
+        //$data['city'] = $city;
         $data['country'] = $country;
         $data['providers'] = $providers;
 
@@ -1299,7 +1299,10 @@ class Admin extends CI_Controller
     function ajax_address_region()
     {
         $this->load->model('model_delivery');
-        $id_user = $this->session->userdata('id_user');
+        if($this->session->userdata('emp_employees_groups_id')!=5)
+            $id_user = $this->session->userdata('id_user');
+        else
+            $id_user = $this->input->get('provider');
         $data = array();
         if ($id_user) {
             $list = $this->model_delivery->get_datatables();
@@ -1594,7 +1597,10 @@ class Admin extends CI_Controller
 
     public function saveNewAddress()
     {
-        $id_user = $this->session->userdata('id_user');
+        if($this->session->userdata('emp_employees_groups_id')!=5)
+            $id_user = $this->session->userdata('id_user');
+        else
+            $id_user = $this->input->post('provider');
         $this->load->model('model_delivery');
         unset($_POST['profile']);
         $_POST['del_id_user'] = $id_user;
@@ -1633,6 +1639,27 @@ class Admin extends CI_Controller
         } else {
             return false;
         }
+    }
+
+    function product_category(){
+
+        $bred = array(
+            [
+                'url' => '/admin',
+                'title' => 'Главная',
+                'flat' => false,
+            ],
+            [
+                'url' => '/product_category',
+                'title' => 'Категории товаров',
+                'flat' => true,
+            ],
+        );
+        $data = array(
+            'content' => $this->load->view('/admin/product_category', null, true),
+            'bred' => $bred,
+        );
+        $this->load->view('/admin/main', $data);
     }
 
 }

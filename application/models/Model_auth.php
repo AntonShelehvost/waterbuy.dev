@@ -6,14 +6,13 @@
  * Date: 23.10.14
  * Time: 15:17
  */
-
 class Model_auth extends CI_Model
 {
 
     /**
      * Checking whether the user is logged in
      * @return boolean
-     * @author Tremor
+     * @author AntonSh
      */
     public function is_login()
     {
@@ -24,12 +23,15 @@ class Model_auth extends CI_Model
 
     /**
      * Login employee
+     *
      * @param $login - user email
      * @param $password - user password
+     * @param $role - employees_groups id
+     *
      * @return boolean
-     * @author Tremor
+     * @author AntonSh
      */
-    public function login($login, $password,$role=false)
+    public function login($login, $password, $role = 5)
     {
 
         if (empty($login) || empty($password)) {
@@ -37,7 +39,7 @@ class Model_auth extends CI_Model
         }
 
         $this->db->where('emp_email', $login);
-        if($role)
+        if ($role)
             $this->db->where('emp_employees_groups_id', $role);
 
         $this->db->limit(1);
@@ -77,8 +79,9 @@ class Model_auth extends CI_Model
     /**
      *
      * @param $password
+     *
      * @return password
-     * @author Tremor
+     * @author AntonSh
      */
     public function hash_password($password)
     {
@@ -88,10 +91,12 @@ class Model_auth extends CI_Model
     /**
      * This function takes a password and validates it
      * against an entry in the employee table.
+     *
      * @param $id - employee id
      * @param $password - employee password
+     *
      * @return boolean
-     * @author Tremor
+     * @author AntonSh
      **/
     public function hash_password_db($id, $password)
     {
@@ -116,9 +121,11 @@ class Model_auth extends CI_Model
 
     /**
      * Insert into session employee data
+     *
      * @param $employee array of data employee
+     *
      * @return boolean
-     * @author Tremor
+     * @author AntonSh
      */
     public function set_session($employee)
     {
@@ -143,7 +150,7 @@ class Model_auth extends CI_Model
     /**
      * logout admin
      * @return boolean
-     * @author Tremor
+     * @author AntonSh
      **/
     public function logout()
     {
@@ -171,15 +178,17 @@ class Model_auth extends CI_Model
 
     /**
      * Check login
+     *
      * @param $login
+     *
      * @return boolean
-     * @author Tremor
+     * @author AntonSh
      */
-    public function check_login($login,$role=false)
+    public function check_login($login, $role = false)
     {
 
         $this->db->where('emp_email', $login);
-        if($role)
+        if ($role)
             $this->db->where('emp_employees_groups_id', $role);
         $this->db->limit(1);
         $result = $this->db->get('employee');
@@ -194,10 +203,12 @@ class Model_auth extends CI_Model
 
     /**
      * Get a list of employees access
+     *
      * @param $page - page name
      * @param $id_employee - employee identity
+     *
      * @return access list
-     * @author Tremor
+     * @author AntonSh
      */
     public function get_employee_access($id_employee, $page)
     {

@@ -14,7 +14,7 @@ class Model_users extends CI_Model {
 	 * Checking whether the user is logged in
 	 *
 	 * @return boolean
-	 * @author Tremor
+	 * @author AntonSh
 	 */
 	public function is_login() {
 		if (!$this->input->is_ajax_request() && !is_file($_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'])) {
@@ -28,7 +28,7 @@ class Model_users extends CI_Model {
 	 * @param $password
 	 *
 	 * @return password
-	 * @author Tremor
+	 * @author AntonSh
 	 */
 	public function hash_password($password) {
 		return md5($password);
@@ -40,7 +40,7 @@ class Model_users extends CI_Model {
 	 * @param $login
 	 *
 	 * @return boolean
-	 * @author Tremor
+	 * @author AntonSh
 	 */
 	public function check_login($login) {
 		

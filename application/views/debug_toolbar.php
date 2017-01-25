@@ -258,7 +258,7 @@
 						<?php foreach ((array)$_SESSION as $key => $value): ?>
 							<tr class="<?php echo alternator('odd','even')?>">
 								<td><?php echo $key ?></td>
-								<td><?php echo $value ?></td>
+								<td><?php echo (is_array($value)?implode('<br>',$value):$value); ?></td>
 							</tr>
 						<?php endforeach; ?>
 					<?php endif; ?>

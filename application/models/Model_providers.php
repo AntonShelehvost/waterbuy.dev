@@ -9,29 +9,30 @@
 class Model_providers extends CI_Model
 {
 
-    var $table = 'providers';
+    var $table = 'users';
 
     var $column_order = array(
         null,
-        'pro_mane',
+        'use_mane',
         'employee.emp_online_date',
-        'pro_phone',
+        'use_phone',
         'employees_groups.emg_name',
         'employee.emp_online',
-    ); //set column field database for datatable orderable
+    );
+    //set column field database for datatable orderable
     var $column_search = array(
-        'pro_mane',
+        'use_mane',
         'employee.emp_online_date',
-        'pro_phone',
+        'use_phone',
         'employees_groups.emg_name',
         'employee.emp_online',
-    ); //set column field database for datatable searchable
-    var $order = array('pro_id' => 'asc'); // default order
-
+    );
+    //set column field database for datatable searchable
+    var $order = array('use_id' => 'asc'); // default order
 
     public function find($id)
     {
-        return $this->db->where('pro_id', $id)->join('city', 'city.cit_id=pro_id_city')->get($this->table)->result();
+        return $this->db->where('use_id', $id)->join('city', 'city.cit_id=use_id_city')->get($this->table)->result();
     }
 
     public function getFields()
@@ -41,13 +42,14 @@ class Model_providers extends CI_Model
 
     public function get_all()
     {
+        $this->db->join('employee', 'emp_id_user=use_id and emp_employees_groups_id=2');
         return $this->db->get($this->table)->result();
     }
 
     public function insert()
     {
         $_ci = &get_instance();
-        $_POST['pro_password'] = $this->hash_password($this->input->post('pro_password'));
+        $_POST['use_password'] = $this->hash_password($this->input->post('use_password'));
 
         if ($this->db->insert($this->table, $this->input->post())) {
             return $this->db->insert_id();
@@ -57,14 +59,13 @@ class Model_providers extends CI_Model
 
     public function add_providers($data = false)
     {
+        $_POST['use_days_reception_orders'] = array_sum($this->input->post('use_days_reception_orders[]'));
+        unset($_POST['use_days_reception_orders[]']);
 
-        $_POST['pro_days_reception_orders'] = array_sum($this->input->post('pro_days_reception_orders[]'));
-        unset($_POST['pro_days_reception_orders[]']);
+        $_POST['use_days_delivery_orders'] = array_sum($this->input->post('use_days_delivery_orders[]'));
+        unset($_POST['use_days_delivery_orders[]']);
 
-        $_POST['pro_days_delivery_orders'] = array_sum($this->input->post('pro_days_delivery_orders[]'));
-        unset($_POST['pro_days_delivery_orders[]']);
-
-        $_POST['pro_password'] = $this->hash_password($this->input->post('pro_password'));
+        $_POST['use_password'] = $this->hash_password($this->input->post('use_password'));
         if ($this->db->insert($this->table, $this->input->post())) {
             return $this->db->insert_id();
         }
@@ -74,12 +75,12 @@ class Model_providers extends CI_Model
     function update($id)
     {
 
-        $_POST['pro_days_reception_orders'] = implode('|', (array)$this->input->post('pro_days_reception_orders'));
-        unset($_POST['pro_days_reception_orders[]']);
-        $_POST['pro_days_delivery_orders'] = implode('|', (array)$this->input->post('pro_days_delivery_orders'));
-        unset($_POST['pro_days_delivery_orders[]']);
+        $_POST['use_days_reception_orders'] = implode('|', (array)$this->input->post('use_days_reception_orders'));
+        unset($_POST['use_days_reception_orders[]']);
+        $_POST['use_days_delivery_orders'] = implode('|', (array)$this->input->post('use_days_delivery_orders'));
+        unset($_POST['use_days_delivery_orders[]']);
 
-        $this->db->where('pro_id', $id);
+        $this->db->where('use_id', $id);
         return $this->db->update($this->table, $this->input->post());
     }
 
@@ -93,8 +94,8 @@ class Model_providers extends CI_Model
     {
 
         $this->db->from($this->table);
-        $this->db->join('employee', $this->table . '.pro_email = employee.emp_email');
-        $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id and employees_groups.emg_id=2');
+        $this->db->join('employee', 'emp_id_user=use_id_user and emp_employees_groups_id=2');
+        $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id');
         $i = 0;
 
         foreach ($this->column_search as $item) // loop column
@@ -149,9 +150,8 @@ class Model_providers extends CI_Model
     public function count_all()
     {
         $this->db->from($this->table);
-        $this->db->join('employee', $this->table . '.pro_email = employee.emp_email');
-        $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id and employees_groups.emg_id=2');
-
+        $this->db->join('employee', 'emp_id_user=use_id_user and emp_employees_groups_id=2');
+        $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id');
         return $this->db->count_all_results();
     }
 
@@ -160,7 +160,7 @@ class Model_providers extends CI_Model
      * @param $password
      *
      * @return password
-     * @author Tremor
+     * @author AntonSh
      */
     public function hash_password($password)
     {
@@ -169,7 +169,8 @@ class Model_providers extends CI_Model
 
     public function get_by_employee($id)
     {
-        return $this->db->where('pro_id_employee', $id)->join('city', 'city.cit_id=pro_id_city')->get($this->table)->result();
+        $this->db->join('employee', 'emp_id_user=use_id_user and emp_employees_groups_id=2');
+        return $this->db->where('use_id', $id)->join('city', 'city.cit_id=use_id_city')->get($this->table)->result();
     }
 
 } // endClass
