@@ -11,9 +11,11 @@ class Admin extends CI_Controller
     {
 
         parent::__construct();
-        $this->load->library('session');
+        //$this->load->library('session');
         $this->load->model('model_auth');
         $this->load->library('form_validation');
+        $this->load->library('session');
+        //var_dump($this->session->userdata());die;
         if (!$this->model_auth->is_login()) {
             redirect('/auth/login');
         } elseif (!in_array($this->session->userdata('emp_employees_groups_id'), [4, 5])) {
@@ -181,7 +183,7 @@ class Admin extends CI_Controller
     {
 
         $this->load->model('model_users');
-        $this->load->model('model_city');
+        $this->load->model('model_country');
         $this->load->model('model_employee');
 
         $success = false;
@@ -236,11 +238,11 @@ class Admin extends CI_Controller
             ],
         );
 
-        $city = $this->model_city->get_all();
+        $country = $this->model_country->get_all();
         $data = array(
             'content' => $this->load->view('/admin/edit_clients', [
                 'client' => $client,
-                'city' => $city,
+                'country' => $country,
             ], true),
             'bred' => $bred,
         );
@@ -1500,6 +1502,11 @@ class Admin extends CI_Controller
                     if (!$result)
                         $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка сохранения. Обратитесь к администратору сайта!";
                     break;
+                case 'edit_schedule':
+                    $result = $this->edit_schedule($post);
+                    if (!$result)
+                        $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка сохранения. Обратитесь к администратору сайта!";
+                    break;
                 case 'saveNewAddress':
                     $result = $this->saveNewAddress();
                     if (!$result)
@@ -1572,11 +1579,15 @@ class Admin extends CI_Controller
                     $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
                     $var = 'clients';
                 }
+
                 $data = array(
                     'content' => $this->load->view($template, [$var => $client, 'country' => $country], true),
                     'profile' => '',
                     'bred' => $bred,
+
                 );
+                $this->lang->load('email', 'english');
+                if ($mess = $this->session->flashdata('email_confirm')) $data['data']['message_email_confirm'] = $this->lang->line('text_personal_registration_confirmed');
                 break;
         }
 
@@ -1640,6 +1651,23 @@ class Admin extends CI_Controller
             return false;
         }
     }
+
+    function edit_schedule($post)
+    {
+        $id = $this->session->userdata('id_user');
+
+        $this->load->model('model_providers');
+        $data = $this->model_providers->get_by_employee($id);
+        // echo $this->db->last_query();die;
+        $data = (isset($data[0]) && !empty($data[0]) ? $data[0] : false);
+        unset($_POST['profile']);
+        if (!empty($data) && $this->model_providers->update($data->use_id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     function product_category(){
 

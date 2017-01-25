@@ -16,7 +16,8 @@ class Model_auth extends CI_Model
      */
     public function is_login()
     {
-        if (!$this->input->is_ajax_request() && !is_file($_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'])) $this->session->set_userdata('admin_redirect', $_SERVER['REQUEST_URI']);
+        /*if (!$this->input->is_ajax_request() && !is_file($_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI']))
+            $this->session->set_userdata('admin_redirect', $_SERVER['REQUEST_URI']);*/
         return (bool)$this->session->userdata('login');
     }
 
@@ -76,6 +77,41 @@ class Model_auth extends CI_Model
         }
     }
 
+
+    public function login_by_id($user_id)
+    {
+
+        if (empty($user_id)) {
+            return false;
+        }
+        //$this->logout();
+        $this->db->where('emp_id_user', $user_id);
+        $this->db->limit(1);
+        $result = $this->db->get('employee');
+        if ($result->num_rows() === 1) {
+            $employee = $result->row();
+
+            $session_data = [
+                'employee_id' => $employee->emp_id,
+                'id_user' => $employee->emp_id_user,
+                'login' => $employee->emp_email,
+                'fname' => $employee->emp_fname,
+                'lname' => $employee->emp_lname,
+                'email' => $employee->emp_email,
+                'emp_employees_groups_id' => $employee->emp_employees_groups_id
+            ];
+            $this->session->set_userdata($session_data);
+            $this->db->set('emp_online', 1);
+            $this->db->where('emp_id', $employee->emp_id);
+            $this->db->update('employee');
+
+            $this->set_message('Авторизация прошла успешно');
+            return true;
+        } else {
+            $this->set_message('ID not find');
+            return false;
+        }
+    }
     /**
      *
      * @param $password
@@ -162,7 +198,8 @@ class Model_auth extends CI_Model
             'employee_id' => '',
             'emp_employees_groups_id' => ''
         );
-        $this->db->query("update employee set emp_online = 0 where emp_id=" . $this->session->userdata('employee_id'));
+        if ($this->session->userdata('employee_id'))
+            $this->db->query("update employee set emp_online = 0 where emp_id=" . $this->session->userdata('employee_id'));
         $this->session->unset_userdata($session_data);
         $this->session->sess_destroy();
 

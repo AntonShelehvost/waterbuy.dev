@@ -29,6 +29,14 @@ class Model_employee extends CI_Model
         $this->db->insert($this->table, $_ci->input->post());
     }
 
+    public function set_user_email_check($id_user)
+    {
+        $this->db->where('emp_id_user', $id_user);
+        $data = ['emp_confirm' => 1];
+        return $this->db->update($this->table, $data);
+    }
+
+
     public function add_employee($data)
     {
         $this->db->insert($this->table, $data);
@@ -70,7 +78,13 @@ class Model_employee extends CI_Model
 
     private function get_user($user_id)
     {
-        $user = $this->find($user_id);
+        $user = $this->db->where('emp_id_user', $user_id)->get($this->table)->result();
+        return $user[0];
+    }
+
+    private function get_employee($emp_id)
+    {
+        $user = $this->db->where('emp_id', $emp_id)->get($this->table)->result();
         return $user[0];
     }
 
@@ -147,6 +161,7 @@ class Model_employee extends CI_Model
             ->set('emp_salt', $salt)
             ->where('emp_id', $user_id)
             ->update($this->table);
-        return $this->_send_new_pass_to_email($user_id, $new_pass);
+        $user = $this->get_employee($user_id);
+        return $this->_send_new_pass_to_email($user->emp_id_user, $new_pass);
     }
 } // endClass

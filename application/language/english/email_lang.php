@@ -28,3 +28,5 @@ $lang['text_email_reset_pass_text3'] = 'Если вы не заказывали 
 $lang['text_email_new_pass_subject'] = 'Новый пароль для входа на сайт WaterBuy.net';
 $lang['text_email_new_pass_text1'] = 'Вами был произведён сброс пароля';
 $lang['text_email_new_pass_save_access_data'] = 'Пожалуйста, сохраните Ваши новые данные для входа на сайт';
+
+$lang['text_personal_registration_confirmed'] = 'Подтверждение аккаунта прошло успешно';

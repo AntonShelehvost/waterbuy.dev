@@ -553,6 +553,27 @@ function docReady() {
 
     });
 
+    $('a.ajaxSaveSchedule').on('click', function () {
+        var data = $('#SaveSchedule').serialize();
+        post('/profile', data, function (data) {
+            $('.alertSaveSchedule').addClass('hide');
+            $('.alertSaveSchedule').removeClass('alert-warning');
+            $('.alertSaveSchedule').removeClass('alert-success');
+            if (data.success) {
+                $('.alertSaveSchedule').addClass('alert-success');
+                $('.alertSaveSchedule').html(data.message);
+                $('.alertSaveSchedule').removeClass('hide');
+            } else {
+                $('.alertSaveSchedule').addClass('alert-warning');
+                $('.alertSaveSchedule').html(data.message);
+                $('.alertSaveSchedule').removeClass('hide');
+            }
+            table.ajax.reload();
+            console.log('/profile', data);
+        }, 'json');
+
+    });
+
     $('.deleteAddress').on('click', function () {
         $('#del_id').val($(this).attr('id'));
     });
@@ -632,6 +653,10 @@ function docReady() {
         ]
     });
 
+
+    $('#phone').phonecode({
+        preferCo: 'ru'
+    });
 }
 
 

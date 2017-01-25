@@ -169,8 +169,8 @@ class Model_providers extends CI_Model
 
     public function get_by_employee($id)
     {
-        $this->db->join('employee', 'emp_id_user=use_id_user and emp_employees_groups_id=2');
-        return $this->db->where('use_id', $id)->join('city', 'city.cit_id=use_id_city')->get($this->table)->result();
+        $this->db->join('employee', 'emp_id_user=use_id and emp_employees_groups_id=2');
+        return $this->db->where('use_id', $id)->join('city', 'city.cit_id=use_id_city', 'left')->get($this->table)->result();
     }
 
 } // endClass

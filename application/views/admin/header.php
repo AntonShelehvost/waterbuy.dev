@@ -25,6 +25,7 @@
     <link href='/assets/css/uploadify.css' rel='stylesheet'>
     <link href='/assets/css/animate.min.css' rel='stylesheet'>
     <link href='/assets/bower_components/chosen/bootstrap-chosen.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/assets/css/phonecode.css">
     <link href='/assets/css/my-style.css' rel='stylesheet'>
     <!-- jQuery -->
     <script src="/assets/bower_components/jquery/jquery.min.js"></script>

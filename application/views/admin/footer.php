@@ -43,6 +43,43 @@
 
 <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+
+<? if (isset($message_email_confirm) && $message_email_confirm) { ?>
+    <div id="email_confirm" class="modal fade  modal-sm" role="dialog" style="position: fixed;
+    top: 50% !important;
+    left: 50%;">
+        <div class="modal-dialog modal-sm" role="document">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Подтверждение регистрации</h4>
+                </div>
+                <div class="modal-body">
+                    <p><?= $message_email_confirm ?></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#email_confirm').modal('show').css(
+                {
+                    'margin-top': function () {
+                        return -($(this).height() / 2);
+                    },
+                    'margin-left': function () {
+                        return -($(this).width() / 2);
+                    }
+                });
+        });
+    </script>
+<? } ?>
 <!-- library for cookie management -->
 <script src="/assets/js/jquery.cookie.js"></script>
 <!-- calender plugin -->
@@ -71,6 +108,10 @@
 <script src="/assets/js/jquery.uploadify-3.1.min.js"></script>
 <!-- history.js for cross-browser state change on ajax -->
 <script src="/assets/js/jquery.history.js"></script>
+
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+<script src="/assets/js/jquery.mask.js"></script>
+<script src="/assets/js/phonecode.js"></script>
 <!-- application script for Charisma demo -->
 <script src="/assets/js/charisma.js?<?=filemtime( './assets/js/charisma.js' )?>"></script>
 

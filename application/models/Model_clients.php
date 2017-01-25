@@ -25,7 +25,7 @@ class Model_clients extends CI_Model
 	{
 		
 		$this->db->from($this->table);
-		$this->db->join('employee', $this->table.'.use_email = employee.emp_email');
+        $this->db->join('employee', $this->table . '.use_id = employee.emp_id_user');
 		$this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id and employees_groups.emg_id=3');
 		$i = 0;
 		
@@ -85,10 +85,10 @@ class Model_clients extends CI_Model
 	public function count_all()
 	{
 		$this->db->from($this->table);
-		$this->db->join('employee', $this->table.'.use_email = employee.emp_email');
-		$this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id and employees_groups.emg_id=3');
-		
-		return $this->db->count_all_results();
+        $this->db->join('employee', $this->table . '.use_id = employee.emp_id_user');
+        $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id and employees_groups.emg_id=3');
+
+        return $this->db->count_all_results();
 	}
 	
 

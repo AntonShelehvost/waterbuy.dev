@@ -22,6 +22,35 @@ class Welcome extends CI_Controller {
 	{
         parent::__construct();
         enter_site();
+
+
+        if (isset($_GET['confirm_code'])) {
+            $this->_check_confirm_email();
+
+        }
+
         $this->load->view('welcome_message');
 	}
+
+
+    private function _check_confirm_email()
+    {
+        $this->load->library('session');
+        $this->load->model('model_auth');
+        $this->load->model('model_employee');
+        // переход с письма с кодом подтверждения
+        if (isset($_GET['confirm_code']) && isset($_GET['u'])) {
+            //модель для работы с пользователями
+
+            $confirm_code = $this->model_employee->get_user_confirm_code((int)$_GET['u']);
+            if ($_GET['confirm_code'] === $confirm_code) {
+                $this->model_employee->set_user_email_check((int)$_GET['u'], 1);
+                $this->model_auth->login_by_id((int)$_GET['u']);
+                $this->session->set_flashdata('email_confirm', 'confirmed');
+                redirect('/profile', 'refresh');
+                $this->model_auth->login_by_id((int)$_GET['u']);
+            }
+        }
+    }
+
 }

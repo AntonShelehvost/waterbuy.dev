@@ -160,7 +160,6 @@ $success = $this->session->flashdata('success');
     </div>
 
 
-
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
@@ -171,18 +170,20 @@ $success = $this->session->flashdata('success');
                 </div>
             </div>
             <div class="box-content">
-
-                <form action="" method="post" class="form-horizontal">
+                <div class="col-md-12 alert alert-success hide alertSaveSchedule" role="alert"><?= $success ?></div>
+                <form action="" method="post" id="SaveSchedule" class="form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-md-3" for="selectError1">Время приема заказов <i
                                 class="glyphicon glyphicon-time"></i>:</label>
                         <div class="col-xs-12 col-md-4">
                             <label for="">Начало работы:</label>
-                            <input type="time" name="use_time_receive_orders_begin" class="form-control" value="09:30">
+                            <input type="time" name="use_time_receive_orders_begin" class="form-control"
+                                   value="<?= !empty(set_value('use_time_receive_orders_begin')) ? set_value('use_time_receive_orders_begin') : $providers->use_time_receive_orders_begin; ?>">
                         </div>
                         <div class="col-xs-12 col-md-4">
                             <label for="">Окончание работы</label>
-                            <input type="time" name="use_time_receive_orders_end" class="form-control" value="16:30">
+                            <input type="time" name="use_time_receive_orders_end" class="form-control"
+                                   value="<?= !empty(set_value('use_time_receive_orders_end')) ? set_value('use_time_receive_orders_end') : $providers->use_time_receive_orders_end; ?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -236,11 +237,15 @@ $success = $this->session->flashdata('success');
                                 class="glyphicon glyphicon-time"></i>:</label>
                         <div class="col-xs-12 col-md-4">
                             <label for="">Начало работы:</label>
-                            <input type="time" class="form-control" value="09:30" name="use_time_delivery_orders_begin">
+                            <input type="time" class="form-control"
+                                   value="<?= !empty(set_value('use_time_delivery_orders_begin')) ? set_value('use_time_delivery_orders_begin') : $providers->use_time_delivery_orders_begin; ?>"
+                                   name="use_time_delivery_orders_begin">
                         </div>
                         <div class="col-xs-12 col-md-4">
                             <label for="">Окончание работы</label>
-                            <input type="time" class="form-control" value="16:30" name="use_time_delivery_orders_end">
+                            <input type="time" class="form-control"
+                                   value="<?= !empty(set_value('use_time_delivery_orders_end')) ? set_value('use_time_delivery_orders_end') : $providers->use_time_delivery_orders_end; ?>"
+                                   name="use_time_delivery_orders_end">
                         </div>
                     </div>
                     <div class="form-group">
@@ -251,7 +256,9 @@ $success = $this->session->flashdata('success');
                                 <div class="panel-body">
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_delivery_orders[]" value="1"> ПН
+                                            <input
+                                                type="checkbox" <? (strpos($providers->use_days_reception_orders, '1') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_delivery_orders[]" value="1"> ПН
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
@@ -290,10 +297,11 @@ $success = $this->session->flashdata('success');
                         </div>
                     </div>
 
+                    <input type="hidden" name="profile" value="edit_schedule"/>
                     <br/>
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <input type="submit" class="btn btn-primary" value="Сохранить">
+                            <a class="btn btn-primary ajaxSaveSchedule">Сохранить</a>
                         </div>
                     </div>
                 </form>
