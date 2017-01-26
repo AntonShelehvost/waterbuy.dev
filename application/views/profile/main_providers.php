@@ -93,6 +93,79 @@ $success = $this->session->flashdata('success');
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
+                <h2><i class="glyphicon glyphicon-user"></i> Адрес поставщика</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                            class="glyphicon glyphicon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div class="col-md-12 alert alert-success hide alertSaveClientForm" role="alert"><?= $success ?></div>
+                <form action="" id="SaveClientForm" method="post" class="form-horizontal">
+                    <div class="form-group <?= (!empty(form_error('pro_organization')) ? 'has-error' : '') ?>">
+                        <div class="col-xs-12 col-md-3">
+                            <label for="pro_id_country">Страна</label>
+                            <select value="<?php echo set_value('pro_id_country'); ?>" class="form-control country"
+                                    name="pro_id_country" <?= (!empty(form_error('pro_id_city')) ? 'has-error' : '') ?>>
+                                <?php foreach ($country as $item) { ?>
+                                    <option value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            <label for="postalAddress">Область</label>
+                            <select name="pro_region" class="form-control region"></select>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            <label for="pro_id_city">Город:</label>
+                            <select value="<?php echo set_value('pro_id_city'); ?>" class="form-control city"
+                                    name="pro_id_city" <?= (!empty(form_error('pro_id_city')) ? 'has-error' : '') ?>>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_street')) ? 'has-error' : '') ?>">
+                            <label for="pro_street">Улица:</label>
+                            <input type="text" value="<?php echo set_value('pro_street'); ?>" class="form-control"
+                                   name="pro_street" id="" placeholder="Улица">
+                        </div>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_building')) ? 'has-error' : '') ?>">
+                            <label for="pro_building">Номер дома:</label>
+                            <input type="text" value="<?php echo set_value('pro_building'); ?>" class="form-control"
+                                   name="pro_building" id="" placeholder="Номер дома">
+                        </div>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_room')) ? 'has-error' : '') ?>">
+                            <label for="pro_room">Кв./Офис:</label>
+                            <input type="text" value="<?php echo set_value('pro_room'); ?>" class="form-control"
+                                   name="pro_room" id="" placeholder="Кв./Офис">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_intercom')) ? 'has-error' : '') ?>">
+                            <label for="pro_intercom">Домофон:</label>
+                            <input type="text" value="<?php echo set_value('pro_intercom'); ?>" class="form-control"
+                                   name="pro_intercom" id="" placeholder="Домофон">
+                        </div>
+                        <div
+                            class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_destonation')) ? 'has-error' : '') ?>">
+                            <label for="pro_destonation">Заезд:</label>
+                            <input type="text" value="<?php echo set_value('pro_destonation'); ?>" class="form-control"
+                                   name="pro_destonation" id="" placeholder="Заезд">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box col-md-12">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-user"></i> Данные логиста</h2>
                 <div class="box-icon">
                     <a href="#" class="btn btn-minimize btn-round btn-default"><i
@@ -194,37 +267,51 @@ $success = $this->session->flashdata('success');
                                 <div class="panel-body">
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_reception_orders[]" value="1"> ПН
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '1') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_reception_orders[]" value="1"> ПН
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_reception_orders[]" value="2"> ВТ
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '2') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_reception_orders[]" value="2"> ВТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_reception_orders[]" value="3"> СР
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '3') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_reception_orders[]" value="3"> СР
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_reception_orders[]" value="4"> ЧТ
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '4') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_reception_orders[]" value="4"> ЧТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_reception_orders[]" value="5"> ПТ
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '5') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_reception_orders[]" value="5"> ПТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_reception_orders[]" value="6"> СБ
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '6') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_reception_orders[]" value="6"> СБ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_reception_orders[]" value="7"> ВС
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '7') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_reception_orders[]" value="7"> ВС
                                         </label>
                                     </div>
 
@@ -257,38 +344,50 @@ $success = $this->session->flashdata('success');
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
                                             <input
-                                                type="checkbox" <? (strpos($providers->use_days_reception_orders, '1') > 0) ? 'checked' : ''; ?>
+                                                type="checkbox" <?= (strpos($providers->use_days_delivery_orders, '1') > 0) ? 'checked' : ''; ?>
                                                 name="use_days_delivery_orders[]" value="1"> ПН
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_delivery_orders[]" value="2"> ВТ
+                                            <input type="checkbox"
+                                                   <?= (strpos($providers->use_days_delivery_orders, '2') > 0) ? 'checked' : ''; ?>name="use_days_delivery_orders[]"
+                                                   value="2"> ВТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_delivery_orders[]" value="3"> СР
+                                            <input
+                                                type="checkbox"<?= (strpos($providers->use_days_delivery_orders, '3') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_delivery_orders[]" value="3"> СР
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_delivery_orders[]" value="4"> ЧТ
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_delivery_orders, '4') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_delivery_orders[]" value="4"> ЧТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_delivery_orders[]" value="5"> ПТ
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_delivery_orders, '5') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_delivery_orders[]" value="5"> ПТ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_delivery_orders[]" value="6"> СБ
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_delivery_orders, '6') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_delivery_orders[]" value="6"> СБ
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
-                                            <input type="checkbox" name="use_days_delivery_orders[]" value="7"> ВС
+                                            <input
+                                                type="checkbox" <?= (strpos($providers->use_days_delivery_orders, '7') > 0) ? 'checked' : ''; ?>
+                                                name="use_days_delivery_orders[]" value="7"> ВС
                                         </label>
                                     </div>
 
