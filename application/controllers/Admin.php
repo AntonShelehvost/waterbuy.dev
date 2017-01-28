@@ -211,7 +211,7 @@ class Admin extends CI_Controller
                     'emp_fname' => $this->input->post('use_last_name'),
                     'emp_lname' => $this->input->post('use_name'),
                 );
-                $this->model_employee->update($this->input->post('use_email'), $data);
+                $this->model_employee->update($id, $data);
 
                 $success = 'Данные о пользователе успешно обновлены. ID пользователя ' . $id . '<p><a href="/admin/view_clients/' . $id . '">Просмотреть карточку клинета</a></p>';
 
@@ -281,7 +281,7 @@ class Admin extends CI_Controller
                     'emp_fname' => $this->input->post('use_last_name'),
                     'emp_lname' => $this->input->post('use_name'),
                 );
-                $this->model_employee->update($this->input->post('use_email'), $data);
+                $this->model_employee->update($id, $data);
 
                 $success = 'Данные о менеджере успешно обновлены. ID менеджера ' . $id . '<p><a href="/admin/view_managers/' . $id . '">Просмотреть карточку менеджера</a></p>';
 
@@ -1301,7 +1301,7 @@ class Admin extends CI_Controller
     function ajax_address_region()
     {
         $this->load->model('model_delivery');
-        if($this->session->userdata('emp_employees_groups_id')!=5)
+        if ($this->session->userdata('emp_employees_groups_id') != 5)
             $id_user = $this->session->userdata('id_user');
         else
             $id_user = $this->input->get('provider');
@@ -1512,6 +1512,18 @@ class Admin extends CI_Controller
                     if (!$result)
                         $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка сохранения. Обратитесь к администратору сайта!";
                     break;
+                case 'deleteAddress':
+                    $result = $this->deleteAddress();
+                    if (!$result)
+                        $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка удаления. Обратитесь к администратору сайта!";
+                    break;
+                case 'saveNewPassword':
+                    $result_arr = $this->saveNewPassword();
+                    if (!$result_arr[0]) {
+                        $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>" . $result_arr[1] . "!";
+                    }
+                    $result = $result_arr[0];
+                    break;
             }
             echo json_encode(['success' => $result, 'message' => $message]);
             return true;
@@ -1594,6 +1606,35 @@ class Admin extends CI_Controller
         $this->load->view('/admin/profile', $data);
     }
 
+    function saveNewPassword()
+    {
+        $this->load->model('model_employee');
+        $result = array(false, '');
+        $new_password = $this->input->post('new_password');
+        $old_password = $this->input->post('old_password');
+        $passconf = $this->input->post('passconf');
+
+        if ($this->session->userdata('emp_employees_groups_id') != 5)
+            $id_user = $this->session->userdata('id_user');
+        else
+            $id_user = $this->input->post('provider');
+
+        $user = $this->model_employee->get_user($id_user);
+        if ($this->model_employee->generate_password($user->emp_salt, $old_password) == $user->emp_password) {
+            if ($new_password == $passconf) {
+                $password = $this->model_employee->generate_password($user->emp_salt, $new_password);
+                $this->model_employee->update($user->emp_id_user, ['emp_password' => $password, 'updated_at' => date('Y-m-d H:i:S')]);
+                $result = array(true, '  Пароль сменился успешно');
+            } else {
+                $result = array(false, '  {Новый пароль} не совпадает с {Подтвердите пароль}');
+            }
+        } else {
+            $result = array(false, '  Вы указали неверно старый пароль. Повторите попытку проверив свой старый пароль');
+        }
+
+        return $result;
+    }
+
     function edit_user()
     {
         $id_user = $this->session->userdata('id_user');
@@ -1608,7 +1649,7 @@ class Admin extends CI_Controller
 
     public function saveNewAddress()
     {
-        if($this->session->userdata('emp_employees_groups_id')!=5)
+        if ($this->session->userdata('emp_employees_groups_id') != 5)
             $id_user = $this->session->userdata('id_user');
         else
             $id_user = $this->input->post('provider');
@@ -1616,6 +1657,18 @@ class Admin extends CI_Controller
         unset($_POST['profile']);
         $_POST['del_id_user'] = $id_user;
         if ($this->model_delivery->insert()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteAddress()
+    {
+        $this->load->model('model_delivery');
+        unset($_POST['profile']);
+
+        if ($this->model_delivery->delete($this->input->post('del_id'))) {
             return true;
         } else {
             return false;
@@ -1669,7 +1722,8 @@ class Admin extends CI_Controller
     }
 
 
-    function product_category(){
+    function product_category()
+    {
 
         $bred = array(
             [

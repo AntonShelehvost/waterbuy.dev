@@ -48,9 +48,9 @@ class Model_employee extends CI_Model
         return $this->db->field_data($this->table);
     }
 
-    public function update($email, $data)
+    public function update($id_user, $data)
     {
-        $this->db->where('emp_email', $email);
+        $this->db->where('emp_id_user', $id_user);
         return $this->db->update($this->table, $data);
     }
 
@@ -76,7 +76,7 @@ class Model_employee extends CI_Model
         return false;
     }
 
-    private function get_user($user_id)
+    public function get_user($user_id)
     {
         $user = $this->db->where('emp_id_user', $user_id)->get($this->table)->result();
         return $user[0];

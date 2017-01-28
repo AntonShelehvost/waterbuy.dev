@@ -18,8 +18,8 @@
                 </div>
             </div>
             <div class="box-content">
-
-                <form action="" method="post" class="form-horizontal">
+                <div class="col-md-12 alert alert-success hide alertSaveFormNewPassword" role="alert"></div>
+                <form action="" method="post" class="form-horizontal" id="saveFormNewPassword">
                     <div class="form-group <?= (!empty(form_error('use_email')) ? 'has-error' : '') ?>">
                         <label class="control-label col-xs-12 col-md-3" for="inputEmail">Email*:</label>
                         <div class="col-xs-12 col-md-9">
@@ -27,11 +27,19 @@
                                    value="<?= !empty(set_value('use_email')) ? set_value('use_email') : $clients->use_email; ?>"
                                    class="form-control" id="inputEmail" placeholder="Email">
                         </div>
+
                     </div>
                     <div class="form-group <?= (!empty(form_error('use_password')) ? 'has-error' : '') ?>">
                         <label class="control-label col-xs-3" for="inputPassword">Пароль*:</label>
                         <div class="col-xs-12 col-md-9">
-                            <input type="password" name="use_password" value="" class="form-control" id="inputPassword"
+                            <input type="password" name="old_password" value="" class="form-control" id="inputPassword"
+                                   placeholder="Введите пароль">
+                        </div>
+                    </div>
+                    <div class="form-group <?= (!empty(form_error('use_password')) ? 'has-error' : '') ?>">
+                        <label class="control-label col-xs-3" for="inputPassword">Новый пароль*:</label>
+                        <div class="col-xs-12 col-md-9">
+                            <input type="password" name="new_password" value="" class="form-control" id="inputPassword"
                                    placeholder="Введите пароль">
                         </div>
                     </div>
@@ -46,9 +54,10 @@
                     <br/>
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <input type="submit" class="btn btn-primary" value="Сохранить">
+                            <a href="#" class="btn btn-primary ajaxSaveNewPassword">Сохранить</a>
                         </div>
                     </div>
+                    <input type="hidden" name="profile" value="saveNewPassword"/>
                 </form>
 
             </div>

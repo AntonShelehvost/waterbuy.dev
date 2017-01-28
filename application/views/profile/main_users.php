@@ -128,7 +128,114 @@ $success = $this->session->flashdata('success');
         </div>
     </div>
 
-
+    <div class="box col-md-12">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2><i class="glyphicon glyphicon-user"></i> Адрес </h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                            class="glyphicon glyphicon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div class="col-md-12 alert alert-success hide alertSaveAddressForm" role="alert"><?= $success ?></div>
+                <form action="" id="SaveAddressForm" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="use_id_country">Страна</label>
+                        <div class="col-xs-12 col-md-3">
+                            <select value="<?php echo set_value('use_id_country'); ?>" class="form-control country"
+                                    name="use_id_country" <?= (!empty(form_error('use_id_country')) ? 'has-error' : '') ?>>
+                                <?php foreach ($country as $item) { ?>
+                                    <option <?= ($clients->use_id_country == $item->cou_id) ? 'selected' : '' ?>
+                                        value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="use_id_region">Область</label>
+                        <div class="col-xs-12 col-md-3">
+                            <select name="use_id_region" class="form-control region"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="use_id_city">Город:</label>
+                        <div class="col-xs-12 col-md-3">
+                            <select value="<?php echo set_value('use_id_city'); ?>" class="form-control city"
+                                    name="use_id_city" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="use_street">Улица:</label>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_street')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_street')) ? set_value('use_street') : $clients->use_street; ?>"
+                                   class="form-control"
+                                   name="use_street" id="" placeholder="Улица">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="use_building" class="control-label col-xs-12 col-md-3">Номер дома:</label>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_building')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_building')) ? set_value('use_building') : $clients->use_building; ?>"
+                                   class="form-control"
+                                   name="use_building" id="" placeholder="Номер дома">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="use_room" class="control-label col-xs-12 col-md-3">Кв./Офис:</label>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_room')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_room')) ? set_value('use_room') : $clients->use_room; ?>"
+                                   class="form-control"
+                                   name="use_room" id="" placeholder="Кв./Офис">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="use_intercom" class="control-label col-xs-12 col-md-3">Домофон:</label>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_intercom')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_intercom')) ? set_value('use_intercom') : $clients->use_intercom; ?>"
+                                   class="form-control"
+                                   name="use_intercom" id="" placeholder="Домофон">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="use_destonation" class="control-label col-xs-12 col-md-3">Заезд:</label>
+                        <div
+                            class="control-label col-xs-12 col-md-3 <?= (!empty(form_error('use_destonation')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_destonation')) ? set_value('use_destonation') : $clients->use_destonation; ?>"
+                                   class="form-control"
+                                   name="use_destonation" id="" placeholder="Заезд">
+                        </div>
+                    </div>
+                    <input type="hidden" name="profile" value="edit_user"/>
+                    <br/>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <a class="btn btn-primary ajaxSaveAddressForm"> Сохранить</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 
+<?php if (!empty($clients->use_id_region)) { ?>
+    <script>
+        $(document).ready(function () {
+
+            $('.region').on('chosen:ready', function (evt, params) {
+                $(".region").val('<?=$clients->use_id_region?>').trigger("chosen:updated");
+            });
+            $('.city').on('chosen:ready', function (evt, params) {
+                $(".city").val('<?=$clients->use_id_city?>').trigger("chosen:updated");
+            });
+        });
+    </script>
+<?php } ?>

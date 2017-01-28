@@ -467,8 +467,9 @@
                     <p>Вы действительно хотите удалить адрес?</p>
                     <form method="post" id="deleteFormAddress">
                         <input type="hidden" id="del_id" name="del_id" value=""/>
+                        <input type="hidden" name="profile" value="deleteAddress"/>
                         <div class="modal-footer">
-                            <a href="#" class="btn btn-default" data-dismiss="modal">Да</a>
+                            <a href="#" class="btn btn-default deleteId" data-dismiss="modal">Да</a>
                             <a href="#" class="btn btn-primary" data-dismiss="modal">Нет</a>
                         </div>
                     </form>

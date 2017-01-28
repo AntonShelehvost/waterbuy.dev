@@ -229,7 +229,6 @@ function docReady() {
         $('#edit_district').val($('#Form_main select.form-control.district :selected').text());
     });
 
-
     $('#button_delete_country').on('click', function () {
         $('#delete_cou_id').val($('#Form_main select.form-control.country').val());
 
@@ -507,6 +506,11 @@ function docReady() {
                 $('.alertSaveClientForm').html(data.message);
                 $('.alertSaveClientForm').removeClass('hide');
             }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 50000);
             console.log('/profile', data);
         }, 'json');
 
@@ -527,6 +531,11 @@ function docReady() {
                 $('.alertSaveLogistForm').html(data.message);
                 $('.alertSaveLogistForm').removeClass('hide');
             }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 50000);
             console.log('/profile', data);
         }, 'json');
 
@@ -547,7 +556,64 @@ function docReady() {
                 $('.alertSaveNewAddress').html(data.message);
                 $('.alertSaveNewAddress').removeClass('hide');
             }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 50000);
             table.ajax.reload();
+            console.log('/profile', data);
+        }, 'json');
+
+    });
+
+    $('a.ajaxSaveAddressForm').on('click', function () {
+        var data = $('#SaveAddressForm').serialize();
+        post('/profile', data, function (data) {
+            $('.alertSaveAddressForm').addClass('hide');
+            $('.alertSaveAddressForm').removeClass('alert-warning');
+            $('.alertSaveAddressForm').removeClass('alert-success');
+            if (data.success) {
+                $('.alertSaveAddressForm').addClass('alert-success');
+                $('.alertSaveAddressForm').html(data.message);
+                $('.alertSaveAddressForm').removeClass('hide');
+            } else {
+                $('.alertSaveAddressForm').addClass('alert-warning');
+                $('.alertSaveAddressForm').html(data.message);
+                $('.alertSaveAddressForm').removeClass('hide');
+            }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 50000);
+            table.ajax.reload();
+            console.log('/profile', data);
+        }, 'json');
+
+    });
+
+    $('a.ajaxSaveNewPassword').on('click', function () {
+        var data = $('#saveFormNewPassword').serialize();
+        post('/profile', data, function (data) {
+            $('.alertSaveFormNewPassword').addClass('hide');
+            $('.alertSaveFormNewPassword').removeClass('alert-warning');
+            $('.alertSaveFormNewPassword').removeClass('alert-success');
+            if (data.success) {
+                $('.alertSaveFormNewPassword').addClass('alert-success');
+                $('.alertSaveFormNewPassword').html(data.message);
+                $('.alertSaveFormNewPassword').removeClass('hide');
+            } else {
+                $('.alertSaveFormNewPassword').addClass('alert-warning');
+                $('.alertSaveFormNewPassword').html(data.message);
+                $('.alertSaveFormNewPassword').removeClass('hide');
+            }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 50000);
+            //table.ajax.reload();
             console.log('/profile', data);
         }, 'json');
 
@@ -568,16 +634,47 @@ function docReady() {
                 $('.alertSaveSchedule').html(data.message);
                 $('.alertSaveSchedule').removeClass('hide');
             }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 50000);
             table.ajax.reload();
             console.log('/profile', data);
         }, 'json');
 
     });
 
-    $('.deleteAddress').on('click', function () {
+
+    $(document).on('click', '.deleteAddress', function () {
         $('#del_id').val($(this).attr('id'));
     });
 
+    $(document).on('click', '.deleteId', function () {
+        var that = $(this);
+        var data = $('#deleteFormAddress').serialize();
+        post('/profile', data, function (data) {
+            $('.alertSaveNewAddress').addClass('hide');
+            $('.alertSaveNewAddress').removeClass('alert-warning');
+            $('.alertSaveNewAddress').removeClass('alert-success');
+            if (data.success) {
+                $('.alertSaveNewAddress').addClass('alert-success');
+                $('.alertSaveNewAddress').html(data.message);
+                $('.alertSaveNewAddress').removeClass('hide');
+                table.ajax.reload();
+            } else {
+                $('.alertSaveNewAddress').addClass('alert-warning');
+                $('.alertSaveNewAddress').html(data.message);
+                $('.alertSaveNewAddress').removeClass('hide');
+            }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 50000);
+            console.log('/profile', data);
+        }, 'json');
+    });
 
 
     //datatable

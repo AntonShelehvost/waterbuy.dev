@@ -17,6 +17,7 @@
             </div>
         </div>
         <div class="box-content">
+            <div class="col-md-12 alert alert-success hide alertSaveNewAddress" role="alert"></div>
             <form action="" method="post" class="form-horizontal">
 
 
@@ -118,9 +119,10 @@
             <div class="modal-body">
                 <p>Вы действительно хотите удалить адрес?</p>
                 <form method="post" id="deleteFormAddress">
-                    <input type="hidden" id="del_id" name="del_id" value=""/>
+                    <input type="hidden" id="del_id" name="id" value=""/>
+                    <input type="hidden" name="profile" value="deleteAddress"/>
                     <div class="modal-footer">
-                        <a href="#" class="btn btn-default" data-dismiss="modal">Да</a>
+                        <a href="#" class="btn btn-default deleteId" id="deleteId" data-dismiss="modal">Да</a>
                         <a href="#" class="btn btn-primary" data-dismiss="modal">Нет</a>
                     </div>
                 </form>
@@ -128,6 +130,7 @@
         </div>
     </div>
 </div>
+
 
 <script type="text/javascript">
     var table;

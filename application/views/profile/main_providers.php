@@ -100,67 +100,90 @@ $success = $this->session->flashdata('success');
                 </div>
             </div>
             <div class="box-content">
-                <div class="col-md-12 alert alert-success hide alertSaveClientForm" role="alert"><?= $success ?></div>
-                <form action="" id="SaveClientForm" method="post" class="form-horizontal">
-                    <div class="form-group <?= (!empty(form_error('pro_organization')) ? 'has-error' : '') ?>">
+                <div class="col-md-12 alert alert-success hide alertSaveAddressForm" role="alert"><?= $success ?></div>
+                <form action="" id="SaveAddressForm" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="use_id_country">Страна</label>
                         <div class="col-xs-12 col-md-3">
-                            <label for="pro_id_country">Страна</label>
-                            <select value="<?php echo set_value('pro_id_country'); ?>" class="form-control country"
-                                    name="pro_id_country" <?= (!empty(form_error('pro_id_city')) ? 'has-error' : '') ?>>
+                            <select value="<?php echo set_value('use_id_country'); ?>" class="form-control country"
+                                    name="use_id_country" <?= (!empty(form_error('use_id_country')) ? 'has-error' : '') ?>>
                                 <?php foreach ($country as $item) { ?>
-                                    <option value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
+                                    <option <?= ($providers->use_id_country == $item->cou_id) ? 'selected' : '' ?>
+                                        value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
                                 <?php } ?>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="use_id_region">Область</label>
                         <div class="col-xs-12 col-md-3">
-                            <label for="postalAddress">Область</label>
-                            <select name="pro_region" class="form-control region"></select>
+                            <select name="use_id_region" class="form-control region"></select>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="use_id_city">Город:</label>
                         <div class="col-xs-12 col-md-3">
-                            <label for="pro_id_city">Город:</label>
-                            <select value="<?php echo set_value('pro_id_city'); ?>" class="form-control city"
-                                    name="pro_id_city" <?= (!empty(form_error('pro_id_city')) ? 'has-error' : '') ?>>
+                            <select value="<?php echo set_value('use_id_city'); ?>" class="form-control city"
+                                    name="use_id_city" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
                             </select>
                         </div>
                     </div>
-                    <div class="form-group ">
-
-                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_street')) ? 'has-error' : '') ?>">
-                            <label for="pro_street">Улица:</label>
-                            <input type="text" value="<?php echo set_value('pro_street'); ?>" class="form-control"
-                                   name="pro_street" id="" placeholder="Улица">
-                        </div>
-                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_building')) ? 'has-error' : '') ?>">
-                            <label for="pro_building">Номер дома:</label>
-                            <input type="text" value="<?php echo set_value('pro_building'); ?>" class="form-control"
-                                   name="pro_building" id="" placeholder="Номер дома">
-                        </div>
-                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_room')) ? 'has-error' : '') ?>">
-                            <label for="pro_room">Кв./Офис:</label>
-                            <input type="text" value="<?php echo set_value('pro_room'); ?>" class="form-control"
-                                   name="pro_room" id="" placeholder="Кв./Офис">
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="use_street">Улица:</label>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_street')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_street')) ? set_value('use_street') : $providers->use_street; ?>"
+                                   class="form-control"
+                                   name="use_street" id="" placeholder="Улица">
                         </div>
                     </div>
-
                     <div class="form-group">
-
-
-                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_intercom')) ? 'has-error' : '') ?>">
-                            <label for="pro_intercom">Домофон:</label>
-                            <input type="text" value="<?php echo set_value('pro_intercom'); ?>" class="form-control"
-                                   name="pro_intercom" id="" placeholder="Домофон">
+                        <label for="use_building" class="control-label col-xs-12 col-md-3">Номер дома:</label>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_building')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_building')) ? set_value('use_building') : $providers->use_building; ?>"
+                                   class="form-control"
+                                   name="use_building" id="" placeholder="Номер дома">
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="use_room" class="control-label col-xs-12 col-md-3">Кв./Офис:</label>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_room')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_room')) ? set_value('use_room') : $providers->use_room; ?>"
+                                   class="form-control"
+                                   name="use_room" id="" placeholder="Кв./Офис">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="use_intercom" class="control-label col-xs-12 col-md-3">Домофон:</label>
+                        <div class="col-xs-12 col-md-3 <?= (!empty(form_error('use_intercom')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_intercom')) ? set_value('use_intercom') : $providers->use_intercom; ?>"
+                                   class="form-control"
+                                   name="use_intercom" id="" placeholder="Домофон">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="use_destonation" class="control-label col-xs-12 col-md-3">Заезд:</label>
                         <div
-                            class="col-xs-12 col-md-3 <?= (!empty(form_error('pro_destonation')) ? 'has-error' : '') ?>">
-                            <label for="pro_destonation">Заезд:</label>
-                            <input type="text" value="<?php echo set_value('pro_destonation'); ?>" class="form-control"
-                                   name="pro_destonation" id="" placeholder="Заезд">
+                            class="control-label col-xs-12 col-md-3 <?= (!empty(form_error('use_destonation')) ? 'has-error' : '') ?>">
+                            <input type="text"
+                                   value="<?= !empty(set_value('use_destonation')) ? set_value('use_destonation') : $providers->use_destonation; ?>"
+                                   class="form-control"
+                                   name="use_destonation" id="" placeholder="Заезд">
+                        </div>
+                    </div>
+                    <input type="hidden" name="profile" value="edit_user"/>
+                    <br/>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <a class="btn btn-primary ajaxSaveAddressForm"> Сохранить</a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
 
     <div class="box col-md-12">
@@ -410,3 +433,15 @@ $success = $this->session->flashdata('success');
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        $('.region').on('chosen:ready', function (evt, params) {
+            $(".region").val('<?=$providers->use_id_region?>').trigger("chosen:updated");
+        });
+        $('.city').on('chosen:ready', function (evt, params) {
+            $(".city").val('<?=$providers->use_id_city?>').trigger("chosen:updated");
+        });
+    });
+</script>
