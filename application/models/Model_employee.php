@@ -82,6 +82,15 @@ class Model_employee extends CI_Model
         return $user[0];
     }
 
+    public function get_user_by_email($email, $employees_groups)
+    {
+        $this->db->where('emp_email', $email);
+        $this->db->where('emp_employees_groups_id', $employees_groups);
+        $user = $this->db->get($this->table)->result();
+        // var_dump($user,$this->db->last_query());die;
+        return (isset($user[0]) ? $user[0] : false);
+    }
+
     private function get_employee($emp_id)
     {
         $user = $this->db->where('emp_id', $emp_id)->get($this->table)->result();
@@ -114,6 +123,40 @@ class Model_employee extends CI_Model
         }
 
         return false;
+    }
+
+    public function send_reset_password_to_email($email, $new_pass)
+    {
+        $_ci =& get_instance();
+        $_ci->lang->load('email', 'english');
+
+        $data['login'] = $email;
+        $data['password'] = $new_pass;
+        $data['text_email_new_pass_subject'] = $_ci->lang->line('text_email_new_pass_subject');
+        $data['text_email_hello'] = $_ci->lang->line('text_email_hello');
+        $data['text_email_new_pass_text1'] = $_ci->lang->line('text_email_new_pass_text1');
+        $data['text_email_new_pass_save_access_data'] = $_ci->lang->line('text_email_new_pass_save_access_data');
+        $data['text_email_login'] = $_ci->lang->line('text_email_login');
+        $data['text_email_password'] = $_ci->lang->line('text_email_password');
+        $data['base_url'] = base_url();
+
+        $data['text_email_registration_subject'] = $_ci->lang->line('text_email_registration_subject');
+        $data['text_email_hello'] = $_ci->lang->line('text_email_hello');
+        $data['text_email_congratulations'] = $_ci->lang->line('text_email_congratulations');
+        $data['text_email_thank_you'] = $_ci->lang->line('text_email_thank_you');
+        $data['text_email_to_confirm_registration'] = $_ci->lang->line('text_email_to_confirm_registration');
+        $data['text_email_save_access_data'] = $_ci->lang->line('text_email_save_access_data');
+        $data['text_email_confirm_registration'] = $_ci->lang->line('text_email_confirm_registration');
+
+        //echo ;die;
+
+        $res = mega_send_email(
+            $data['login'],
+            $data['text_email_new_pass_subject'],
+            $_ci->load->view('/admin/email/view_email_new_password', $data, true)
+        );
+
+        return $res;
     }
 
     public function _send_new_pass_to_email($user_id, $new_pass)

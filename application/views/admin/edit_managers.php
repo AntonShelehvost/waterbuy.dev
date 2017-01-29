@@ -53,29 +53,34 @@ $success = $this->session->flashdata('success');
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3">Дата рождения:</label>
-                            <div class="col-xs-3">
-                                <select name="day"
-                                        class="form-control" <?= (int)date('d', strtotime($client->use_birthday)) ?>>
+                            <div class="col-xs-12 col-md-3">
+                                <label for="day">День:</label>
+                                <select class="form-control" name="day">
                                     <?php for ($i = 1; $i <= 30; $i++) { ?>
-                                        <option <?= ((int)date('d', strtotime($client->use_birthday)) == $i) ? 'checked' : '' ?>><?= number_format($i, 0, '', ''); ?></option>
+                                        <option <?= (isset($clients->use_birthday) && (int)date('d', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                            value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="col-xs-3">
-                                <select name="month" class="form-control">
+                            <div class="col-xs-12 col-md-3">
+                                <label for="month">Месяц:</label>
+                                <select class="form-control" name="month">
                                     <?php
                                     $month = array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
                                     for ($i = 0; $i <= 11; $i++) {
                                         $month_name = $month[$i];
                                         ?>
-                                        <option value="<?= $i; ?>"> <?= $month_name; ?></option>
+                                        <option <?= (isset($clients->use_birthday) && (int)date('m', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                            value="<?= $i ?>"><?= $month_name; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="col-xs-3">
-                                <select name="year" class="form-control">
+                            <div class="col-xs-12 col-md-3">
+                                <label for="yaer">Год:</label>
+                                <select class="form-control" name="year">
                                     <?php for ($i = (int)date('Y') - 18; $i >= (int)date('Y') - 58; $i--) { ?>
-                                        <option><?= number_format($i, 0, '', ''); ?></option>
+                                        <option <?= (isset($clients->use_birthday) && (int)date('Y', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                            value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?></option>
                                     <?php } ?>
                                 </select>
                             </div>

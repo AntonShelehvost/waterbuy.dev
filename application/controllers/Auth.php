@@ -177,6 +177,27 @@ class Auth extends CI_Controller
         $this->db->insert('employee', $array_data);
     }
 
+    function ajax_reset()
+    {
+        $this->load->model('model_employee');
+        $this->load->model('model_auth');
+        $this->load->model('model_users');
+        $user = $this->model_employee->get_user_by_email($this->input->post('login'), $this->input->post('employees_groups'));
+        if (!empty($user)) {
+            $new_password = substr(md5(uniqid(rand(), true)), 0, 8);
+            $password = $this->model_employee->generate_password($user->emp_salt, $new_password);
+            $this->model_employee->update($user->emp_id_user, ['emp_password' => $password, 'updated_at' => date('Y-m-d H:i:S')]);
+            $this->model_employee->send_reset_password_to_email($this->input->post('login'), $new_password);
+            $data['message'] = 'Вам на электронную почту отправлено письмо с временным паролем.';
+            $data['result'] = true;
+        } else {
+            $data['message'] = 'Пользователь с таким email не существует.';
+            $data['result'] = false;
+        }
+        echo json_encode($data);
+        return false;
+    }
+
     function ajax_registration()
     {
         $this->load->model('model_employee');

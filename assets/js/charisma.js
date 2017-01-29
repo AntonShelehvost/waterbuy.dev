@@ -751,9 +751,9 @@ function docReady() {
     });
 
 
-    $('#phone').phonecode({
-        preferCo: 'ru'
-    });
+    /* $('.phone').phonecode({
+     preferCo: 'ru'
+     });*/
 }
 
 

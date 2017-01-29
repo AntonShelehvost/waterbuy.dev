@@ -64,14 +64,21 @@ $success = $this->session->flashdata('success');
                         <div class="col-xs-12 col-md-2">
                             <label class="radio-inline">
                                 <input type="radio"
-                                       name="use_male" <?php (set_value('use_male') == 1) ? 'checked' : ""; ?>
+                                       name="use_male"
+                                    <?php if (!empty(set_value('use_male'))) {
+                                        echo set_value('use_male');
+                                    } elseif ($clients->use_male == 1) echo 'checked'; ?>
+
                                        value="1"> Мужской
                             </label>
                         </div>
                         <div class="col-xs-1 col-md-2">
                             <label class="radio-inline">
                                 <input type="radio"
-                                       name="use_male" <?php (set_value('use_male') == 2) ? 'checked' : ""; ?>
+                                       name="use_male"
+                                    <?php if (!empty(set_value('use_male'))) {
+                                        echo set_value('use_male');
+                                    } elseif ($clients->use_male == 2) echo 'checked'; ?>
                                        value="2"> Женский
                             </label>
                         </div>
@@ -82,7 +89,8 @@ $success = $this->session->flashdata('success');
                             <label for="day">День:</label>
                             <select class="form-control" name="day">
                                 <?php for ($i = 1; $i <= 30; $i++) { ?>
-                                    <option value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?></option>
+                                    <option <?= (isset($clients->use_birthday) && (int)date('d', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                        value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -94,7 +102,8 @@ $success = $this->session->flashdata('success');
                                 for ($i = 0; $i <= 11; $i++) {
                                     $month_name = $month[$i];
                                     ?>
-                                    <option value="<?= $i ?>"><?= $month_name; ?></option>
+                                    <option <?= (isset($clients->use_birthday) && (int)date('m', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                        value="<?= $i ?>"><?= $month_name; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -102,7 +111,8 @@ $success = $this->session->flashdata('success');
                             <label for="yaer">Год:</label>
                             <select class="form-control" name="year">
                                 <?php for ($i = (int)date('Y') - 18; $i >= (int)date('Y') - 58; $i--) { ?>
-                                    <option value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?></option>
+                                    <option <?= (isset($clients->use_birthday) && (int)date('Y', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                        value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -110,9 +120,11 @@ $success = $this->session->flashdata('success');
                     <div class="form-group <?= (!empty(form_error('use_phone')) ? 'has-error' : '') ?>">
                         <label class="control-label col-xs-3" for="phoneNumber">Телефон*:</label>
                         <div class="col-xs-12 col-md-9">
-                            <input type="tel" name="use_phone"
-                                   value="<?= !empty(set_value('use_phone')) ? set_value('use_phone') : $clients->use_phone; ?>"
-                                   class="form-control" id="phoneNumber" placeholder="Введите номер телефона">
+                            <input type="text" class="customer_phone"
+                                   value="<?= !empty($clients->use_phone) ? $clients->use_phone : '38'; ?>" size="25"
+                                   name="use_phone"><br>
+                            <input type="checkbox" class="phone_mask" checked style="display: none;">
+                            <label class="descr" for="phone_mask">Маска ввода</label>
                         </div>
                     </div>
                     <br/>
@@ -239,3 +251,50 @@ $success = $this->session->flashdata('success');
         });
     </script>
 <?php } ?>
+
+<script>
+    $(document).ready(function () {
+        var maskList = $.masksSort($.masksLoad("/assets/js/phone-codes.json.txt"), ['#'], /[0-9]|#/, "mask");
+        var maskOpts = {
+            inputmask: {
+                definitions: {
+                    '#': {
+                        validator: "[0-9]",
+                        cardinality: 1
+                    }
+                },
+                //clearIncomplete: true,
+                showMaskOnHover: false,
+                autoUnmask: true
+            },
+            match: /[0-9]/,
+            replace: '#',
+            list: maskList,
+            listKey: "mask",
+            onMaskChange: function (maskObj, completed) {
+                if (completed) {
+                    var hint = maskObj.name_ru;
+                    if (maskObj.desc_ru && maskObj.desc_ru != "") {
+                        hint += " (" + maskObj.desc_ru + ")";
+                    }
+                    $(".descr").html(hint);
+                } else {
+                    $(".descr").html("Маска ввода");
+                }
+                $(this).attr("placeholder", $(this).inputmask("getemptymask"));
+            }
+        };
+
+        $('.phone_mask').change(function () {
+            if ($('.phone_mask').is(':checked')) {
+                $('.customer_phone').inputmasks(maskOpts);
+            } else {
+                $('.customer_phone').inputmask("+[####################]", maskOpts.inputmask)
+                    .attr("placeholder", $('.customer_phone').inputmask("getemptymask"));
+                $(".descr").html("Маска ввода");
+            }
+        });
+
+        $('.phone_mask').change();
+    });
+</script>

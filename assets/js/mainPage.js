@@ -38,4 +38,21 @@ $(document).ready(function () {
                 console.log(xhr, status, error);
             });
     });
+
+    $('button.ajaxResetForm').on('click', function () {
+        $('.alert').addClass('hide');
+        var data = $('#ResetForm').serialize();
+        $.post('/auth/ajax_reset', data, function (data) {
+                if (data.result) {
+                    $('#alertReset').html(data.message);
+                    $('#alertReset').removeClass('hide');
+                } else {
+                    $('#alertReset').html(data.message);
+                    $('#alertReset').removeClass('hide');
+                }
+            }, 'json')
+            .fail(function (xhr, status, error) {
+                console.log(xhr, status, error);
+            });
+    });
 });

@@ -1488,6 +1488,11 @@ class Admin extends CI_Controller
         $id_user = $this->session->userdata('id_user');
         if ($this->input->method() == 'post') {
             $eprofile = $this->input->post('profile');
+
+            if (isset($_POST['__phone_prefix'])) {
+                $_POST['use_phone'] = $_POST['__phone_prefix'] . $_POST['use_phone'];
+                unset($_POST['__phone_prefix']);
+            }
             $post = $this->input->post();
             $message = "<i class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"></i> <b>Изменения сохранены.</b>";
             switch ($eprofile) {

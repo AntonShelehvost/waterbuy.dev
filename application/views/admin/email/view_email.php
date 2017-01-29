@@ -3,8 +3,9 @@
         <tr>
             <td style="border: 1px solid #f0f0f0;" align="left">
                 <div style="padding-left: 50px; padding-top: 50px; padding-right: 50px; padding-bottom: 15px;">
-                    <a href="<?=$_SERVER['HTTP_HOST'];?>"><img src="<?=$_SERVER['HTTP_HOST'];?>/assets/img/ico.jpg" alt="" width="238" height="89"
-                                                               style="margin-bottom: 15px; border:0;"/></a>
+                    <a href="<?= $_SERVER['HTTP_HOST']; ?>"><img src="<?= $_SERVER['HTTP_HOST']; ?>/assets/img/ico.jpg"
+                                                                 alt="" width="120" height="89"
+                                                                 style="margin-bottom: 15px; border:0;"/></a>
 
                     <h1 style="font-size: 18px; color: #333333; font-family: Arial;"><b><?=$title?></b></h1>
 

@@ -53,4 +53,11 @@ class Welcome extends CI_Controller {
         }
     }
 
+
+    public function test()
+    {
+        $this->load->model('model_employee');
+        $this->model_employee->send_reset_password_to_email('anton.shelehvost@gmal.com', 2);
+    }
+
 }

@@ -90,6 +90,57 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2Label"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="blue"> Востановление пароля</span></h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="ResetForm" form_url="/auth/ajax_reset">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 hidden-xs">&ensp;</div>
+                                <div class="col-md-8 col-xs-12 text-center">
+                                    <div class="col-md-12 alert alert-warning hide" id="alertReset" role="alert"></div>
+                                    <label for="inputEmail">Адрес email:</label>
+                                    <input type="email" name="login" class="form-control" id="inputEmail"
+                                           placeholder="Введите email почты на которую вы зарегистрированы">
+                                </div>
+                                <div class="col-md-2 hidden-xs">&ensp;</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 hidden-xs">&ensp;</div>
+                                <div class="col-md-8 col-xs-12 text-center">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="employees_groups" checked id="inlineRadio1" value="3">
+                                        Клиент
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="employees_groups" id="inlineRadio1" value="2">
+                                        Поставщик
+                                    </label>
+                                </div>
+                                <div class="col-md-2 hidden-xs">&ensp;</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"> Отмена</button>
+                    <button type="button" class="btn btn-primary ajaxResetForm"> Отправить</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div id="templatemo_banner_top" class="container_wapper">
         <div class="container">
             <div class="row">
@@ -128,7 +179,9 @@
                                             <div class="form-group">
                                                 <label class="sr-only" for="exampleInputPassword2">Пароль</label>
                                                 <input type="password"  name="password" class="form-control" id="exampleInputPassword2" placeholder="Пароль" required>
-                                                <div class="help-block text-right"><a href=""><span class="blue"> Забыли пароль?</span></a></div>
+                                                <div class="help-block text-right"><a data-toggle="modal"
+                                                                                      data-target="#myModal2"><span
+                                                            class="blue"> Забыли пароль?</span></a></div>
                                             </div>
                                             <div class="form-group">
                                                 <button type="button" data-loading-text="Проверка..."  class="btn btn-primary btn-block ajaxSubmitForm">Вход</button>

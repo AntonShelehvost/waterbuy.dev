@@ -113,8 +113,11 @@
 <script src="/assets/js/jquery.mask.js"></script>
 <script src="/assets/js/phonecode.js"></script>
 <!-- application script for Charisma demo -->
-<script src="/assets/js/charisma.js?<?=filemtime( './assets/js/charisma.js' )?>"></script>
-
+<script src="/assets/js/charisma.js?<?= filemtime('./assets/js/charisma.js') ?>"></script>
+<script src="http://cdn.rawgit.com/RobinHerbots/jquery.inputmask/3.2.7/dist/min/jquery.inputmask.bundle.min.js"
+        type="text/javascript"></script>
+<script
+    src="/assets/js/jquery.inputmask-multi.min.js?<?= filemtime('./assets/js/jquery.inputmask-multi.min.js') ?>"></script>
 
 </body>
 </html>

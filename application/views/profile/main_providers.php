@@ -62,11 +62,13 @@ $success = $this->session->flashdata('success');
                     </div>
                     <div class="form-group <?= (!empty(form_error('use_phone')) ? 'has-error' : '') ?>">
                         <label class="control-label col-xs-12 col-md-3" for="phoneNumber">Телефон руководителя:</label>
+
                         <div class="col-xs-12 col-md-9">
-                            <input type="tel"
-                                   value="<?= !empty(set_value('use_phone')) ? set_value('use_phone') : $providers->use_phone; ?>"
-                                   class="form-control"
-                                   name="use_phone" id="phoneNumber" placeholder="Введите номер телефона">
+                            <input type="text" class="customer_phone"
+                                   value="<?= !empty($clients->use_phone) ? $clients->use_phone : '38'; ?>" size="25"
+                                   name="use_phone"><br>
+                            <input type="checkbox" class="phone_mask" checked style="display: none;">
+                            <label class="descr" for="phone_mask">Маска ввода</label>
                         </div>
                     </div>
                     <div class="form-group <?= (!empty(form_error('use_email')) ? 'has-error' : '') ?>">
@@ -228,10 +230,11 @@ $success = $this->session->flashdata('success');
                     <div class="form-group <?= (!empty(form_error('use_phone_logist')) ? 'has-error' : '') ?>">
                         <label class="control-label col-xs-12 col-md-3" for="phoneNumber">Телефон логиста:</label>
                         <div class="col-xs-12 col-md-9">
-                            <input type="tel"
-                                   value="<?= !empty(set_value('use_phone_logist')) ? set_value('use_phone_logist') : $providers->use_phone_logist; ?>"
-                                   class="form-control"
-                                   name="use_phone_logist" id="phoneNumber" placeholder="Введите номер телефона">
+                            <input type="text" class="customer_phone"
+                                   value="<?= !empty($clients->use_phone_logist) ? $clients->use_phone_logist : '38'; ?>"
+                                   size="25" name="use_phone_logist"><br>
+                            <input type="checkbox" class="phone_mask" checked style="display: none;">
+                            <label class="descr" for="phone_mask1">Маска ввода</label>
                         </div>
                     </div>
                     <div class="form-group <?= (!empty(form_error('use_email_logist')) ? 'has-error' : '') ?>">
@@ -443,5 +446,52 @@ $success = $this->session->flashdata('success');
         $('.city').on('chosen:ready', function (evt, params) {
             $(".city").val('<?=$providers->use_id_city?>').trigger("chosen:updated");
         });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var maskList = $.masksSort($.masksLoad("/assets/js/phone-codes.json.txt"), ['#'], /[0-9]|#/, "mask");
+        var maskOpts = {
+            inputmask: {
+                definitions: {
+                    '#': {
+                        validator: "[0-9]",
+                        cardinality: 1
+                    }
+                },
+                //clearIncomplete: true,
+                showMaskOnHover: false,
+                autoUnmask: true
+            },
+            match: /[0-9]/,
+            replace: '#',
+            list: maskList,
+            listKey: "mask",
+            onMaskChange: function (maskObj, completed) {
+                if (completed) {
+                    var hint = maskObj.name_ru;
+                    if (maskObj.desc_ru && maskObj.desc_ru != "") {
+                        hint += " (" + maskObj.desc_ru + ")";
+                    }
+                    $(".descr").html(hint);
+                } else {
+                    $(".descr").html("Маска ввода");
+                }
+                $(this).attr("placeholder", $(this).inputmask("getemptymask"));
+            }
+        };
+
+        $('.phone_mask').change(function () {
+            if ($('.phone_mask').is(':checked')) {
+                $('.customer_phone').inputmasks(maskOpts);
+            } else {
+                $('.customer_phone').inputmask("+[####################]", maskOpts.inputmask)
+                    .attr("placeholder", $('.customer_phone').inputmask("getemptymask"));
+                $(".descr").html("Маска ввода");
+            }
+        });
+
+
+        $('.phone_mask').change();
     });
 </script>

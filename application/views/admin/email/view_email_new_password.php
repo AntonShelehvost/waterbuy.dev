@@ -7,7 +7,8 @@
         <tr>
             <td align="left" style="border: 1px solid #f0f0f0;">
                 <div style="padding-left: 50px; padding-top: 50px; padding-right: 50px; padding-bottom: 15px;">
-                    <a href="<?=$base_url?>"><img width="238" height="89" style="margin-bottom: 15px; border:0;" alt="" src="<?=$base_url?>/assets/img/ico.jpg"></a>
+                    <a href="<?= $base_url ?>"><img width="120" height="89" style="margin-bottom: 15px; border:0;"
+                                                    alt="" src="<?= $base_url ?>/assets/img/ico.jpg"></a>
                     <h1 style="font-size: 18px; color: #333333; font-family: Arial;">
                         <b><?=$text_email_hello?>!</b>
                     </h1>
