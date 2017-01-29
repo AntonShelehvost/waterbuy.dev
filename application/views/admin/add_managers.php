@@ -52,7 +52,7 @@ $success = $this->session->flashdata('success');
 						<div class="col-xs-12 col-md-3">
 							<label for="day">День:</label>
 							<select class="form-control" name="day">
-								<?php for ($i = 1; $i <= 30; $i++) { ?>
+								<?php for ($i = 1; $i <= 31; $i++) { ?>
 									<option value="<?=$i?>"><?= number_format($i, 0, '', ''); ?></option>
 								<?php } ?>
 							</select>
@@ -62,7 +62,7 @@ $success = $this->session->flashdata('success');
 							<select class="form-control" name="month">
 								<?php
 								$month = array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
-								for ($i = 0; $i <= 11; $i++) {
+								for ($i = 1; $i <= 12; $i++) {
 									$month_name = $month[$i];
 									?>
 									<option value="<?=$i?>"><?= $month_name; ?></option>
@@ -72,7 +72,7 @@ $success = $this->session->flashdata('success');
 						<div class="col-xs-12 col-md-3">
 							<label for="yaer">Год:</label>
 							<select class="form-control" name="year">
-								<?php for ($i = (int)date('Y') - 18; $i >= (int)date('Y') - 58; $i--) { ?>
+								<?php for ($i = (int)date('Y') - 16; $i >= (int)date('Y') - 58; $i--) { ?>
 									<option value="<?=$i?>"><?= number_format($i, 0, '', ''); ?></option>
 								<?php } ?>
 							</select>
