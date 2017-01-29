@@ -99,11 +99,11 @@ $success = $this->session->flashdata('success');
                             <select class="form-control" name="month">
                                 <?php
                                 $month = array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
-                                for ($i = 1; $i <= 12; $i++) {
+                                for ($i = 0; $i <= 11; $i++) {
                                     $month_name = $month[$i];
                                     ?>
                                     <option <?= (isset($clients->use_birthday) && (int)date('m', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
-                                        value="<?= $i ?>"><?= $month_name; ?></option>
+                                        value="<?= $i + 1 ?>"><?= $month_name; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
