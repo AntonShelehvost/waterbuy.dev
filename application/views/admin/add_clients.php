@@ -115,6 +115,15 @@ $success = $this->session->flashdata('success');
                                                class="form-control" id="phoneNumber" placeholder="Введите номер телефона">
                                     </div>
                                 </div>
+                                <div class="form-group <?= (!empty(form_error('use_phone')) ? 'has-error' : '') ?>">
+                                    <label class="control-label col-xs-3" for="phoneNumber">Телефон доп.*:</label>
+                                    <div class="col-xs-12 col-md-9">
+                                        <input type="tel" name="use_phone_addon"
+                                               value="<?php echo set_value('use_phone_addon'); ?>"
+                                               class="form-control" id="phoneNumber"
+                                               placeholder="Введите номер телефона">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="control-label col-xs-3" for="postalAddress">Примечание:</label>
                                     <div class="col-xs-12 col-md-9">

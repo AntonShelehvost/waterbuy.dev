@@ -6,7 +6,6 @@
 <?php if (!isset($no_visible_elements) || !$no_visible_elements) { ?>
 
 
-
     <hr>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -30,7 +29,8 @@
     </div>
 
     <footer class="row">
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="#" target="_blank">Anton Shelehvost</a> 2016 - <?php echo date('Y') ?></p>
+        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="#" target="_blank">Anton Shelehvost</a> 2016
+            - <?php echo date('Y') ?></p>
 
         <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
                 href="http://Waterbuy.net">Waterbuy.net</a></p>
@@ -118,6 +118,6 @@
         type="text/javascript"></script>
 <script
     src="/assets/js/jquery.inputmask-multi.min.js?<?= filemtime('./assets/js/jquery.inputmask-multi.min.js') ?>"></script>
-
+<script src="/assets/js/masked.js?<?= filemtime('./assets/js/masked.js') ?>"></script>
 </body>
 </html>
