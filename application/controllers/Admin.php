@@ -1277,7 +1277,7 @@ class Admin extends CI_Controller
                     ', домоф.',
                     $delivery->del_intercom,
                     ' заезд',
-                    $delivery->dis_name,
+                    $delivery->del_destonation,
                 ];
 
                 $row = array();

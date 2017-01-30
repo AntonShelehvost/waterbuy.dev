@@ -12035,9 +12035,8 @@ ALTER TABLE `users` ADD CONSTRAINT `users_fk2` FOREIGN KEY (`use_id_city`) REFER
 ALTER TABLE `delivery` ADD CONSTRAINT `delivery_fk0` FOREIGN KEY (`del_id_country`) REFERENCES `country`(`cou_id`);
 ALTER TABLE `delivery` ADD CONSTRAINT `delivery_fk1` FOREIGN KEY (`del_id_region`) REFERENCES `region`(`reg_id`);
 ALTER TABLE `delivery` ADD CONSTRAINT `delivery_fk2` FOREIGN KEY (`del_id_city`) REFERENCES `city`(`cit_id`);
-ALTER TABLE `delivery` ADD CONSTRAINT `delivery_fk3` FOREIGN KEY (`del_id_district`) REFERENCES `district`(`dis_id`);
-ALTER TABLE `delivery` ADD CONSTRAINT `delivery_fk4` FOREIGN KEY (`del_id_user`) REFERENCES `users`(`use_id`);
-ALTER TABLE `delivery` ADD CONSTRAINT `delivery_fk5` FOREIGN KEY (`del_id_products`) REFERENCES `products`(`prd_id`);
+ALTER TABLE `delivery` ADD CONSTRAINT `delivery_fk3` FOREIGN KEY (`del_id_user`) REFERENCES `users`(`use_id`);
+ALTER TABLE `delivery` ADD CONSTRAINT `delivery_fk4` FOREIGN KEY (`del_id_products`) REFERENCES `products`(`prd_id`);
 ALTER TABLE `products` ADD CONSTRAINT `products_fk0` FOREIGN KEY (`prd_id_user`) REFERENCES `users`(`use_id`);
 ALTER TABLE `products` ADD CONSTRAINT `products_fk1` FOREIGN KEY (`prd_id_category`) REFERENCES `category`(`cat_id`);
 ALTER TABLE `orders` ADD CONSTRAINT `orders_fk0` FOREIGN KEY (`ord_id_user`) REFERENCES `users`(`use_id`);
