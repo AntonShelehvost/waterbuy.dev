@@ -1682,7 +1682,7 @@ class Admin extends CI_Controller
         $this->load->model('model_delivery');
         unset($_POST['profile']);
 
-        if ($this->model_delivery->delete($this->input->post('del_id'))) {
+        if ($this->model_delivery->delete($this->input->post('id'))) {
             return true;
         } else {
             return false;
