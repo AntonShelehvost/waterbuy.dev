@@ -102,7 +102,7 @@ $success = $this->session->flashdata('success');
                                 for ($i = 0; $i <= 11; $i++) {
                                     $month_name = $month[$i];
                                     ?>
-                                    <option <?= (isset($clients->use_birthday) && (int)date('m', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                    <option <?= (isset($clients->use_birthday) && (int)date('m', strtotime($clients->use_birthday)) == $i + 1) ? 'selected' : '' ?>
                                         value="<?= $i + 1 ?>"><?= $month_name; ?></option>
                                 <?php } ?>
                             </select>
