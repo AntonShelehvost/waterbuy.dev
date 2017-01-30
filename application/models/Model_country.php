@@ -29,7 +29,7 @@ class Model_country extends CI_Model
      */
     public function get_all()
     {
-        return $this->db->order_by('cou_name')->get('country')->result();
+        return $this->db->order_by('cou_sort')->get('country')->result();
     }
 
     /**

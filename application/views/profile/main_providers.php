@@ -317,7 +317,7 @@ $success = $this->session->flashdata('success');
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
                                             <input
-                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '1') > 0) ? 'checked' : ''; ?>
+                                                type="checkbox" <?= (strpos($providers->use_days_reception_orders, '1') >= 0) ? 'checked' : ''; ?>
                                                 name="use_days_reception_orders[]" value="1"> ПН
                                         </label>
                                     </div>
@@ -393,14 +393,15 @@ $success = $this->session->flashdata('success');
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
                                             <input
-                                                type="checkbox" <?= (strpos($providers->use_days_delivery_orders, '1') > 0) ? 'checked' : ''; ?>
+                                                type="checkbox" <?= (strpos($providers->use_days_delivery_orders, '1') >= 0) ? 'checked' : ''; ?>
                                                 name="use_days_delivery_orders[]" value="1"> ПН
                                         </label>
                                     </div>
                                     <div class="checkbox col-xs-12 col-md-1">
                                         <label>
                                             <input type="checkbox"
-                                                   <?= (strpos($providers->use_days_delivery_orders, '2') > 0) ? 'checked' : ''; ?>name="use_days_delivery_orders[]"
+                                                <?= (strpos($providers->use_days_delivery_orders, '2') > 0) ? 'checked' : ''; ?>
+                                                   name="use_days_delivery_orders[]"
                                                    value="2"> ВТ
                                         </label>
                                     </div>

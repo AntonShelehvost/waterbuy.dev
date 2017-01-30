@@ -336,6 +336,7 @@ function docReady() {
                     var lists = $('.district');
                     $.each(lists, function (ind, list) {
                         $(list).empty();
+                        $(list).append(new Option('- ВСЕ -', -1));
                         $.each(data, function (index, item) {
                             $(list).append(new Option(item.dis_name, item.dis_id));
                         });

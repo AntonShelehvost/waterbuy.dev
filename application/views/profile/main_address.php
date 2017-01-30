@@ -27,8 +27,12 @@
                     <thead>
                     <tr>
                         <th>Название адреса</th>
-                        <th>Дата добавления</th>
+                        <th>Страна</th>
+                        <th>Область</th>
+                        <th>Город</th>
+                        <th>Район</th>
                         <th>Адрес</th> <!--Складываем Город+Улица+дом+подъезд+район-->
+                        <th>Дата добавления</th>
                         <th>Действия</th>
                     </tr>
                     </thead>
@@ -59,7 +63,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-xs-12 col-md-4">
+                            <div class="col-xs-12 col-md-6">
                                 <label for="postalAddress">Страна:</label>
                                 <select value="<?php echo set_value('del_id_country'); ?>" class="form-control country"
                                         name="del_id_country" <?= (!empty(form_error('del_id_country')) ? 'has-error' : '') ?>>
@@ -68,18 +72,27 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="col-xs-12 col-md-8">
+                            <div class="col-xs-12 col-md-6 pull-right">
                                 <label for="postalAddress">Область</label>
                                 <select class="form-control region" name="del_id_region"></select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-xs-12 col-md-4">
+                            <div class="col-xs-12 col-md-6">
                                 <label for="postalAddress">Город:</label>
                                 <select class="form-control city" name="del_id_city"></select>
                             </div>
 
+                            <div class="col-xs-12 col-md-6">
+                                <label for="postalAddress">Район:</label>
+                                <select data-placeholder="Выбирите район" name="del_id_district"
+                                        class="form-control district">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-xs-12 col-md-4">
                                 <label for="postalAddress">Улица:</label>
                                 <input type="text" class="form-control" name="del_street" id="" placeholder="Улица">
@@ -90,13 +103,12 @@
                                 <input type="text" class="form-control" name="del_building" id=""
                                        placeholder="Номер дома">
                             </div>
-                        </div>
-
-                        <div class="form-group">
                             <div class="col-xs-12 col-md-4">
                                 <label for="postalAddress">Кв./Офис:</label>
                                 <input type="text" class="form-control" name="del_room" id="" placeholder="Кв./Офис">
                             </div>
+                        </div>
+                        <div class=form-group>
                             <div class="col-xs-12 col-md-4">
                                 <label for="postalAddress">Домофон:</label>
                                 <input type="text" class="form-control" name="del_intercom" id="" placeholder="Домофон">
@@ -105,16 +117,6 @@
                                 <label for="postalAddress">Заезд:</label>
                                 <input type="text" class="form-control" name="del_destonation" id=""
                                        placeholder="Заезд">
-                            </div>
-                        </div>
-                        <div class=form-group>
-                            <div class="col-md-12 col-xs-12">
-                                <label for="postalAddress">Район:</label>
-                                <div class="controls">
-                                    <select data-placeholder="Выбирите район" name="del_id_district" id="selectError2"
-                                            class="district" data-rel="chosen">
-                                    </select>
-                                </div>
                             </div>
                         </div>
                         <input type="hidden" name="profile" value="saveNewAddress"/>

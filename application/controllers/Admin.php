@@ -1268,17 +1268,26 @@ class Admin extends CI_Controller
             $list = $this->model_delivery->get_datatables();
             foreach ($list as $delivery) {
                 $address = [
-                    $delivery->cit_name,
+                    'ул.',
                     $delivery->del_street,
+                    ', дом.',
                     $delivery->del_building,
+                    ', кв.',
                     $delivery->del_room,
+                    ', домоф.',
                     $delivery->del_intercom,
+                    ' заезд',
                     $delivery->dis_name,
                 ];
+
                 $row = array();
                 $row[] = $delivery->del_name;
-                $row[] = date('d.m.Y H:i:s', strtotime($delivery->created_at));
+                $row[] = $delivery->cou_name;
+                $row[] = $delivery->reg_name;
+                $row[] = $delivery->cit_name;
+                $row[] = ($delivery->del_id_district == -1) ? 'ВСЕ' : $delivery->dis_name;
                 $row[] = implode(' ', $address);
+                $row[] = date('d.m.Y H:i:s', strtotime($delivery->created_at));
                 $row[] = '
             <a class="btn btn-danger deleteAddress"  data-toggle="modal" href="#myModal4" id="' . $delivery->del_id . '">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
