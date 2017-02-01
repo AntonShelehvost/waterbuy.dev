@@ -594,6 +594,58 @@ function docReady() {
 
     });
 
+    $(document).on('click', 'a.addNewRootCategory', function () {
+        var data = $('#NewRootCategory').serialize();
+        post('/admin/addCategory', data, function (data) {
+            $('.alertCategory').addClass('hide');
+            $('.alertCategory').removeClass('alert-warning');
+            $('.alertCategory').removeClass('alert-success');
+            if (data.success) {
+                $('.alertCategory').addClass('alert-success');
+                $('.alertCategory').html(data.message);
+                $('.alertCategory').removeClass('hide');
+            } else {
+                $('.alertCategory').addClass('alert-warning');
+                $('.alertCategory').html(data.message);
+                $('.alertCategory').removeClass('hide');
+            }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 10000);
+            table.ajax.reload();
+            console.log('/profile', data);
+        }, 'json');
+
+    });
+
+    $(document).on('click', 'a.addNewSubCategory', function () {
+        var data = $('#NewSubCategory').serialize();
+        post('/admin/addCategory', data, function (data) {
+            $('.alertCategory').addClass('hide');
+            $('.alertCategory').removeClass('alert-warning');
+            $('.alertCategory').removeClass('alert-success');
+            if (data.success) {
+                $('.alertCategory').addClass('alert-success');
+                $('.alertCategory').html(data.message);
+                $('.alertCategory').removeClass('hide');
+            } else {
+                $('.alertCategory').addClass('alert-warning');
+                $('.alertCategory').html(data.message);
+                $('.alertCategory').removeClass('hide');
+            }
+            setTimeout(function () {
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('alert-warning');
+                $('.alert').removeClass('alert-success');
+            }, 10000);
+            table.ajax.reload();
+            console.log('/profile', data);
+        }, 'json');
+
+    });
+
     $('a.ajaxSaveNewPassword').on('click', function () {
         var data = $('#saveFormNewPassword').serialize();
         post('/profile', data, function (data) {
@@ -651,10 +703,15 @@ function docReady() {
         $('#del_id').val($(this).attr('id'));
     });
 
-    $(document).on('click', '.deleteId', function () {
+    $(document).on('click', '.deleteCategory', function () {
+        $('#cat_id').val($(this).attr('id'));
+    });
+
+
+    $(document).on('click', '.ajaxDeleteCategory', function () {
         var that = $(this);
-        var data = $('#deleteFormAddress').serialize();
-        post('/profile', data, function (data) {
+        var data = $('#deleteCategory').serialize();
+        post('/admin/deleteCategory', data, function (data) {
             $('.alertSaveNewAddress').addClass('hide');
             $('.alertSaveNewAddress').removeClass('alert-warning');
             $('.alertSaveNewAddress').removeClass('alert-success');
@@ -673,10 +730,10 @@ function docReady() {
                 $('.alert').removeClass('alert-warning');
                 $('.alert').removeClass('alert-success');
             }, 50000);
-            console.log('/profile', data);
+            table.ajax.reload();
+            console.log(data);
         }, 'json');
     });
-
 
     //datatable
     $('.datatable').dataTable({

@@ -1472,6 +1472,43 @@ class Admin extends CI_Controller
         echo json_encode($output);
     }
 
+    function ajax_category()
+    {
+        $this->load->model('model_category');
+
+        $list = $this->model_category->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $category) {
+            $no++;
+            $row = array();
+            $cat = $this->model_category->find($category->cat_pid);
+            $row[] = $category->cat_name;
+            $row[] = (!empty($cat[0]) ? $cat[0]->cat_name : '');
+            $row[] = $category->cat_description;
+            $row[] = date('d.m.Y H:i:s', strtotime(($category->created_at)));
+            $row[] = '
+            <a class="btn btn-info"  data-toggle="modal" href="#myModal21"  id="' . $category->cat_id . '">
+                <i class="glyphicon glyphicon-edit icon-white"></i>
+                Edit
+            </a>
+            <a class="btn btn-danger deleteCategory"  data-toggle="modal" href="#myModal22"  id="' . $category->cat_id . '">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                Delete
+            </a>';
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->model_category->count_all(),
+            "recordsFiltered" => $this->model_category->count_filtered(),
+            "data" => $data,
+            'query' => $this->db->last_query()
+        );
+        echo json_encode($output);
+    }
+
     public function get_city()
     {
         $this->load->model('model_city', 'city');
@@ -1689,6 +1726,20 @@ class Admin extends CI_Controller
         }
     }
 
+    public function deleteCategory()
+    {
+        $this->load->model('model_category');
+        $result = $this->model_category->delete($this->input->post('cat_id'));
+        if ($result) {
+            $message = "<i class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"></i> <b>Изменения сохранены.</b>";
+        } else {
+            $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка удаления. Обратитесь к администратору сайта!";
+        }
+
+        echo json_encode(['success' => $result, 'message' => $message]);
+        return true;
+    }
+
     function edit_providers_data($post)
     {
         $id = $this->session->userdata('employee_id');
@@ -1751,11 +1802,24 @@ class Admin extends CI_Controller
                 'flat' => true,
             ],
         );
+        $this->load->model('model_category');
+        $category = $this->model_category->get_all();
         $data = array(
-            'content' => $this->load->view('/admin/product_category', null, true),
+            'content' => $this->load->view('/admin/product_category', ['category' => $category], true),
             'bred' => $bred,
         );
         $this->load->view('/admin/main', $data);
     }
 
+    function addCategory()
+    {
+        $this->load->model('model_category');
+        $result = $this->model_category->insert();
+        $message = "<i class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"></i> <b>Изменения сохранены.</b>";
+        if (!$result)
+            $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка сохранения. Обратитесь к администратору сайта!";
+
+        echo json_encode(['success' => $result, 'message' => $message]);
+        return true;
+    }
 }
