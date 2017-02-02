@@ -29,15 +29,9 @@ $success = $this->session->flashdata('success');
                 <?php echo validation_errors(); ?>
                 <form action="/admin/add_products" class="form-horizontal" method="post" accept-charset="utf-8"
                       enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-md-3" for="">Выбирите категорию товара:</label>
-                        <div class="col-xs-12 col-md-9">
-                            <select class="form-control">
-                                <option>Вода</option>
-                                <option>Посуда одноразовая</option>
-                            </select>
-                        </div>
-                    </div>
+                    <?php if ($this->session->userdata('emp_employees_groups_id') == 2) { ?>
+                        <input type="hidden" name="prd_id_user" value="<?= $this->session->userdata('id_user') ?>">
+                    <?php } elseif ($this->session->userdata('emp_employees_groups_id') == 5) { ?>
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-md-3" for="prd_id_providers">Организация/ЧП(Поставщик):</label>
                         <div class="col-xs-12 col-md-9">
@@ -49,6 +43,68 @@ $success = $this->session->flashdata('success');
                             </select>
                         </div>
                     </div>
+                    <?php } ?>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="">Выбирите категорию товара:</label>
+                        <div class="col-xs-12 col-md-9">
+                            <select class="form-control" name="prd_id_category">
+                                <?php foreach ($category as $item) { ?>
+                                    <option
+                                        value="<?= $item['id']; ?>"><?= ($item['level']) ? '&nbsp&nbsp&nbsp&nbsp' : '' ?><?= trim($item['name']); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="postalAddress">Регионы, в которых
+                            осуществляется
+                            доставка:</label>
+                        <div class="col-xs-12 col-md-9">
+                            <!-- <a href="#myModal1" data-toggle="modal" class="btn btn-info margin-bottom-10"> <i
+                                         class="glyphicon glyphicon-ok"></i> Выбрать регион</a>-->
+                            <table class="responsive nowrap dataTable no-footer table-bordered
+                            table-hover" id="Address1" width="100%" style="width: 100%;">
+                                <br>
+                                <thead>
+                                <tr>
+                                    <th><i class="glyphicon glyphicon-ok"></th>
+                                    <th>Страна</th>
+                                    <th>Область</th>
+                                    <th>Город</th>
+                                    <th>Район</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-md-3">
+                            <label class="control-label">Для загрузки списка товаров из CSV файла, воспользуйтесь этой
+                                формой. </label>
+                        </div>
+                        <div class="col-xs-12 col-md-9">
+                            <div class=" col-xs-12 col-md-3">
+                                <a href="/upload/import.xls" download class="btn btn-info margin-bottom-10"> <i
+                                        class="glyphicon glyphicon-upload"></i> Скачать пример</a>
+                            </div>
+                            <div class=" col-xs-12 col-md-3">
+                                <label class="btn btn-success" for="my-file-selector">
+                                    <i
+                                        class="glyphicon glyphicon-download "></i><input id="my-file-selector"
+                                                                                         type="file"
+                                                                                         class="margin-bottom-10"
+                                                                                         style="display:none;"
+                                                                                         onchange="$('#upload-file-info').html($(this).val().replace(/^.*[\\\/]/, ''));">
+                                    Импорт файла
+                                </label>
+                                <span class='label label-warning' id="upload-file-info"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-md-3" for="prd_title">Наименование товара:</label>
                         <div class="col-xs-12 col-md-9">
@@ -57,9 +113,17 @@ $success = $this->session->flashdata('success');
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-xs-12 col-md-3" for="prd_title_producer">Производитель:</label>
+                        <div class="col-xs-12 col-md-9">
+                            <input value="<?php echo set_value('prd_title_producer'); ?>" name="prd_title_producer"
+                                   type="text" class="form-control" id="prd_title_producer"
+                                   placeholder="Введите производителя">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-xs-12 col-md-3" for="">Торговая марка:</label>
                         <div class="col-xs-12 col-md-9">
-                            <input value="" name=""
+                            <input value="<?php echo set_value('prd_trademark'); ?>" name="prd_trademark"
                                    type="text" class="form-control" id="prd_title_producer"
                                    placeholder="Введите название торговой марки">
                         </div>
@@ -72,14 +136,7 @@ $success = $this->session->flashdata('success');
                                       placeholder="Введите описание продукции"><?php echo set_value('prd_description'); ?></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-md-3" for="prd_title_producer">Производитель:</label>
-                        <div class="col-xs-12 col-md-9">
-                            <input value="<?php echo set_value('prd_title_producer'); ?>" name="prd_title_producer"
-                                   type="text" class="form-control" id="prd_title_producer"
-                                   placeholder="Введите производителя">
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-md-3" for="prd_comments">Коментарий:</label>
                         <div class="col-xs-12 col-md-9">
@@ -97,7 +154,7 @@ $success = $this->session->flashdata('success');
                         </div>
                         <div class="col-xs-12 col-md-3">
                             <label for="">Введите количество, шт</label>
-                            <input value="" name=""
+                            <input value="<?php echo set_value('prd_amount'); ?>" name="prd_amount"
                                    type="text" class="form-control" id="" placeholder="Введите количество, шт">
                         </div>
                         <div class="col-xs-12 col-md-3">
@@ -110,35 +167,11 @@ $success = $this->session->flashdata('success');
                         <label class="control-label col-xs-12 col-md-3">Минимальный заказ, шт</label>
                         <div class="col-xs-12 col-md-3">
                             <label for="">Минимальное количество, шт</label>
-                            <input value="" name=""
+                            <input value="<?php echo set_value('prd_amount_min'); ?>" name="prd_amount_min"
                                    type="text" class="form-control" id="" placeholder="Введите количество, шт">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-md-3" for="postalAddress">Регионы, в которых
-                            осуществляется
-                            доставка:</label>
-                        <div class="col-xs-12 col-md-9">
-                            <a href="#myModal1" data-toggle="modal" class="btn btn-info"> <i
-                                    class="glyphicon glyphicon-plus"></i> Добавить регион</a>
-                            <table class=" responsive nowrap dataTable no-footer table-bordered
-                            table-hover" id="Address1" width="100%" style="width: 100%;">
-                                <thead>
-                                <tr>
-                                    <th>Страна</th>
-                                    <th>Область</th>
-                                    <th>Город</th>
-                                    <th>Район</th>
-                                    <th>Действия</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
 
-
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-md-3" for="prd_file">Загрузить фото из файла:</label>
                         <div class="col-xs-12 col-md-9">
@@ -174,15 +207,7 @@ $success = $this->session->flashdata('success');
                             <input type="reset" class="btn btn-default" value="Очистить форму">
                         </div>
 
-                        <div class=" col-xs-3">
-                            <label class="btn btn-success" for="my-file-selector">
-                                <input id="my-file-selector" type="file" style="display:none;"
-                                       onchange="$('#upload-file-info').html($(this).val().replace(/^.*[\\\/]/, ''));">
-                                Импорт файла товаров
-                            </label>
-                            <span class='label label-warning' id="upload-file-info"></span>
 
-                        </div>
 
                     </div>
 
@@ -202,36 +227,29 @@ $success = $this->session->flashdata('success');
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Добавить регион</h3>
+                <h3>Выбирите регион</h3>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="addNewAddress">
                     <div class="form-group">
-                        <div class="col-xs-12 col-md-4">
-                            <label for="postalAddress">Страна:</label>
-                            <select value="<?php echo set_value('del_id_country'); ?>" class="form-control country"
-                                    name="del_id_country" <?= (!empty(form_error('del_id_country')) ? 'has-error' : '') ?>>
-                                <?php foreach ($country as $item) { ?>
-                                    <option value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12 col-md-4">
-                            <label for="postalAddress">Область:</label>
-                            <select class="form-control region" name="del_id_region"></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12 col-md-4">
-                            <label for="postalAddress">Город:</label>
-                            <select class="form-control city" name="del_id_city"></select>
+                        <div class="col-xs-12">
+                            <table class="table-responsive responsive nowrap dataTable no-footer table-bordered table-hover
+                            " id="Address1" width="100%"
+                                   style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>Страна</th>
+                                    <th>Область</th>
+                                    <th>Город</th>
+                                    <th>Район</th>
+                                    <th>Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <input type="hidden" name="provider" id="provider" value=""/>
-                    <input type="hidden" name="profile" value="saveNewAddress"/>
                 </form>
 
                 <div class="modal-footer">
@@ -287,7 +305,8 @@ $success = $this->session->flashdata('success');
             },
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('admin/ajax_address_region')?>?provider="+$('#prd_id_user').val(), "type": "POST"
+                "url": "<?php echo site_url('admin/ajax_address_region_selector')?>?provider=" + $('#prd_id_user').val(),
+                "type": "POST"
             },
 
             //Set column definition initialisation properties.
@@ -303,7 +322,33 @@ $success = $this->session->flashdata('success');
 
         $('#prd_id_user').on('change', function () {
             $('#provider').val($('#prd_id_user').val());
-            table.ajax.url('admin/ajax_address_region?provider='+$('#prd_id_user').val());
+            table.ajax.url('admin/ajax_address_region_selector?provider=' + $('#prd_id_user').val());
+        });
+
+        var table2;
+        $(document).ready(function () {
+            //datatables
+            table2 = $('#Address').DataTable({
+
+                "processing": true, //Feature control the processing indicator.
+                "serverSide": true, //Feature control DataTables' server-side processing mode.
+                "order": [], //Initial no order.
+
+                // Load data for the table's content from an Ajax source
+                "ajax": {
+                    "url": "<?php echo site_url('admin/ajax_address')?>", "type": "POST"
+                },
+
+                //Set column definition initialisation properties.
+                "columnDefs": [
+                    {
+                        "targets": [0], //first column / numbering column
+                        "orderable": false, //set not orderable
+                    },
+                ],
+
+            });
+
         });
     });
 </script>

@@ -915,62 +915,61 @@ class Admin extends CI_Controller
         $this->load->model('model_providers');
         $this->load->model('model_city');
         $this->load->model('model_country');
-        /*$this->load->model('model_delivery_city_products');*/
-
+        $this->load->model('model_category');
+        $this->load->model('model_delivery_product');
 
         if ($this->input->method() == 'post') {
-            $data['error'] = [];
-            $data['error1'] = [];
+            $data['error'] = array();
+            $data['error1'] = array();
             $config['upload_path'] = './uploads/';
             $config['allowed_types'] = 'gif|jpg|png|ico';
             $config['max_size'] = 1024;
             $config['max_width'] = 1024;
-            $this->load->library('upload', $config);
             $config['max_height'] = 768;
 
-            if (isset($_FILES['prd_file'])) {
+            $this->load->library('upload', $config);
+
+            if (isset($_FILES['prd_file']) && !empty($_FILES["prd_file"]["name"])) {
                 $_POST['prd_file'] = $_FILES["prd_file"]["name"];
                 if (!$this->upload->do_upload('prd_file')) {
-                    $data['error'] = $this->upload->display_errors();
+                    $data['error'] = 'prd_file:' . $this->upload->display_errors();
                 }
             }
 
-            if (isset($_FILES['prd_file_certificates'])) {
+            if (isset($_FILES['prd_file_certificates']) && !empty($_FILES["prd_file_certificates"]["name"])) {
                 $_POST['prd_file_certificates'] = $_FILES["prd_file_certificates"]["name"];
                 if (!$this->upload->do_upload('prd_file_certificates')) {
-                    $data['error1'] = $this->upload->display_errors();
+
+                    $data['error1'] = 'prd_file_certificates:' . $this->upload->display_errors();
                 }
             }
 
             if (empty($data['error'])) {
-                $this->form_validation->set_rules('prd_id_providers', 'prd_id_providers', 'trim|required');
+                $this->form_validation->set_rules('prd_id_user', 'prd_id_user', 'trim|required');
                 $this->form_validation->set_rules('prd_title', 'prd_title', 'trim|required');
                 $this->form_validation->set_rules('prd_description', 'prd_description', 'trim|required|is_unique[users.use_email]');
                 $this->form_validation->set_rules('prd_title_producer', 'prd_title_producer', 'trim|required');
                 $this->form_validation->set_rules('prd_comments', 'prd_comments', 'trim|required');
                 $this->form_validation->set_rules('prd_volume_price', 'prd_volume_price', 'trim|required');
                 $this->form_validation->set_rules('prd_price', 'prd_price', 'trim|required');
-                $this->form_validation->set_rules('prd_file', 'prd_file', 'trim|required');
+                //$this->form_validation->set_rules('prd_file', 'prd_file', 'trim|required');
                 //$this->form_validation->set_rules('prd_file_certificates', 'prd_file_certificates', 'trim|required');
                 $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
 
                 if ($this->form_validation->run() == true) {
                     $prd_id_country = $this->input->post('prd_id_country');
-                    $delivery_citys = explode(',', $this->input->post('delivery_city'));
-                    unset($_POST['delivery_city']);
+                    $delivery = $this->input->post('delivery_id');
+                    unset($_POST['delivery_id']);
                     unset($_POST['prd_id_country']);
                     $id = $this->products->insert();
 
                     if ((int)$id > 0) {
-                        foreach ($delivery_citys as $citys) {
-                            $data_delivery_city = [
-                                'dcp_id_country' => $prd_id_country,
-                                'dcp_id_city' => $citys,
-                                'dcp_id_providers' => $this->input->post('prd_id_providers'),
-                                'dcp_id_products' => $id,
-                                'dcp_active' => 1,
+                        foreach ($delivery as $item) {
+                            $data_delivery_product = [
+                                'dep_id_delivery' => $item,
+                                'dep_id_product' => $id
                             ];
-                            $this->model_delivery_city_products->insert($data_delivery_city);
+                            $this->model_delivery_product->insert_data($data_delivery_product);
                         }
                     }
 
@@ -996,12 +995,14 @@ class Admin extends CI_Controller
         );
 
         $providers = $this->model_providers->get_all();
+        $category = $this->model_category->get_category_tree();
         //$city = $this->model_city->get_all();
         $country = $this->model_country->get_all();
         //$data['fields'] = array_slice($this->products->getFields(), 1);
         //$data['city'] = $city;
         $data['country'] = $country;
         $data['providers'] = $providers;
+        $data['category'] = $category;
 
         $data = array(
             'content' => $this->load->view('/admin/add_products', $data, true),
@@ -1342,10 +1343,39 @@ class Admin extends CI_Controller
         echo json_encode($output);
     }
 
+    function ajax_address_region_selector()
+    {
+        $this->load->model('model_delivery');
+        if ($this->session->userdata('emp_employees_groups_id') != 5)
+            $id_user = $this->session->userdata('id_user');
+        else
+            $id_user = $this->input->get('provider');
+        $data = array();
+        if ($id_user) {
+            $list = $this->model_delivery->get_datatables();
+            foreach ($list as $delivery) {
+                $row = array();
+                $row[] = '<input type="checkbox" name="delivery_id[]" value="' . $delivery->del_id . '">';
+                $row[] = $delivery->cou_name;
+                $row[] = $delivery->reg_name;
+                $row[] = $delivery->cit_name;
+                $row[] = $delivery->dis_name;
+                $data[] = $row;
+            }
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->model_delivery->count_all(),
+            "recordsFiltered" => $this->model_delivery->count_filtered(),
+            "data" => $data,
+        );
+        echo json_encode($output);
+    }
+
     function ajax_products()
     {
         $this->load->model('model_products');
-
         $list = $this->model_products->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -1483,8 +1513,8 @@ class Admin extends CI_Controller
             $no++;
             $row = array();
             $cat = $this->model_category->find($category->cat_pid);
-            $row[] = $category->cat_name;
-            $row[] = (!empty($cat[0]) ? $cat[0]->cat_name : '');
+            $row[] = (empty($cat[0]) ? $category->cat_name : $cat[0]->cat_name);;
+            $row[] = (!empty($cat[0]) ? $category->cat_name : '');
             $row[] = $category->cat_description;
             $row[] = date('d.m.Y H:i:s', strtotime(($category->created_at)));
             $row[] = '

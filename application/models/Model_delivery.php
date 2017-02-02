@@ -25,8 +25,11 @@ class Model_delivery extends CI_Model
         $this->db->join('city', 'delivery.del_id_city = city.cit_id', 'left');
         $this->db->join('district', 'delivery.del_id_district = district.dis_id', 'left');
         $i = 0;
-
-        $this->db->where('del_id_user', $this->session->userdata('id_user'));
+        if ($this->session->userdata('emp_employees_groups_id') != 5)
+            $id_user = $this->session->userdata('id_user');
+        else
+            $id_user = $this->input->get('provider');
+        $this->db->where('del_id_user', $id_user);
         foreach ($this->column_search as $item) // loop column
         {
             if ($_POST['search']['value']) // if datatable send POST for search
