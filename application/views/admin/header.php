@@ -57,10 +57,10 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/"> <img alt="Waterbuy Logo" src="/assets/img/logo.png"
-                                                  class="hidden-xs"/>
+                                                   class="hidden-xs"/>
                 <span>waterbuy</span></a>
 
-            <?php if (($this->session->userdata('emp_employees_groups_id')>0)) : ?>
+            <?php if (($this->session->userdata('emp_employees_groups_id') > 0)) : ?>
                 <!-- user dropdown starts -->
                 <div class="btn-group pull-right">
                     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -117,23 +117,7 @@
                 </ul>
             </div>
 
-            <ul class="collapse navbar-collapse nav navbar-nav top-menu">
-                <li><a href="/"><i class="glyphicon glyphicon-globe"></i> На главную</a></li>
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-star"></i> Выбирите регион <span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Днепр</a></li>
-                        <li><a href="#">Кривой Рог</a></li>
-                        <li><a href="#">Никополь</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
 
-            </ul>
 
         </div>
     </div>
@@ -141,240 +125,177 @@
 <?php } ?>
 <div class="ch-container">
     <div class="row">
-        <?php if (isset($profile)) {?>
-            <?php echo $this->load->view('/admin/profile_menu',null,true); ?>
-        <?php }elseif (!isset($no_visible_elements) || !$no_visible_elements) { ?>
+        <?php if (isset($profile)) { ?>
+            <?php echo $this->load->view('/admin/profile_menu', null, true); ?>
+        <?php } elseif (!isset($no_visible_elements) || !$no_visible_elements) { ?>
 
-            <!--left menu starts -->
-            <div class="col-sm-2 col-lg-2">
-                <div class="sidebar-nav">
-                    <div class="nav-canvas">
-                        <div class="nav-sm nav nav-stacked">
+            <?php if (($this->session->userdata('emp_employees_groups_id') != 5)) : ?>
+                <?php $this->load->view('/admin/profile_menu.php'); ?>
+            <?php endif; ?>
+            <?php if (($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
+                <!--left menu starts -->
+                <div class="col-sm-2 col-lg-2">
+                    <div class="sidebar-nav">
+                        <div class="nav-canvas">
+                            <div class="nav-sm nav nav-stacked">
 
+                            </div>
+
+                            <ul class="nav nav-pills nav-stacked main-menu">
+                                <?php if (($this->session->userdata('emp_employees_groups_id') == 3) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
+
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('emp_employees_groups_id') == 2) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
+                                    <li class="nav-header hidden-md">Поставщикам</li>
+                                    <li>
+                                        <a class="ajax-link" href="/admin/add_products">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                            <span> Добавить товар</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="ajax-link" href="/admin/products">
+                                            <i class="glyphicon glyphicon-list-alt"></i>
+                                            <span> Мои товары</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="ajax-link" href="#">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                            <span> История заказов</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="ajax-link" href="#">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                            <span> Районы доставки</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('emp_employees_groups_id') == 4) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
+                                    <li class="nav-header hidden-md">Менеджеру</li>
+                                    <li>
+                                        <a href="/admin/add_orders">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                            <span> Новый заказ</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/clients">
+                                            <i class="glyphicon glyphicon-phone"></i>
+                                            <span> Список клиентов</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/providers">
+                                            <i class="glyphicon glyphicon-briefcase"></i>
+                                            <span> Список поставщиков</span>
+                                        </a>
+                                    </li>
+                                    <!--<li>
+                                        <a class="ajax-link" href="icon.html">
+                                            <i class="glyphicon glyphicon-stats"></i>
+                                            <span> Рейтинг клиентов</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="error.html">
+                                            <i class="glyphicon glyphicon-stats"></i>
+                                            <span> Рейтинг поставщиков</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="login.html">
+                                            <i class="glyphicon glyphicon-stats"></i>
+                                            <span> Рейтинг товаров</span>
+                                        </a>
+                                    </li>
+                                    <li class="accordion">
+                                        <a href="#"><i
+                                                class="glyphicon  glyphicon-align-justify"></i><span> Заказы</span></a>
+                                        <ul class="nav nav-pills nav-stacked">
+                                            <li><a href="#">Новые заказы</a></li>
+                                            <li><a href="#">История заказов</a></li>
+                                        </ul>
+                                    </li>-->
+                                <?php endif; ?>
+                                <?php if ($this->session->userdata('emp_employees_groups_id') == 5) : ?>
+                                    <li class="nav-header hidden-md">Слежебная</li>
+
+                                    <li>
+                                        <a href="/admin/managers">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                            <span> Список менеджеров</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/location">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                            <span> Районы</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/product_category">
+                                            <i class="glyphicon glyphicon-phone"></i>
+                                            <span> Категория товаров</span>
+                                        </a>
+                                    </li>
+
+                                    <!--<li>
+                                        <a class="ajax-link" href="icon.html">
+                                            <i class="glyphicon glyphicon-stats"></i>
+                                            <span> Рейтинг клиентов</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="error.html">
+                                            <i class="glyphicon glyphicon-stats"></i>
+                                            <span> Рейтинг поставщиков</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="login.html">
+                                            <i class="glyphicon glyphicon-stats"></i>
+                                            <span> Рейтинг товаров</span>
+                                        </a>
+                                    </li>
+                                    <li class="accordion">
+                                        <a href="#"><i
+                                                class="glyphicon  glyphicon-align-justify"></i><span> Заказы</span></a>
+                                        <ul class="nav nav-pills nav-stacked">
+                                            <li><a href="#">Новые заказы</a></li>
+                                            <li><a href="#">История заказов</a></li>
+                                        </ul>
+                                    </li>-->
+                                <?php endif; ?>
+                                <?php if ($this->session->userdata('emp_employees_groups_id') == 5) : ?>
+                                    <li class="nav-header hidden-md">Общая</li>
+                                    <li>
+                                        <a class="ajax-link" href="#">
+                                            <i class="glyphicon glyphicon-home"></i>
+                                            <span> Моя страница</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="ajax-link" href="#">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                            <span> Оформить заказ</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="ajax-link" href="#">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                            <span> История заказов</span>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
                         </div>
-
-                        <ul class="nav nav-pills nav-stacked main-menu">
-                            <?php if (($this->session->userdata('emp_employees_groups_id') == 3) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
-                                <!--<li class="nav-header">Клиенту</li>-->
-                                <!--<li><a class="ajax-link" href=""><i
-                                            class="glyphicon glyphicon-home"></i>
-                                        <span> Моя страница</span>
-                                    </a>
-                                </li>-->
-                                <!--<li><a class="ajax-link" href=""><i
-                                            class="glyphicon glyphicon-plus"></i>
-                                        <span> Оформить заказ</span>
-                                    </a>
-                                </li>-->
-                                <!--<li><a class="ajax-link" href=""><i
-                                            class="glyphicon glyphicon-eye-open"></i>
-                                        <span> История заказов</span>
-                                    </a>
-                                </li>
-                                <li><a class="ajax-link" href=""><i
-                                            class="glyphicon glyphicon-edit"></i>
-                                        <span> Ваш рейтинг</span>
-                                    </a>
-                                </li>
-                                <li><a class="ajax-link" href=""><i
-                                            class="glyphicon glyphicon-star"></i>
-                                        <span> Акции</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="ajax-link" href="">
-                                        <i class="glyphicon glyphicon-font"></i>
-                                        <span> Шаблоны заказа</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="ajax-link" href="">
-                                        <i class="glyphicon glyphicon-picture"></i>
-                                        <span> Адреса доставки</span>
-                                    </a>
-                                </li>-->
-                            <?php endif; ?>
-                            <?php if (($this->session->userdata('emp_employees_groups_id') == 2) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
-                                <li class="nav-header hidden-md">Поставщикам</li>
-                                <li>
-                                    <a class="ajax-link" href="/admin/add_products">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                        <span> Добавить товар</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="ajax-link" href="/admin/products">
-                                        <i class="glyphicon glyphicon-list-alt"></i>
-                                        <span> Мои товары</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="ajax-link" href="#">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                        <span> История заказов</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="ajax-link" href="#">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                        <span> Районы доставки</span>
-                                    </a>
-                                </li>
-                                <!--<li class="accordion">
-                                    <a href="#">
-                                        <i class="glyphicon  glyphicon-align-justify"></i>
-                                        <span> Мои заказы</span></a>
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li><a href="#">Новые заказы</a></li>
-                                        <li><a href="#">История заказов</a></li>
-                                    </ul>
-                                </li>-->
-                                <!--<li>
-                                    <a class="ajax-link" href="calendar.html">
-                                        <i class="glyphicon glyphicon-calendar"></i>
-                                        <span> Мой рейтинг</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="ajax-link" href="grid.html">
-                                        <i class="glyphicon glyphicon-th"></i>
-                                        <span> Рейтинг товаров</span>
-                                    </a>
-                                </li>-->
-                            <?php endif; ?>
-                            <?php if (($this->session->userdata('emp_employees_groups_id') == 4) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
-                                <li class="nav-header hidden-md">Менеджеру</li>
-                                <li>
-                                    <a href="/admin/add_orders">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                        <span> Новый заказ</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/admin/clients">
-                                        <i class="glyphicon glyphicon-phone"></i>
-                                        <span> Список клиентов</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/admin/providers">
-                                        <i class="glyphicon glyphicon-briefcase"></i>
-                                        <span> Список поставщиков</span>
-                                    </a>
-                                </li>
-                                <!--<li>
-                                    <a class="ajax-link" href="icon.html">
-                                        <i class="glyphicon glyphicon-stats"></i>
-                                        <span> Рейтинг клиентов</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="error.html">
-                                        <i class="glyphicon glyphicon-stats"></i>
-                                        <span> Рейтинг поставщиков</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="login.html">
-                                        <i class="glyphicon glyphicon-stats"></i>
-                                        <span> Рейтинг товаров</span>
-                                    </a>
-                                </li>
-                                <li class="accordion">
-                                    <a href="#"><i
-                                            class="glyphicon  glyphicon-align-justify"></i><span> Заказы</span></a>
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li><a href="#">Новые заказы</a></li>
-                                        <li><a href="#">История заказов</a></li>
-                                    </ul>
-                                </li>-->
-                            <?php endif; ?>
-                            <?php if ($this->session->userdata('emp_employees_groups_id') == 5) : ?>
-                                <li class="nav-header hidden-md">Слежебная</li>
-
-                                <li>
-                                    <a href="/admin/managers">
-                                        <i class="glyphicon glyphicon-user"></i>
-                                        <span> Список менеджеров</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/admin/location">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                        <span> Районы</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/admin/product_category">
-                                        <i class="glyphicon glyphicon-phone"></i>
-                                        <span> Категория товаров</span>
-                                    </a>
-                                </li>
-
-                                <!--<li>
-                                    <a class="ajax-link" href="icon.html">
-                                        <i class="glyphicon glyphicon-stats"></i>
-                                        <span> Рейтинг клиентов</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="error.html">
-                                        <i class="glyphicon glyphicon-stats"></i>
-                                        <span> Рейтинг поставщиков</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="login.html">
-                                        <i class="glyphicon glyphicon-stats"></i>
-                                        <span> Рейтинг товаров</span>
-                                    </a>
-                                </li>
-                                <li class="accordion">
-                                    <a href="#"><i
-                                            class="glyphicon  glyphicon-align-justify"></i><span> Заказы</span></a>
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li><a href="#">Новые заказы</a></li>
-                                        <li><a href="#">История заказов</a></li>
-                                    </ul>
-                                </li>-->
-                            <?php endif; ?>
-                            <?php if ($this->session->userdata('emp_employees_groups_id') == 5) : ?>
-                                <li class="nav-header hidden-md">Общая</li>
-                                <li>
-                                    <a class="ajax-link" href="#">
-                                        <i class="glyphicon glyphicon-home"></i>
-                                        <span> Моя страница</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="ajax-link" href="#">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                        <span> Оформить заказ</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="ajax-link" href="#">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
-                                        <span> История заказов</span>
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
                     </div>
                 </div>
-            </div>
-            <!--/span-->
-            <!-- left menu ends -->
-
-
-            <noscript>
-                <div class="alert alert-block col-md-12">
-                    <h4 class="alert-heading">Warning!</h4>
-
-                    <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a>
-                        enabled to use this site.</p>
-                </div>
-            </noscript>
+                <!--/span-->
+                <!-- left menu ends -->
+            <?php endif; ?>
         <?php } ?>
         <div id="content" class="col-lg-10 col-sm-10">
             <!-- content starts -->

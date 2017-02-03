@@ -52,6 +52,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 
+
+$route['profile/edit_products/(:any)'] = 'admin/edit_products/$1';
+$route['profile/view_products/(:any)'] = 'admin/view_products/$1';
 $route['profile']      = 'admin/profile/';
 $route['profile/(:any)'] = 'admin/profile/$1';
 

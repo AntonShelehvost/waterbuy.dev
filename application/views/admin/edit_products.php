@@ -219,6 +219,7 @@ $success = $this->session->flashdata('success');
 </div>
 
 <script>
+    var table;
 	$(document).ready(function(){
 		$('#selectError1').on('change',function(){
 			$('#delivery_city').val($("#selectError1").chosen().val());
@@ -236,7 +237,7 @@ $success = $this->session->flashdata('success');
             },
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('admin/ajax_address_region_selector')?>?provider=" + $('#prd_id_user').val() + "&delivery_product=<?=implode(',', $delivery_product)?>",
+                "url": "<?php echo site_url('admin/ajax_address_region_selector')?>?provider=" + $('#prd_id_user').val() + "<?=(isset($delivery_product) && !empty($delivery_product)) ? '&delivery_product=' . implode(',', $delivery_product) : ''?>",
                 "type": "POST"
             },
 
@@ -253,7 +254,7 @@ $success = $this->session->flashdata('success');
 
         $('#prd_id_user').on('change', function () {
             $('#provider').val($('#prd_id_user').val());
-            table.ajax.url('/admin/ajax_address_region_selector?provider=' + $('#prd_id_user').val() + "&delivery_product=<?=implode(',', $delivery_product)?>");
+            table.ajax.url('/admin/ajax_address_region_selector?provider=' + $('#prd_id_user').val() + "<?=(isset($delivery_product) && !empty($delivery_product)) ? '&delivery_product=' . implode(',', $delivery_product) : ''?>");
             table.ajax.reload();
         });
 

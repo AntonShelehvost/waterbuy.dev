@@ -4,7 +4,11 @@
         <?php if (isset($bred)) {
             foreach ($bred as $value): ?>
                 <li>
-                    <a href="<?= $value['url'] ?>"><?= $value['title'] ?></a>
+                    <?php if (!$value['flat']) { ?>
+                        <a href="<?= $value['url'] ?>"><?= $value['title'] ?></a>
+                    <?php } else { ?>
+                        <span href="<?= $value['url'] ?>"><?= $value['title'] ?></span>
+                    <?php } ?>
                 </li>
             <?php endforeach;
         } else { ?>

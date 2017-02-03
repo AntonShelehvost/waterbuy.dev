@@ -14,7 +14,7 @@ $success = $this->session->flashdata('success');
 	<div class="box col-md-12">
 		<div class="box-inner">
 			<div class="box-header well" data-original-title="">
-				<h2><i class="glyphicon glyphicon-edit"></i> Добавить товар</h2>
+				<h2><i class="glyphicon glyphicon-edit"></i> Товар</h2>
 				
 				<div class="box-icon">
 					<a href="#" class="btn btn-minimize btn-round btn-default"><i
@@ -28,7 +28,7 @@ $success = $this->session->flashdata('success');
 					<div class="form-group">
 						<label class="control-label col-xs-3" for="prd_id_providers">Организация/ЧП(Поставщик):</label>
 						<div class="col-xs-9">
-							<p><?php echo $products->prd_id_providers ?></p>
+							<p><?php print_r($products->user->use_organization); ?></p>
 						</div>
 					</div>
 					<div class="form-group">
@@ -97,8 +97,8 @@ $success = $this->session->flashdata('success');
 					<br/>
 					<div class="form-group">
 						<div class="col-xs-offset-3 col-xs-9">
-							<input type="submit" class="btn btn-primary" value="Добавить">
-							<input type="reset" class="btn btn-default" value="Очистить форму">
+							<a class="btn btn-default" href="/<?= $this->uri->segment(1) ?>/products"><i
+									class="	glyphicon glyphicon-arrow-left"></i> Назад</a>
 						</div>
 					</div>
 				</form>

@@ -1034,41 +1034,44 @@ class Admin extends CI_Controller
                 $xml = array_slice($data['res'], 1);
                 $count = 0;
                 foreach ($xml as $item) {
-                    $xml_data = [
-                        'prd_id_user' => $this->input->post('prd_id_user'),
-                        'prd_id_category' => $this->input->post('prd_id_category'),
-                        'prd_title' => trim($item[0]),
-                        'prd_title_producer' => trim($item[1]),
-                        'prd_trademark' => trim($item[2]),
-                        'prd_description' => trim($item[3]),
-                        'prd_comments' => trim($item[4]),
-                        'prd_volume_price' => (float)$item[5],
-                        'prd_amount' => (int)$item[6],
-                        'prd_price' => (float)$item[7],
-                        'prd_amount_min' => (int)$item[8]
-                    ];
-
-                    $id = $this->products->insert_data($xml_data);
-
-                    if ((int)$id > 0) {
-                        foreach ($delivery as $item) {
-                            $data_delivery_product = [
-                                'dep_id_delivery' => $item,
-                                'dep_id_product' => $id
-                            ];
-                            $this->model_delivery_product->insert_data($data_delivery_product);
+                    if (!empty($item[0])) {
+                        $xml_data = [
+                            'prd_id_user' => $this->input->post('prd_id_user'),
+                            'prd_id_category' => $this->input->post('prd_id_category'),
+                            'prd_title' => trim($item[0]),
+                            'prd_title_producer' => trim($item[1]),
+                            'prd_trademark' => trim($item[2]),
+                            'prd_description' => trim($item[3]),
+                            'prd_comments' => trim($item[4]),
+                            'prd_volume_price' => (float)$item[5],
+                            'prd_amount' => (int)$item[6],
+                            'prd_price' => (float)$item[7],
+                            'prd_amount_min' => (int)$item[8]
+                        ];
+                        $id = $this->products->insert_data($xml_data);
+                        if ((int)$id > 0) {
+                            foreach ($delivery as $item) {
+                                $data_delivery_product = [
+                                    'dep_id_delivery' => $item,
+                                    'dep_id_product' => $id
+                                ];
+                                $this->model_delivery_product->insert_data($data_delivery_product);
+                            }
                         }
+                        $count++;
                     }
-                    $count++;
                 }
 
                 $success = 'Данные о товаре успешно добавлены. ID товара ' . $id . '<p><a href="/admin/view_products/' . $id . '">Просмотреть карточку товара</a></p>';
                 $this->session->set_flashdata(array('success' => $success));
             }
         }
-        echo $this->table->generate($data['res']);
-        echo $count;
-        redirect('/admin/products/');
+        /*echo $this->table->generate($data['res']);
+        echo $count;*/
+        if ($this->session->userdata('emp_employees_groups_id') == 5)
+            redirect('/admin/products/');
+        else
+            redirect('/profile/products');
     }
 
     public function edit_products()
@@ -1143,7 +1146,7 @@ class Admin extends CI_Controller
                     $success = 'Данные о товаре успешно обновленны. ID товара ' . $id . '<p><a href="/admin/view_products/' . $id . '">Просмотреть карточку товара</a></p>';
                     $this->session->set_flashdata(array('success' => $success));
 
-                    redirect('/admin/edit_products/' . $id);
+                    redirect('/' . $this->uri->segment(1) . '/edit_products/' . $id);
                 }
             }
         }
@@ -1175,12 +1178,17 @@ class Admin extends CI_Controller
             $data['delivery_product'][] = $item->dep_id_delivery;
         $bred = array(
             [
-                'url' => '/admin',
+                'url' => '/' . $this->uri->segment(1),
                 'title' => 'Главная',
                 'flat' => false,
             ],
             [
-                'url' => '/admin/edit_products',
+                'url' => '/' . $this->uri->segment(1) . '/products',
+                'title' => 'Товары',
+                'flat' => false,
+            ],
+            [
+                'url' => '/' . $this->uri->segment(1) . '/edit_products',
                 'title' => 'Редактировать товар',
                 'flat' => true,
             ],
@@ -1199,23 +1207,25 @@ class Admin extends CI_Controller
         $id = (int)$this->uri->segment(3);
 
         $this->load->model('model_products');
+        $this->load->model('model_users');
 
         $products = $this->model_products->find($id);
         $products = (isset($products[0]) && !empty($products[0]) ? $products[0] : false);
-
+        $user = $this->model_users->find($products->prd_id_user);
+        $products->user = (isset($user[0]) && !empty($user[0]) ? $user[0] : false);
         $bred = array(
             [
-                'url' => '/admin',
+                'url' => '/' . $this->uri->segment(1),
                 'title' => 'Главная',
                 'flat' => false,
             ],
             [
-                'url' => '/admin/products',
+                'url' => '/' . $this->uri->segment(1) . '/products',
                 'title' => 'Список товаров',
-                'flat' => true,
+                'flat' => false,
             ],
             [
-                'url' => '/admin/view_products/' . $id,
+                'url' => '/' . $this->uri->segment(1) . '/view_products/' . $id,
                 'title' => 'Товар',
                 'flat' => true,
             ],
@@ -1494,17 +1504,17 @@ class Admin extends CI_Controller
             $row[] = $products->prd_volume_price;
             $row[] = $products->prd_price;
             $row[] = $this->model_products->get_locations($products->prd_id);
-
+            if ($this->session->userdata('emp_employees_groups_id') != 5) $uri = 'profile'; else $uri = 'admin';
             //$row[] = '<span class="label-success label label-default">Active</span>';
-            $row[] = '<a target="_blank" class="btn btn-success" href="/admin/view_products/' . $products->prd_id . '">
+            $row[] = '<a target="_blank" class="btn btn-success" href="/' . $uri . '/view_products/' . $products->prd_id . '">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 View
             </a>
-            <a target="_blank" class="btn btn-info" href="/admin/edit_products/' . $products->prd_id . '">
+            <a target="_blank" class="btn btn-info" href="/' . $uri . '/edit_products/' . $products->prd_id . '">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="/admin/delete_products/' . $products->prd_id . '">
+            <a class="btn btn-danger delete_product" data-toggle="modal" href="#myModal"  id="' . $products->prd_id . '">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>';
@@ -1709,6 +1719,13 @@ class Admin extends CI_Controller
                     }
                     $result = $result_arr[0];
                     break;
+                case 'editProducts':
+                    $result_arr = $this->saveNewPassword();
+                    if (!$result_arr[0]) {
+                        $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>" . $result_arr[1] . "!";
+                    }
+                    $result = $result_arr[0];
+                    break;
             }
             echo json_encode(['success' => $result, 'message' => $message]);
             return true;
@@ -1760,6 +1777,39 @@ class Admin extends CI_Controller
             case 'template_order':
                 $data = array(
                     'content' => $this->load->view('/profile/main_template_order', [], true),
+                    'profile' => '',
+                    'bred' => $bred,
+                );
+                break;
+            case 'balance':
+                $data = array(
+                    'content' => $this->load->view('/profile/main_template_order', [], true),
+                    'profile' => '',
+                    'bred' => $bred,
+                );
+                break;
+            case 'products':
+                $data = array(
+                    'content' => $this->load->view('/admin/products', [], true),
+                    'profile' => '',
+                    'bred' => $bred,
+                );
+                break;
+            case 'add_products':
+                $this->load->model('model_products', 'products');
+                $this->load->model('model_providers');
+                $this->load->model('model_city');
+                $this->load->model('model_country');
+                $this->load->model('model_category');
+                $this->load->model('model_delivery_product');
+                $providers = $this->model_providers->get_all();
+                $category = $this->model_category->get_category_tree();
+                $country = $this->model_country->get_all();
+                $data['country'] = $country;
+                $data['providers'] = $providers;
+                $data['category'] = $category;
+                $data = array(
+                    'content' => $this->load->view('/admin/add_products', $data, true),
                     'profile' => '',
                     'bred' => $bred,
                 );
@@ -1864,6 +1914,20 @@ class Admin extends CI_Controller
     {
         $this->load->model('model_category');
         $result = $this->model_category->delete($this->input->post('cat_id'));
+        if ($result) {
+            $message = "<i class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"></i> <b>Изменения сохранены.</b>";
+        } else {
+            $message = "<i class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></i>Извените! Ошибка удаления. Обратитесь к администратору сайта!";
+        }
+
+        echo json_encode(['success' => $result, 'message' => $message]);
+        return true;
+    }
+
+    public function deleteProducts()
+    {
+        $this->load->model('model_products');
+        $result = $this->model_products->delete($this->input->post('prd_id'));
         if ($result) {
             $message = "<i class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"></i> <b>Изменения сохранены.</b>";
         } else {

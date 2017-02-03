@@ -90,9 +90,9 @@ $success = $this->session->flashdata('success');
                                 файла, воспользуйтесь
                                 этой
                                 формой. </label>
-
                             <div class="col-xs-12 col-md-3 ">
-                                <a href="/upload/import.xlsx" download class="btn btn-info margin-bottom-10"> <i
+                                <a rel="nofollow" href="/uploads/import.xlsx" download
+                                   class="btn btn-info margin-bottom-10"> <i
                                         class="glyphicon glyphicon-upload"></i> Скачать пример</a>
                             </div>
                             <div class="col-md-6">

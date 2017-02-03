@@ -672,30 +672,24 @@ function docReady() {
 
     });
 
-    $('a.ajaxSaveSchedule').on('click', function () {
-        var data = $('#SaveSchedule').serialize();
-        post('/profile', data, function (data) {
-            $('.alertSaveSchedule').addClass('hide');
-            $('.alertSaveSchedule').removeClass('alert-warning');
-            $('.alertSaveSchedule').removeClass('alert-success');
+    $(document).on('click', 'a.deleteId', function () {
+        var data = $('#deleteFormAddress').serialize();
+        post('/profile/deleteAddress', data, function (data) {
+            $('.alertSaveNewAddress').addClass('hide');
+            $('.alertSaveNewAddress').removeClass('alert-warning');
+            $('.alertSaveNewAddress').removeClass('alert-success');
             if (data.success) {
-                $('.alertSaveSchedule').addClass('alert-success');
-                $('.alertSaveSchedule').html(data.message);
-                $('.alertSaveSchedule').removeClass('hide');
+                $('.alertSaveNewAddress').addClass('alert-success');
+                $('.alertSaveNewAddress').html(data.message);
+                $('.alertSaveNewAddress').removeClass('hide');
             } else {
-                $('.alertSaveSchedule').addClass('alert-warning');
-                $('.alertSaveSchedule').html(data.message);
-                $('.alertSaveSchedule').removeClass('hide');
+                $('.alertSaveNewAddress').addClass('alert-warning');
+                $('.alertSaveNewAddress').html(data.message);
+                $('.alertSaveNewAddress').removeClass('hide');
             }
-            setTimeout(function () {
-                $('.alert').addClass('hide');
-                $('.alert').removeClass('alert-warning');
-                $('.alert').removeClass('alert-success');
-            }, 50000);
             table.ajax.reload();
             console.log('/profile', data);
         }, 'json');
-
     });
 
 
@@ -703,8 +697,57 @@ function docReady() {
         $('#del_id').val($(this).attr('id'));
     });
 
+    $(document).on('click', '.ajaxDeleteProducts', function () {
+        var that = $(this);
+        var data = $('#deleteProducts').serialize();
+        post('/admin/deleteProducts', data, function (data) {
+            $('.alertProducts').addClass('hide');
+            $('.alertProducts').removeClass('alert-warning');
+            $('.alertProducts').removeClass('alert-success');
+            if (data.success) {
+                $('.alertProducts').addClass('alert-success');
+                $('.alertProducts').html(data.message);
+                $('.alertProducts').removeClass('hide');
+                table.ajax.reload();
+            } else {
+                $('.alertProducts').addClass('alert-warning');
+                $('.alertProducts').html(data.message);
+                $('.alertProducts').removeClass('hide');
+            }
+            table.ajax.reload();
+            console.log(data);
+        }, 'json');
+    });
+
+
     $(document).on('click', '.deleteCategory', function () {
         $('#cat_id').val($(this).attr('id'));
+    });
+
+    $(document).on('click', '.delete_product', function () {
+        $('#prd_id').val($(this).attr('id'));
+    });
+
+    $(document).on('click', '.ajaxDeleteProducts', function () {
+        var that = $(this);
+        var data = $('#deleteProducts').serialize();
+        post('/admin/deleteProducts', data, function (data) {
+            $('.alertProducts').addClass('hide');
+            $('.alertProducts').removeClass('alert-warning');
+            $('.alertProducts').removeClass('alert-success');
+            if (data.success) {
+                $('.alertProducts').addClass('alert-success');
+                $('.alertProducts').html(data.message);
+                $('.alertProducts').removeClass('hide');
+                table.ajax.reload();
+            } else {
+                $('.alertProducts').addClass('alert-warning');
+                $('.alertProducts').html(data.message);
+                $('.alertProducts').removeClass('hide');
+            }
+            table.ajax.reload();
+            console.log(data);
+        }, 'json');
     });
 
 

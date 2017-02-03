@@ -83,6 +83,8 @@ class Model_products extends CI_Model
         $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id and employees_groups.emg_id=2');
         $this->db->join('country', 'users.use_id_country = country.cou_id');
         $i = 0;
+        if ($this->session->userdata('emp_employees_groups_id') != 5)
+            $this->db->where('prd_id_user', $this->session->userdata('id_user'));
 
         foreach ($this->column_search as $item) // loop column
         {
@@ -165,4 +167,9 @@ class Model_products extends CI_Model
         return $this->db->count_all_results();
     }
 
+    public function delete($id)
+    {
+        $this->db->where('prd_id', $id);
+        return $this->db->delete($this->table);
+    }
 } // endClass
