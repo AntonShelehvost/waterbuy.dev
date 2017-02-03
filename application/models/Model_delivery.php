@@ -21,6 +21,7 @@ class Model_delivery extends CI_Model
         $this->db->from($this->table);
 
         $this->db->join('country', 'delivery.del_id_country = country.cou_id', 'left');
+        $this->db->join('users', 'delivery.del_id_user = users.use_id', 'left');
         $this->db->join('region', 'delivery.del_id_region = region.reg_id', 'left');
         $this->db->join('city', 'delivery.del_id_city = city.cit_id', 'left');
         $this->db->join('district', 'delivery.del_id_district = district.dis_id', 'left');

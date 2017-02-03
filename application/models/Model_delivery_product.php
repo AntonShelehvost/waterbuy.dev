@@ -25,6 +25,16 @@ class Model_delivery_product extends CI_Model
     }
 
     /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function find_by_product($id)
+    {
+        return $this->db->where('dep_id_product', $id)->get($this->table)->result();
+    }
+
+    /**
      * @return mixed
      */
     public function get_all()
@@ -70,6 +80,17 @@ class Model_delivery_product extends CI_Model
     public function delete($id)
     {
         $this->db->where('dep_id', $id);
+        return $this->db->delete($this->table);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function delete_by_products($id)
+    {
+        $this->db->where('dep_id_product', $id);
         return $this->db->delete($this->table);
     }
 

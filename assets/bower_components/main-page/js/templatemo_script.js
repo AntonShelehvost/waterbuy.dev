@@ -106,25 +106,25 @@ jQuery(function()
             event_animate_num = event_wapper_top - document_top;
             event_animate_alpha = (1/event_wapper_top)*(document_top);
             $("#templatemo_pricing .pricing_icon_wapper span").css({
-                        '-webkit-transform': 'rotate(' + degree + 'deg)',
-                        '-moz-transform': 'rotate(' + degree + 'deg)',
-                        '-ms-transform': 'rotate(' + degree + 'deg)',
-                        '-o-transform': 'rotate(' + degree + 'deg)',
-                        'transform': 'rotate(' + degree + 'deg)',
+                '-webkit-transform': 'rotate(' + degree + 'deg)',
+                '-moz-transform': 'rotate(' + degree + 'deg)',
+                '-ms-transform': 'rotate(' + degree + 'deg)',
+                '-o-transform': 'rotate(' + degree + 'deg)',
+                'transform': 'rotate(' + degree + 'deg)',
             });
             $("#templatemo_pricing .pricing_icon_wapper").css({
-                        'opacity':event_animate_alpha
+                'opacity': event_animate_alpha
             });
         }else{
             $("#templatemo_pricing .pricing_icon_wapper span").css({
-                        '-webkit-transform': 'rotate(' + 360 + 'deg)',
-                        '-moz-transform': 'rotate(' + 360 + 'deg)',
-                        '-ms-transform': 'rotate(' + 360 + 'deg)',
-                        '-o-transform': 'rotate(' + 360 + 'deg)',
-                        'transform': 'rotate(' + 360 + 'deg)',
+                '-webkit-transform': 'rotate(' + 360 + 'deg)',
+                '-moz-transform': 'rotate(' + 360 + 'deg)',
+                '-ms-transform': 'rotate(' + 360 + 'deg)',
+                '-o-transform': 'rotate(' + 360 + 'deg)',
+                'transform': 'rotate(' + 360 + 'deg)',
             });
             $("#templatemo_pricing .pricing_icon_wapper").css({
-                        'opacity':1
+                'opacity': 1
             });
         }
     });

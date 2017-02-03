@@ -78,21 +78,35 @@ class Model_category extends CI_Model
         return $this->db->count_all_results();
     }
 
+    public function get_root()
+    {
+        $this->db->where('cat_pid', 0);
+        return $this->db->get($this->table)->result();
+    }
+
     public function get_category_tree()
     {
         $data = [];
-        $cat = $this->get_all();
+        $cat = $this->get_root();
 
         foreach ($cat as $item) {
-            $name = $item->cat_name;
-            /*if (isset($item->cat_pid)) {
-                $cat_pid = $this->find($item->cat_pid);
-                if (isset($cat_pid[0]->cat_name))
-                    $name = $cat_pid[0]->cat_name;
-            }*/
-            $data[] = ['id' => $item->cat_id, 'name' => $name, 'level' => !empty($item->cat_pid)];
+            $data[] = ['id' => $item->cat_id, 'name' => $item->cat_name, 'level' => false];
+            $sub_castegory = $this->find_sub_category($item->cat_id);
+            foreach ($sub_castegory as $value) {
+                $data[] = ['id' => $value->cat_id, 'name' => $value->cat_name, 'level' => true];
+            }
         }
         return $data;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function find_sub_category($id)
+    {
+        return $this->db->where('cat_pid', $id)->get($this->table)->result();
     }
 
     /**

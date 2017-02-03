@@ -31,15 +31,14 @@
 				<table class="table table-striped table-bordered responsive" id="clients">
 					<thead>
 					<tr>
-						<th>No</th>
-						<th>Наименование товара:</th>
-						<th>Описание продукции:</th>
-						<th>Производитель:</th>
-						<th>Коментарий:</th>
-						<th>Объем:</th>
+                        <th>Поставщик</th>
+                        <th>Наименование товара</th>
+                        <th>Производитель</th>
+                        <th>Коментарий</th>
+                        <th>Объем</th>
 						<th>Цену,грн</th>
-						<th>Страна:</th>
-						<th>Actions</th>
+                        <th>Локация</th>
+                        <th>Действия</th>
 					</tr>
 					</thead>
 					<tbody>

@@ -988,8 +988,8 @@ class Admin extends CI_Controller
                 'flat' => false,
             ],
             [
-                'url' => '/admin/add_managers',
-                'title' => 'Добавить менеджера',
+                'url' => '/admin/add_products',
+                'title' => 'Добавить товар',
                 'flat' => true,
             ],
         );
@@ -1012,16 +1012,76 @@ class Admin extends CI_Controller
 
     }
 
+    public function export_from_xls()
+    {
+        $this->load->library('table');
+        $this->load->model('model_products', 'products');
+        $this->load->model('model_delivery_product');
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'xls|xlsx';
+
+        $this->load->library('upload', $config);
+        if (isset($_FILES['prd_file_certificates']) && !empty($_FILES["prd_file_certificates"]["name"])) {
+            $_POST['prd_file_certificates'] = $_FILES["prd_file_certificates"]["name"];
+            if (!$this->upload->do_upload('prd_file_certificates')) {
+
+                $data['error1'] = 'prd_file_certificates:' . $this->upload->display_errors();
+            } else {
+                $data['res'] = $res = parse_excel_file('./uploads/' . $_POST['prd_file_certificates']);
+                //print_r( $res );
+                $delivery = $this->input->post('delivery_id');
+                unset($_POST['delivery_id']);
+                $xml = array_slice($data['res'], 1);
+                $count = 0;
+                foreach ($xml as $item) {
+                    $xml_data = [
+                        'prd_id_user' => $this->input->post('prd_id_user'),
+                        'prd_id_category' => $this->input->post('prd_id_category'),
+                        'prd_title' => trim($item[0]),
+                        'prd_title_producer' => trim($item[1]),
+                        'prd_trademark' => trim($item[2]),
+                        'prd_description' => trim($item[3]),
+                        'prd_comments' => trim($item[4]),
+                        'prd_volume_price' => (float)$item[5],
+                        'prd_amount' => (int)$item[6],
+                        'prd_price' => (float)$item[7],
+                        'prd_amount_min' => (int)$item[8]
+                    ];
+
+                    $id = $this->products->insert_data($xml_data);
+
+                    if ((int)$id > 0) {
+                        foreach ($delivery as $item) {
+                            $data_delivery_product = [
+                                'dep_id_delivery' => $item,
+                                'dep_id_product' => $id
+                            ];
+                            $this->model_delivery_product->insert_data($data_delivery_product);
+                        }
+                    }
+                    $count++;
+                }
+
+                $success = 'Данные о товаре успешно добавлены. ID товара ' . $id . '<p><a href="/admin/view_products/' . $id . '">Просмотреть карточку товара</a></p>';
+                $this->session->set_flashdata(array('success' => $success));
+            }
+        }
+        echo $this->table->generate($data['res']);
+        echo $count;
+        redirect('/admin/products/');
+    }
+
     public function edit_products()
     {
 
         $id = (int)$this->uri->segment(3);
 
         $this->load->model('model_products');
+        $this->load->model('model_category');
         $this->load->model('model_providers');
         $this->load->model('model_city');
         $this->load->model('model_country');
-        $this->load->model('model_delivery_city_products');
+        $this->load->model('model_delivery_product');
 
 
         if ($this->input->method() == 'post') {
@@ -1034,51 +1094,49 @@ class Admin extends CI_Controller
             $this->load->library('upload', $config);
             $config['max_height'] = 768;
 
-            if (isset($_FILES['prd_file'])) {
+            if (isset($_FILES['prd_file']) && !empty($_FILES["prd_file"]["name"])) {
                 $_POST['prd_file'] = $_FILES["prd_file"]["name"];
                 if (!$this->upload->do_upload('prd_file')) {
-                    $data['error'] = $this->upload->display_errors();
+                    $data['error'] = 'prd_file:' . $this->upload->display_errors();
                 }
             }
 
-            if (isset($_FILES['prd_file_certificates'])) {
+            if (isset($_FILES['prd_file_certificates']) && !empty($_FILES["prd_file_certificates"]["name"])) {
                 $_POST['prd_file_certificates'] = $_FILES["prd_file_certificates"]["name"];
                 if (!$this->upload->do_upload('prd_file_certificates')) {
-                    $data['error1'] = $this->upload->display_errors();
+
+                    $data['error1'] = 'prd_file_certificates:' . $this->upload->display_errors();
                 }
             }
 
             if (empty($data['error'])) {
-                $this->form_validation->set_rules('prd_id_providers', 'prd_id_providers', 'trim|required');
+                $this->form_validation->set_rules('prd_id_user', 'prd_id_user', 'trim|required');
                 $this->form_validation->set_rules('prd_title', 'prd_title', 'trim|required');
                 $this->form_validation->set_rules('prd_description', 'prd_description', 'trim|required|is_unique[users.use_email]');
                 $this->form_validation->set_rules('prd_title_producer', 'prd_title_producer', 'trim|required');
                 $this->form_validation->set_rules('prd_comments', 'prd_comments', 'trim|required');
                 $this->form_validation->set_rules('prd_volume_price', 'prd_volume_price', 'trim|required');
                 $this->form_validation->set_rules('prd_price', 'prd_price', 'trim|required');
-                //$this->form_validation->set_rules('prd_file', 'prd_file', 'trim|required');
+                $this->form_validation->set_rules('delivery_id[]', 'delivery_id[]', 'required');
                 //$this->form_validation->set_rules('prd_file_certificates', 'prd_file_certificates', 'trim|required');
                 $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
 
                 if ($this->form_validation->run() == true) {
                     $prd_id_country = $this->input->post('prd_id_country');
-                    $delivery_citys = explode(',', $this->input->post('delivery_city'));
-                    unset($_POST['delivery_city']);
+                    $delivery = $this->input->post('delivery_id');
+                    unset($_POST['delivery_id']);
                     unset($_POST['prd_id_country']);
 
                     $this->model_products->update($id);
 
-                    $this->model_delivery_city_products->delete_by_products($id);
+                    $this->model_delivery_product->delete_by_products($id);
                     if ((int)$id > 0) {
-                        foreach ($delivery_citys as $citys) {
-                            $data_delivery_city = [
-                                'dcp_id_country' => $prd_id_country,
-                                'dcp_id_city' => $citys,
-                                'dcp_id_providers' => $this->input->post('prd_id_providers'),
-                                'dcp_id_products' => $id,
-                                'dcp_active' => 1,
+                        foreach ($delivery as $item) {
+                            $data_delivery_product = [
+                                'dep_id_delivery' => $item,
+                                'dep_id_product' => $id
                             ];
-                            $this->model_delivery_city_products->insert($data_delivery_city);
+                            $this->model_delivery_product->insert_data($data_delivery_product);
                         }
                     }
 
@@ -1089,21 +1147,32 @@ class Admin extends CI_Controller
                 }
             }
         }
+
         $products = $this->model_products->find($id);
         $providers = [];
         $products = (isset($products[0]) && !empty($products[0]) ? $products[0] : false);
         if ($products) {
-            $products->delivery_city = $this->model_delivery_city_products->get_id_city_by_products($products->prd_id);
+            //$products->delivery_product = $this->model_delivery_product->get_id_city_by_products($products->prd_id);
 
-            $providers = $this->model_providers->find($products->prd_id_providers);
+            $providers = $this->model_providers->find($products->prd_id_user);
         }
 
         $this->load->model('model_city');
         $this->load->model('model_country');
 
+        $providers = $this->model_providers->get_all();
+        $category = $this->model_category->get_category_tree();
+        //$city = $this->model_city->get_all();
         $country = $this->model_country->get_all();
-        $city = $this->model_city->get_all();
-
+        //$data['fields'] = array_slice($this->products->getFields(), 1);
+        //$data['city'] = $city;
+        $data['country'] = $country;
+        $data['providers'] = $providers;
+        $data['category'] = $category;
+        $data['products'] = $products;
+        $delivery_product = $this->model_delivery_product->find_by_product($id);
+        foreach ($delivery_product as $item)
+            $data['delivery_product'][] = $item->dep_id_delivery;
         $bred = array(
             [
                 'url' => '/admin',
@@ -1117,16 +1186,8 @@ class Admin extends CI_Controller
             ],
         );
 
-        $city = $this->model_city->get_all();
-        $country = $this->model_country->get_all();
-
         $data = array(
-            'content' => $this->load->view('/admin/edit_products', [
-                'providers' => $providers,
-                'city' => $city,
-                'country' => $country,
-                'products' => $products,
-            ], true),
+            'content' => $this->load->view('/admin/edit_products', $data, true),
             'bred' => $bred,
         );
         $this->load->view('/admin/main', $data);
@@ -1323,7 +1384,7 @@ class Admin extends CI_Controller
                 $row[] = $delivery->cou_name;
                 $row[] = $delivery->reg_name;
                 $row[] = $delivery->cit_name;
-                $row[] = $delivery->dis_name;
+                $row[] = ($delivery->del_id_district == -1) ? 'ВСЕ' : $delivery->dis_name;
                 $row[] = '
             <a class="btn btn-danger deleteAddress"  data-toggle="modal" href="#myModal4" id="' . $delivery->del_id . '">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
@@ -1351,15 +1412,18 @@ class Admin extends CI_Controller
         else
             $id_user = $this->input->get('provider');
         $data = array();
+        $delivery_product = $this->input->get('delivery_product');
+        if (isset($delivery_product))
+            $delivery_product = explode(',', $delivery_product);
         if ($id_user) {
             $list = $this->model_delivery->get_datatables();
             foreach ($list as $delivery) {
                 $row = array();
-                $row[] = '<input type="checkbox" name="delivery_id[]" value="' . $delivery->del_id . '">';
+                $row[] = '<input type="checkbox"' . ((isset($delivery_product) && in_array($delivery->del_id, $delivery_product)) ? 'checked' : '') . ' name="delivery_id[]" value="' . $delivery->del_id . '">';
                 $row[] = $delivery->cou_name;
                 $row[] = $delivery->reg_name;
                 $row[] = $delivery->cit_name;
-                $row[] = $delivery->dis_name;
+                $row[] = ($delivery->del_id_district == -1) ? 'ВСЕ' : $delivery->dis_name;
                 $data[] = $row;
             }
         }
@@ -1373,6 +1437,46 @@ class Admin extends CI_Controller
         echo json_encode($output);
     }
 
+    function ajax_delivery_areas()
+    {
+        $this->load->model('model_delivery');
+
+        $list = $this->model_delivery->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $location) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $location->cou_name;
+            $row[] = $location->reg_name;
+            $row[] = $location->cit_name;
+            $row[] = $location->dis_name;
+            $row[] = '<a class="btn btn-success" href="/admin/view_managers/' . $location->cou_id . '">
+                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
+                View
+            </a>
+            <a class="btn btn-info" href="/admin/edit_managers/' . $location->cou_id . '">
+                <i class="glyphicon glyphicon-edit icon-white"></i>
+                Edit
+            </a>
+            <a class="btn btn-danger" href="/admin/delete_managers/' . $location->cou_id . '">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                Delete
+            </a>';
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->model_delivery->count_all(),
+            "recordsFiltered" => $this->model_delivery->count_filtered(),
+            "data" => $data,
+            'query' => $this->db->last_query()
+        );
+        echo json_encode($output);
+    }
+
     function ajax_products()
     {
         $this->load->model('model_products');
@@ -1382,14 +1486,14 @@ class Admin extends CI_Controller
         foreach ($list as $products) {
             $no++;
             $row = array();
-            $row[] = $no;
+            $row[] = $products->use_organization;
             $row[] = $products->prd_title;
-            $row[] = $products->prd_description;
+
             $row[] = $products->prd_title_producer;
             $row[] = $products->prd_comments;
             $row[] = $products->prd_volume_price;
             $row[] = $products->prd_price;
-            $row[] = $products->cou_name;
+            $row[] = $this->model_products->get_locations($products->prd_id);
 
             //$row[] = '<span class="label-success label label-default">Active</span>';
             $row[] = '<a target="_blank" class="btn btn-success" href="/admin/view_products/' . $products->prd_id . '">

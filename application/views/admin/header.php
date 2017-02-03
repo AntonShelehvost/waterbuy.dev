@@ -132,12 +132,7 @@
                         <li><a href="#">One more separated link</a></li>
                     </ul>
                 </li>
-                <li>
-                    <form class="navbar-search pull-left">
-                        <input placeholder="Поиск" class="search-query form-control col-md-10" name="query"
-                               type="text">
-                    </form>
-                </li>
+
             </ul>
 
         </div>
@@ -306,7 +301,7 @@
                                 <li>
                                     <a href="/admin/location">
                                         <i class="glyphicon glyphicon-plus"></i>
-                                        <span> Локация</span>
+                                        <span> Районы</span>
                                     </a>
                                 </li>
                                 <li>
