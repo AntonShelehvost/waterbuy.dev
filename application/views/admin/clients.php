@@ -30,13 +30,10 @@
 				<table class="table table-striped table-bordered responsive" id="clients">
 					<thead>
 					<tr>
-						<th>No</th>
-						<th>Organizations</th>
-						<th>Username</th>
-						<th>Date registered</th>
-						<th>Phone</th>
-						<th>Role</th>
-						<th>Status</th>
+						<th>№</th>
+						<th>ФИО</th>
+						<th>Телефон</th>
+						<th>Адрес</th>
 						<th>Actions</th>
 					</tr>
 					</thead>

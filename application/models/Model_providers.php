@@ -94,8 +94,13 @@ class Model_providers extends CI_Model
     {
 
         $this->db->from($this->table);
-        $this->db->join('employee', 'emp_id_user=use_id_user and emp_employees_groups_id=2');
+        $this->db->join('employee', 'emp_id_user=use_id and emp_employees_groups_id=2');
         $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id');
+
+        $this->db->join('country', 'users.use_id_country = country.cou_id', 'left');
+        $this->db->join('region', 'users.use_id_region = region.reg_id', 'left');
+        $this->db->join('city', 'users.use_id_city = city.cit_id', 'left');
+        $this->db->join('district', 'users.use_id_district = district.dis_id', 'left');
         $i = 0;
 
         foreach ($this->column_search as $item) // loop column
@@ -150,8 +155,12 @@ class Model_providers extends CI_Model
     public function count_all()
     {
         $this->db->from($this->table);
-        $this->db->join('employee', 'emp_id_user=use_id_user and emp_employees_groups_id=2');
+        $this->db->join('employee', 'emp_id_user=use_id and emp_employees_groups_id=2');
         $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id');
+        $this->db->join('country', 'users.use_id_country = country.cou_id', 'left');
+        $this->db->join('region', 'users.use_id_region = region.reg_id', 'left');
+        $this->db->join('city', 'users.use_id_city = city.cit_id', 'left');
+        $this->db->join('district', 'users.use_id_district = district.dis_id', 'left');
         return $this->db->count_all_results();
     }
 

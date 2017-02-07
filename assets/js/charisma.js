@@ -346,6 +346,36 @@ function docReady() {
                 } else console.log('Something wrong in answer');
             }
         });
+        if ($(".min_order").length) {
+            $.ajax({
+                url: "/admin/get_min_order",
+                data: {country: $('.country').val(), region: $('.region').val(), city: $(this).val()},
+                type: 'GET',
+                context: document.body,
+                dataType: "json",
+                success: function (data) {
+                    if (data !== false) {
+                        var lists = $('.district');
+                        $.each(lists, function (ind, list) {
+                            $(list).empty();
+                            $(list).append(new Option('- ВСЕ -', -1));
+                            $.each(data, function (index, item) {
+                                $(list).append(new Option(item.dis_name, item.dis_id));
+                            });
+                            $(list).chosen({width: '100%'});
+                            $(list).trigger("chosen:updated");
+                        });
+                    } else console.log('Something wrong in answer');
+                }
+            });
+        }
+        set_city_value(value);
+    });
+
+
+    $('.min_order').on('change', function (e) {
+        var value = $(this).val();
+
         set_city_value(value);
     });
 

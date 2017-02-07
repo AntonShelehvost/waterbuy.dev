@@ -899,10 +899,19 @@ class Admin extends CI_Controller
         $this->load->model('model_providers');
         $this->load->model('model_city');
         $this->load->model('model_country');
+        $this->load->model('model_category');
+        $this->load->model('model_clients');
         $providers = $this->model_providers->get_all();
-        $city = $this->model_city->get_all();
+        $country = $this->model_country->get_all();
+        $category = $this->model_category->get_category_tree();
+        $client = $this->model_clients->get_all();
         $data = array(
-            'content' => $this->load->view('/admin/add_orders', ['providers' => $providers, 'city' => $city], true),
+            'content' => $this->load->view('/admin/add_orders',
+                ['providers' => $providers,
+                    'country' => $country,
+                    'category' => $category,
+                    'client' => $client
+                ], true),
             'bred' => $bred,
         );
         $this->load->view('/admin/main', $data);
@@ -1027,7 +1036,9 @@ class Admin extends CI_Controller
 
                 $data['error1'] = 'prd_file_certificates:' . $this->upload->display_errors();
             } else {
-                $data['res'] = $res = parse_excel_file('./uploads/' . $_POST['prd_file_certificates']);
+                $upload_data = $this->upload->data(); //Returns array of containing all of the data related to the file you uploaded.
+                $file_name = $upload_data['file_name'];
+                $data['res'] = $res = parse_excel_file('./uploads/' . $file_name);
                 //print_r( $res );
                 $delivery = $this->input->post('delivery_id');
                 unset($_POST['delivery_id']);
@@ -1252,14 +1263,30 @@ class Admin extends CI_Controller
                 $clients->use_name,
                 $clients->use_father_name,
             ];
+            $address = [
+
+                $clients->cou_name,
+                $clients->reg_name,
+                'г.',
+                $clients->cit_name,
+                ($clients->use_id_district == -1) ? 'ВСЕ' : $clients->dis_name,
+                'ул.',
+                $clients->use_street,
+                ', дом.',
+                $clients->use_building,
+                ', кв.',
+                $clients->use_room,
+                ', домоф.',
+                $clients->use_intercom,
+                ' заезд',
+                $clients->use_destonation,
+            ];
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $clients->use_organization;
             $row[] = implode(' ', $name);
-            $row[] = $clients->emp_online_date;
             $row[] = $clients->use_phone;
-            $row[] = $clients->emg_name;
+            $row[] = implode(' ', $address);
             $row[] = '<span class="label-success label label-default">Active</span>';
             $row[] = '<a class="btn btn-success" href="/admin/view_clients/' . $clients->use_id . '">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
@@ -1292,30 +1319,53 @@ class Admin extends CI_Controller
         $list = $this->model_providers->get_datatables();
         $data = array();
         $no = $_POST['start'];
-        foreach ($list as $providers) {
+        foreach ($list as $clients) {
             $name = [
-                $providers->pro_last_name,
-                $providers->pro_name,
-                $providers->pro_father_name,
+                $clients->use_last_name,
+                $clients->use_name,
+                $clients->use_father_name,
+            ];
+            $name2 = [
+                $clients->use_last_name_logist,
+                $clients->use_name_logist,
+                $clients->use_father_name_logist,
+            ];
+            $address = [
+
+                $clients->cou_name,
+                $clients->reg_name,
+                'г.',
+                $clients->cit_name,
+                ($clients->use_id_district == -1) ? 'ВСЕ' : $clients->dis_name,
+                'ул.',
+                $clients->use_street,
+                ', дом.',
+                $clients->use_building,
+                ', кв.',
+                $clients->use_room,
+                ', домоф.',
+                $clients->use_intercom,
+                ' заезд',
+                $clients->use_destonation,
             ];
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $providers->pro_organization;
+            $row[] = $clients->use_organization;
             $row[] = implode(' ', $name);
-            $row[] = $providers->emp_online_date;
-            $row[] = $providers->pro_phone;
-            $row[] = $providers->emg_name;
+            $row[] = $clients->use_phone;
+            $row[] = implode(' ', $name2);
+            $row[] = $clients->use_phone_logist;
             $row[] = '<span class="label-success label label-default">Active</span>';
-            $row[] = '<a class="btn btn-success" href="/admin/view_providers/' . $providers->pro_id . '">
+            $row[] = '<a class="btn btn-success" href="/admin/view_providers/' . $clients->use_id . '">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 View
             </a>
-            <a class="btn btn-info" href="/admin/edit_providers/' . $providers->pro_id . '">
+            <a class="btn btn-info" href="/admin/edit_providers/' . $clients->use_id . '">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="/admin/delete_providers/' . $providers->pro_id . '">
+            <a class="btn btn-danger" href="/admin/delete_providers/' . $clients->use_id . '">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>';
@@ -1669,6 +1719,12 @@ class Admin extends CI_Controller
     {
         $this->load->model('model_district', 'district');
         echo json_encode($this->district->get_district($this->input->get('country'), $this->input->get('region'), $this->input->get('city')));
+    }
+
+    public function get_min_order()
+    {
+        $this->load->model('model_products');
+        echo json_encode($this->model_products->get_min_order($this->input->get('country'), $this->input->get('region'), $this->input->get('city')));
     }
 
     function profile()

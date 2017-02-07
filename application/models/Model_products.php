@@ -172,4 +172,17 @@ class Model_products extends CI_Model
         $this->db->where('prd_id', $id);
         return $this->db->delete($this->table);
     }
+
+    function get_min_order($country, $department = null, $city = null)
+    {
+        if (!isset($country)) return false;
+        if (isset($department))
+            $this->db->where('dis_id_region', $department);
+        if (isset($city))
+            $this->db->where('dis_id_city', $city);
+
+
+    }
+
+
 } // endClass

@@ -19,12 +19,9 @@ $success = $this->session->flashdata('success');
                     <h2><i class="glyphicon glyphicon-edit"></i> Импорт товара</h2>
 
                     <div class="box-icon">
-                        <a href="#" class="btn btn-setting btn-round btn-default"><i
-                                class="glyphicon glyphicon-cog"></i></a>
                         <a href="#" class="btn btn-minimize btn-round btn-default"><i
                                 class="glyphicon glyphicon-chevron-up"></i></a>
-                        <a href="#" class="btn btn-close btn-round btn-default"><i
-                                class="glyphicon glyphicon-remove"></i></a>
+
                     </div>
                 </div>
                 <div class="box-content">
@@ -133,12 +130,9 @@ $success = $this->session->flashdata('success');
                     <h2><i class="glyphicon glyphicon-edit"></i> Добавить товар</h2>
 
                     <div class="box-icon">
-                        <a href="#" class="btn btn-setting btn-round btn-default"><i
-                                class="glyphicon glyphicon-cog"></i></a>
                         <a href="#" class="btn btn-minimize btn-round btn-default"><i
                                 class="glyphicon glyphicon-chevron-up"></i></a>
-                        <a href="#" class="btn btn-close btn-round btn-default"><i
-                                class="glyphicon glyphicon-remove"></i></a>
+
                     </div>
                 </div>
                 <div class="box-content">
