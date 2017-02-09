@@ -17,7 +17,8 @@
         </div>
         <div class="panel-body">
             <div class="img-responsive col-xs-12 col-md-2">
-                <img src="/assets/img/myrgorod.png" alt="Event 2"
+                <img width="220" src="<?= (!empty($prd_file)) ? '/uploads/' . $prd_file : '/assets/img/no_photo.png' ?>"
+                     alt="Event 2"
                      class="img-responsive center-block">
             </div>
             <div class="col-xs-12 col-md-10">
@@ -33,33 +34,25 @@
                 <div class="col-xs-12 col-md-6">
                     <label for=""> Количество </label>
                     <div class="input-group  col-md-4">
-                                                                 <span class="input-group-btn">
-                                                                 <button id="minus" class="btn btn-primary"
-                                                                         type="button">-
-                                                                 </button>
-                                                                 </span>
-                        <input id="calc" type="text"
-                               class="form-control text-center" value="1">
+                         <span class="input-group-btn">
+                             <button  class="btn btn-primary minus"
+                                     type="button">-
+                             </button>
+                         </span>
+                        <input id="" type="text" class="form-control text-center calc" value="1">
                         <span class="input-group-btn">
-                                                                 <button id="plus" class="btn btn-info"
-                                                                         type="button">+
-                                                                 </button>
-                                                                 </span>
+                            <button class="btn btn-info plus"
+                             type="button">+
+                            </button>
+                        </span>
                     </div><!-- /input-group -->
-                    <script>
-                        $('#minus').click(function () {
-                            $("#calc").val(parseInt($("#calc").val()) - 1);
-                        });
-                        $('#plus').click(function () {
-                            $("#calc").val(parseInt($("#calc").val()) + 1);
-                        });
-                    </script>
+
                 </div>
                 <div class=" col-xs-12 col-md-10">
                     <?= $prd_description; ?>
                 </div>
                 <div class="col-xs-12 col-md-12">
-                    <a href="#" class="btn btn-primary add_item" data-id="<?= $prd_id ?>" data-toggle="modal"><i
+                    <a href="#" class="btn btn-primary add_order_item" data-id="<?= $prd_id ?>" data-toggle="modal"><i
                             class="glyphicon glyphicon-shopping-cart"></i>Добавить
                         в заказ</a>
                 </div>

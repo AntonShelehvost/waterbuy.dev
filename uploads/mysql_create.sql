@@ -162,13 +162,13 @@ CREATE TABLE `products` (
 	PRIMARY KEY (`prd_id`)
 );
 CREATE TABLE `orders` (
-  `odr_id`                INT       NOT NULL AUTO_INCREMENT,
+  `ord_id`                INT       NOT NULL AUTO_INCREMENT,
   `ord_id_user`           INT,
   `ord_father_name`       varchar(255),
   `ord_name`              varchar(255),
   `ord_last_name`         varchar(255),
   `ord_phone`             varchar(25),
-  `ord_commetns`          TEXT,
+  `ord_comments`          TEXT,
   `ord_delivery_datetime` DATETIME,
   `ord_author`            INT,
   `ord_id_country`        INT,
@@ -196,6 +196,7 @@ CREATE TABLE `category` (
 CREATE TABLE `orders_items` (
   `ori_id`          INT       NOT NULL AUTO_INCREMENT,
   `ori_id_products` INT       NOT NULL,
+  `ori_id_orders`   INT       NOT NULL,
   `ori_count`       INT                DEFAULT '1',
   `ori_price`       FLOAT(10,2)        DEFAULT '0',
   `ori_sum`         FLOAT(10,2)        DEFAULT '0',

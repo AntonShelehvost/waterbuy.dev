@@ -13,7 +13,7 @@
 }
 
 .chosen-container.chosen-container-single {
-    width: 250px !important;
+   /* width: 250px !important;*/
 }
 
 .float-right {
@@ -130,3 +130,7 @@ CSS
 }
 
 /*END Form Wizard*/
+
+.float-right-1{
+    float: right;
+}

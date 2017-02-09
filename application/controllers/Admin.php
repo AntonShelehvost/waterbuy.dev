@@ -1128,7 +1128,7 @@ class Admin extends CI_Controller
                 $this->form_validation->set_rules('prd_title', 'prd_title', 'trim|required');
                 $this->form_validation->set_rules('prd_description', 'prd_description', 'trim|required|is_unique[users.use_email]');
                 $this->form_validation->set_rules('prd_title_producer', 'prd_title_producer', 'trim|required');
-                $this->form_validation->set_rules('prd_comments', 'prd_comments', 'trim|required');
+                //$this->form_validation->set_rules('prd_comments', 'prd_comments', 'trim|required');
                 $this->form_validation->set_rules('prd_volume_price', 'prd_volume_price', 'trim|required');
                 $this->form_validation->set_rules('prd_price', 'prd_price', 'trim|required');
                 $this->form_validation->set_rules('delivery_id[]', 'delivery_id[]', 'required');
@@ -1719,7 +1719,6 @@ class Admin extends CI_Controller
     {
         $this->load->model('model_district', 'district');
         echo json_encode($this->district->get_district((int)$this->input->get('country'), (int)$this->input->get('region'), (int)$this->input->get('city')));
-
     }
 
     public function get_min_order()
@@ -1728,33 +1727,146 @@ class Admin extends CI_Controller
         echo json_encode($this->model_products->get_min_order((int)$this->input->get('country'), (int)$this->input->get('region'), (int)$this->input->get('city')));
     }
 
+    public function update_order(){
+        $this->load->model('model_orders');
+        $id = $this->input->post('order_id');
+        unset($_POST['order_id']);
+        $this->model_orders->update($id);
+        echo json_encode(['message'=>'Заказ сохранен успешно!']);
+    }
+
+    public function get_order_items()
+    {
+        $this->load->model('model_orders_items');
+        //die(var_dump($_GET));
+        $list = $this->model_orders_items->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $items) {
+            $no++;
+            $row = array();
+            $row[] = $items->prd_title;
+            $row[] = $items->ori_price;
+            $row[] = $items->ori_count;
+            $row[] = $items->ori_sum;
+            $row[] = '
+            <a class="btn btn-info"  id="' . $items->ori_id . '">
+                <i class="glyphicon glyphicon-edit icon-white"></i>
+                Edit
+            </a>
+            <a class="btn btn-danger" data-toggle="modal" href="#myModalDelete"  id="' . $items->ori_id . '">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                Delete
+            </a>';
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->model_orders_items->count_all(),
+            "recordsFiltered" => $this->model_orders_items->count_filtered(),
+            "data" => $data,
+            'query' => $this->db->last_query()
+        );
+        echo json_encode($output);
+    }
+
+    public function add_order_item()
+    {
+        //die(var_dump($_POST));
+        $this->load->model('model_products');
+        $this->load->model('model_orders_items');
+        $post = $this->input->post();
+        $data = [];
+        $data['success'] = false;
+        $data['error'] = '';
+        $data['order_id'] = (int)$post['order_id'];
+        $order_id = (int)$post['order_id'];
+        if ((int)$post['order_id'] == 0) {
+            $order_id = $this->add_order();
+        }
+        if ($order_id > 0) {
+            $data['order_id'] = $order_id;
+            $products = $this->model_products->find($post['product_id']);
+            $products = (isset($products[0]) ? $products[0] : false);
+            if (isset($products) && !empty($products)) {
+                $insert_data = [
+                    'ori_id_products' => $products->prd_id,
+                    'ori_id_orders' => $order_id,
+                    'ori_count' => $post['amount'],
+                    'ori_price' => $products->prd_price,
+                    'ori_sum' => $products->prd_price * $post['amount'],
+                    'ori_done' => 0,
+                    'ori_comments' => '',
+                    'created_at' => date('Y-m-d H:i:s')
+                ];
+                $result = $this->model_orders_items->insert_data($insert_data);
+                $data['success'] = $result;
+                $data['error'] = ($result) ? '' : 'Ошибка добавления позиции товара';
+            } else {
+                $data['error'] = 'Указанный товар не найден';
+            }
+        } else {
+            $data['error'] = 'Ошибка создания заказа';
+        }
+        echo json_encode($data);
+    }
+
+    public function add_order()
+    {
+        $this->load->model('model_orders');
+        $data = [
+            'odr_id' => NULL,
+            'ord_id_user' => NULL,
+            'ord_father_name' => NULL,
+            'ord_name' => NULL,
+            'ord_last_name' => NULL,
+            'ord_phone' => NULL,
+            'ord_comments' => NULL,
+            'ord_delivery_datetime' => NULL,
+            'ord_author' => NULL,
+            'ord_id_country' => NULL,
+            'ord_id_region' => NULL,
+            'ord_id_city' => NULL,
+            'ord_id_district' => NULL,
+            'ord_street' => NULL,
+            'ord_building' => NULL,
+            'ord_room' => NULL,
+            'ord_intercom' => NULL,
+            'ord_destonation' => NULL,
+            'ord_done' => 0,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        return $this->model_orders->insert_data($data);
+    }
+
     public function filter_product()
     {
         $this->load->model('model_products');
         $data = [];
         $order = 'prd_id';
         $category = (int)$this->input->post('category');
-        $country = (int)$this->input->post('country');
-        $region = (int)$this->input->post('region');
-        $city = (int)$this->input->post('city');
-        $district = (int)$this->input->post('district');
+        $country = (int)$this->input->post('ord_id_country');
+        $region = (int)$this->input->post('ord_id_region');
+        $city = (int)$this->input->post('ord_id_city');
+        $district = (int)$this->input->post('ord_id_district');
         $min_order = (int)$this->input->post('min_order');
         $min_liytov = (int)$this->input->post('min_liytov');
         $order_price = $this->input->post('order_price');
         if (!empty($category))
-            $data = ['prd_id_category' => $category];
+            $data['prd_id_category'] = $category;
         if (!empty($country))
-            $data = ['del_id_country' => $country];
+            $data['del_id_country'] = $country;
         if (!empty($region))
-            $data = ['del_id_region' => $region];
+            $data['del_id_region'] = $region;
         if (!empty($city))
-            $data = ['del_id_city' => $city];
+            $data['del_id_city'] = $city;
         if (!empty($min_order))
-            $data = ['prd_amount_min' => $min_order];
+            $data['prd_amount_min'] = $min_order;
         if (!empty($min_liytov))
-            $data = ['prd_volume_price' => $min_liytov];
-        if (!empty($district))
-            $data = ['del_id_district' => $district];
+            $data['prd_volume_price'] = $min_liytov;
+        if (!empty($district) && $district > 0)
+            $data['del_id_district'] = $district;
         if (!empty($order_price))
             $order = 'prd_price ' . $order_price;
 

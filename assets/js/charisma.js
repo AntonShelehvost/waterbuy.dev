@@ -131,6 +131,7 @@ function set_country_value(value) {
     var lists = $('div.modal-body > form > div.form-group > select.country')
     $.each(lists, function (ind, list) {
         $(list).val(value);
+        $(list).chosen({width: '100%!important'});
         $(list).trigger("chosen:updated");
     })
 }
@@ -140,6 +141,7 @@ function set_region_value(value) {
     var lists = $('div.modal-body > form > div.form-group > select.region')
     $.each(lists, function (ind, list) {
         $(list).val(value);
+        $(list).chosen({width: '100%!important'});
         $(list).trigger("chosen:updated");
     })
 }
@@ -148,6 +150,7 @@ function set_city_value(value) {
     var lists = $('div.modal-body > form > div.form-group > select.city')
     $.each(lists, function (ind, list) {
         $(list).val(value);
+        $(list).chosen({width: '100%!important'});
         $(list).trigger("chosen:updated");
     })
 }
@@ -196,6 +199,76 @@ function docReady() {
                 $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
             }
         }, 'json');
+    });
+    $(document).on('click', '.minus', function () {
+        var count = $(this).parent().parent().find('.calc');
+        $(count).val(parseInt($(count).val()) - 1);
+    });
+    $(document).on('click', '.plus', function () {
+        var count = $(this).parent().parent().find('.calc');
+        $(count).val(parseInt($(count).val()) + 1);
+    });
+
+
+    $(document).on('click', '.update_order', function () {
+
+        $.post('/admin/update_order',
+            {
+                'ord_father_name': $('input[name="ord_father_name"]').val(),
+                'ord_name': $('input[name="ord_name"]').val(),
+                'ord_last_name': $('input[name="ord_last_name"]').val(),
+                'ord_phone': $('input[name="ord_phone"]').val(),
+                'ord_comments': $('input[name="ord_comments"]').val(),
+                'ord_delivery_datetime': $('input[name="ord_delivery_datetime"]').val(),
+                'ord_id_country': $('input[name="ord_id_country"]').val(),
+                'ord_id_region': $('input[name="ord_id_region"]').val(),
+                'ord_id_city': $('input[name="ord_id_city"]').val(),
+                'ord_id_district': $('input[name="ord_id_district"]').val(),
+                'ord_street': $('input[name="ord_street"]').val(),
+                'ord_building': $('input[name="ord_building"]').val(),
+                'ord_room': $('input[name="ord_room"]').val(),
+                'ord_intercom': $('input[name="ord_intercom"]').val(),
+                'ord_destonation': $('input[name="ord_destonation"]').val(),
+                'order_id': $('#order_id').val()
+            },
+            function (data) {
+                if (data.message !== false) {
+                    $('.alert-success').removeClass('hide');
+                    $('.alert-success').html(data.message);
+                    $('input[name="ord_father_name"]').val(''),
+                    $('input[name="ord_name"]').val(''),
+                    $('input[name="ord_last_name"]').val(''),
+                    $('input[name="ord_phone"]').val(''),
+                    $('input[name="ord_comments"]').val(''),
+                    $('input[name="ord_street"]').val(''),
+                    $('input[name="ord_building"]').val(''),
+                    $('input[name="ord_room"]').val(''),
+                    $('input[name="ord_intercom"]').val(''),
+                    $('input[name="ord_destonation"]').val(''),
+                    $('#order_id').val(0);
+                    table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
+                    table.ajax.reload();
+
+                }
+                console.log(data);
+            }, 'json');
+    });
+    $(document).on('click', '.add_order_item', function () {
+        $.post('/admin/add_order_item',
+            {
+                order_id: $('#order_id').val(),
+                product_id: $(this).attr('data-id'),
+                amount: $(this).parent().parent().find('.calc').val()
+            },
+            function (data) {
+                if (data.success !== false) {
+                    $('#order_id').val(data.order_id);
+                    table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
+                    table.ajax.reload();
+
+                }
+                console.log(data);
+            }, 'json');
     });
 
     $('#Form_district_submit').on('click', function () {
@@ -254,13 +327,13 @@ function docReady() {
         var url = $(this).attr('form_url');
         var that = $(this).parent().parent();
         $.post(url, $(that).serialize(), function (data) {
-            if (data.success !== false) {
-                $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.success + '</div>')
-            }
-            else {
-                $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
-            }
-        }, 'json')
+                if (data.success !== false) {
+                    $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.success + '</div>')
+                }
+                else {
+                    $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
+                }
+            }, 'json')
             .fail(function (xhr, status, error) {
                 $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>');
             });
@@ -287,7 +360,7 @@ function docReady() {
                         $.each(data, function (index, item) {
                             $(list).append(new Option(item.reg_name, item.reg_id));
                         });
-                        $(list).chosen({width: '100%'});
+                        $(list).chosen({width: '100%!important'});
                         $(list).trigger("chosen:updated");
                         $('.region').change();
                     });
@@ -313,7 +386,7 @@ function docReady() {
                         $.each(data, function (index, item) {
                             $(list).append(new Option(item.cit_name, item.cit_id));
                         });
-                        $(list).chosen({width: '100%'});
+                        $(list).chosen({width: '100%!important'});
                         $(list).trigger("chosen:updated");
                         $('.city').change();
                     });
@@ -340,35 +413,35 @@ function docReady() {
                         $.each(data, function (index, item) {
                             $(list).append(new Option(item.dis_name, item.dis_id));
                         });
-                        $(list).chosen({width: '100%'});
+                        $(list).chosen({width: '100%!important'});
                         $(list).trigger("chosen:updated");
                     });
                 } else console.log('Something wrong in answer');
             }
         });
-        if ($(".min_order").length) {
-            $.ajax({
-                url: "/admin/get_min_order",
-                data: {country: $('.country').val(), region: $('.region').val(), city: $(this).val()},
-                type: 'GET',
-                context: document.body,
-                dataType: "json",
-                success: function (data) {
-                    if (data !== false) {
-                        var lists = $('.district');
-                        $.each(lists, function (ind, list) {
-                            $(list).empty();
-                            $(list).append(new Option('- ВСЕ -', -1));
-                            $.each(data, function (index, item) {
-                                $(list).append(new Option(item.dis_name, item.dis_id));
-                            });
-                            $(list).chosen({width: '100%'});
-                            $(list).trigger("chosen:updated");
-                        });
-                    } else console.log('Something wrong in answer');
-                }
-            });
-        }
+        /*if ($(".min_order").length) {
+         $.ajax({
+         url: "/admin/get_min_order",
+         data: {country: $('.country').val(), region: $('.region').val(), city: $(this).val()},
+         type: 'GET',
+         context: document.body,
+         dataType: "json",
+         success: function (data) {
+         if (data !== false) {
+         var lists = $('.district');
+         $.each(lists, function (ind, list) {
+         $(list).empty();
+         $(list).append(new Option('- ВСЕ -', -1));
+         $.each(data, function (index, item) {
+         $(list).append(new Option(item.dis_name, item.dis_id));
+         });
+         $(list).chosen({width: '100%'});
+         $(list).trigger("chosen:updated");
+         });
+         } else console.log('Something wrong in answer');
+         }
+         });
+         }*/
         set_city_value(value);
     });
 
@@ -379,7 +452,7 @@ function docReady() {
         set_city_value(value);
     });
 
-    $('.country').chosen({width: '100%'});
+    $('.country').chosen({width: '100%!important'});
     $('.country').change();
 
     //chosen - improves select
