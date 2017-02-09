@@ -68,16 +68,26 @@ class Model_products extends CI_Model
 
     function update($id)
     {
-
         $this->db->where('prd_id', $id);
         return $this->db->update($this->table, $this->input->post());
     }
 
+    public function get_products($where, $order)
+    {
+        $this->db->where($where);
+        $this->db->join('users', $this->table . '.prd_id_user = users.use_id');
+        $this->db->join('delivery_product', $this->table . '.prd_id = delivery_product.dep_id_product');
+        $this->db->join('delivery', 'delivery_product.dep_id_delivery = delivery.del_id');
+        $this->db->from($this->table);
+        $this->db->order_by($order);
+        $query = $this->db->get();
+        return $query->result();
+
+    }
+
     private function _get_datatables_query()
     {
-
         $this->db->from($this->table);
-
         $this->db->join('users', $this->table . '.prd_id_user = users.use_id');
         $this->db->join('employee', 'users.use_id = employee.emp_id_user');
         $this->db->join('employees_groups', 'employee.emp_employees_groups_id = employees_groups.emg_id and employees_groups.emg_id=2');

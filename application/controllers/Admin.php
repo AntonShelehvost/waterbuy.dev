@@ -1718,13 +1718,54 @@ class Admin extends CI_Controller
     public function get_district()
     {
         $this->load->model('model_district', 'district');
-        echo json_encode($this->district->get_district($this->input->get('country'), $this->input->get('region'), $this->input->get('city')));
+        echo json_encode($this->district->get_district((int)$this->input->get('country'), (int)$this->input->get('region'), (int)$this->input->get('city')));
+
     }
 
     public function get_min_order()
     {
         $this->load->model('model_products');
-        echo json_encode($this->model_products->get_min_order($this->input->get('country'), $this->input->get('region'), $this->input->get('city')));
+        echo json_encode($this->model_products->get_min_order((int)$this->input->get('country'), (int)$this->input->get('region'), (int)$this->input->get('city')));
+    }
+
+    public function filter_product()
+    {
+        $this->load->model('model_products');
+        $data = [];
+        $order = 'prd_id';
+        $category = (int)$this->input->post('category');
+        $country = (int)$this->input->post('country');
+        $region = (int)$this->input->post('region');
+        $city = (int)$this->input->post('city');
+        $district = (int)$this->input->post('district');
+        $min_order = (int)$this->input->post('min_order');
+        $min_liytov = (int)$this->input->post('min_liytov');
+        $order_price = $this->input->post('order_price');
+        if (!empty($category))
+            $data = ['prd_id_category' => $category];
+        if (!empty($country))
+            $data = ['del_id_country' => $country];
+        if (!empty($region))
+            $data = ['del_id_region' => $region];
+        if (!empty($city))
+            $data = ['del_id_city' => $city];
+        if (!empty($min_order))
+            $data = ['prd_amount_min' => $min_order];
+        if (!empty($min_liytov))
+            $data = ['prd_volume_price' => $min_liytov];
+        if (!empty($district))
+            $data = ['del_id_district' => $district];
+        if (!empty($order_price))
+            $order = 'prd_price ' . $order_price;
+
+        $product = $this->model_products->get_products($data, $order);
+
+        $html = '';
+
+        foreach ($product as $item) {
+            $html .= $this->load->view('/admin/one_product', $item, true);
+        }
+        echo json_encode(array('html' => $html, 'query' => $this->db->last_query()));
     }
 
     function profile()

@@ -748,7 +748,13 @@ function docReady() {
             console.log(data);
         }, 'json');
     });
-
+    $(document).on('change', "#formFilter select", function () {
+        var that = $(this);
+        post('/admin/filter_product', $('#formFilter').serialize(), function (data) {
+            $('#panel1 > div').html(data.html);
+            console.log(data);
+        }, 'json');
+    });
 
     $(document).on('click', '.deleteCategory', function () {
         $('#cat_id').val($(this).attr('id'));
