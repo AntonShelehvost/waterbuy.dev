@@ -23,7 +23,7 @@
             <div class="box col-md-12">
                 <div class="box-inner">
                     <div class="box-header well" data-original-title="">
-                        <h2><i class="glyphicon glyphicon-shopping-cart"></i> Клиент</h2>
+                        <h2><i class="glyphicon glyphicon-user"></i> Клиент</h2>
                         <div class="box-icon">
                             <a href="#" class="btn btn-minimize btn-round btn-default"><i
                                     class="glyphicon glyphicon-chevron-up"></i></a>
@@ -62,7 +62,8 @@
 
                                 <div class="col-xs-12 col-md-4">
                                     <label for="firstName">Имя:</label>
-                                    <input name="ord_name" type="text" class="form-control" id="firstName" placeholder="Введите имя">
+                                    <input name="ord_name" type="text" class="form-control" id="firstName"
+                                           placeholder="Введите имя">
                                     <p class="help-block">Введите имя клиента, если он еще не зарегистрирован на
                                         сайте.</p>
                                 </div>
@@ -89,13 +90,11 @@
                 </div>
             </div>
         </div>
-
-
         <div class="row">
             <div class="box col-md-12">
                 <div class="box-inner">
                     <div class="box-header well" data-original-title="">
-                        <h2><i class="glyphicon glyphicon-cog"></i> Фильтр </h2>
+                        <h2><i class="glyphicon glyphicon-filter"></i> Фильтр </h2>
 
                         <div class="box-icon">
                             <a href="#" class="btn btn-minimize btn-round btn-default"><i
@@ -235,13 +234,12 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <form class="form-horizontal">
                 <div class="box col-md-12">
                     <div class="box-inner">
                         <div class="box-header well" data-original-title="">
-                            <h2><i class="glyphicon glyphicon-shopping-cart"></i> Список товаров</h2>
+                            <h2><i class="glyphicon glyphicon-barcode"></i> Список товаров</h2>
                             <div class="box-icon">
                                 <a href="#" class="btn btn-minimize btn-round btn-default"><i
                                         class="glyphicon glyphicon-chevron-up"></i></a>
@@ -271,90 +269,123 @@
                         </div>
                     </div>
                     <div class="box-content">
-                        <table id="order_items" class="table table-striped table-bordered responsive dataTable ">
-                            <thead>
-                            <tr>
-                                <th>Наименование товара</th>
-                                <th>Цена</th>
-                                <th>Количество</th>
-                                <th>Итог</th>
-                                <th>Действия</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                        <br>
                         <div class="form-group">
-                            <div class="col-xs-12 col-md-4">
-                                <label for="">Дата доставки:</label>
-                                <div class="input-group" id="">
-                                    <input type="date" class="form-control" value="<?= date('Y-m-d'); ?>"/>
+                            <div class="col-md-12 alert alert-success alert-mess hide" role="alert"></div>
+                            <table id="order_items"
+                                   class="table table-striped table-bordered responsive dataTable ">
+                                <thead>
+                                <tr>
+                                    <th>Наименование товара</th>
+                                    <th>Цена</th>
+                                    <th>Количество</th>
+                                    <th>Сумма</th>
+                                    <th>Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th style="text-align:right" colspan="4">Total:</th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-md-4">
+                                        <label for="">Дата доставки:</label>
+                                        <div class="input-group">
+                                            <input type="date" class="form-control" value="<?= date('Y-m-d'); ?>"/>
+                                        </div>
+                                        <p class="help-block">Нажмите на поле для отображения календаря</p>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <label for="">Время доставки:</label>
+                                        <div class="input-group">
+                                            <input name="ord_delivery_datetime" type="time"
+                                                   class="form-control border-radius-3"
+                                                   value="<?= date("H:i"); ?>"/>
+                                        </div>
+                                        <p class="help-block">Нажмите на поле для ввода времени</p>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <label for="postalAddress">Номер дома:</label>
+                                        <input name="ord_building" type="" class="form-control" id=""
+                                               placeholder="Номер дома">
+                                    </div>
                                 </div>
-                                <p class="help-block">Нажмите на поле для отображения календаря</p>
-                            </div>
-                            <div class="col-xs-12 col-md-4">
-                                <label for="">Время доставки:</label>
-                                <div class="input-group" id="">
-                                    <input name="ord_delivery_datetime" type="time" class="form-control border-radius-3"
-                                           value="<?= date("H:i"); ?>"/>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-md-4">
+                                        <label for="postalAddress">Кв./Офис:</label>
+                                        <input type="" class="form-control" name="ord_room" id=""
+                                               placeholder="Кв./Офис">
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <label for="postalAddress">Домофон:</label>
+                                        <input type="" class="form-control" name="ord_intercom" id=""
+                                               placeholder="Домофон">
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <label for="postalAddress">Улица:</label>
+                                        <input type="" class="form-control" name="ord_street" id="" placeholder="Улица">
+                                    </div>
                                 </div>
-                                <p class="help-block">Нажмите на поле для ввода времени</p>
-                            </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-md-12">
+                                        <label for="postalAddress">Заезд:</label>
+                                        <input type="" class="form-control" id="" name="ord_destonation"
+                                               placeholder="Заезд">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-md-12">
+                                        <label for="postalAddress">Примечание:</label>
+                                        <textarea rows="3" name="ord_comments" class="form-control" id="postalAddress"
+                                                  placeholder="Примечание"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-md-12">
+                                        <p class="text-left">
+                                            <a class="btn btn-success update_order">
+                                                <i class="glyphicon glyphicon-ok icon-white"></i>
+                                                Оформить заказ
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-
-                            <div class="col-xs-12 col-md-3">
-                                <label for="postalAddress">Номер дома:</label>
-                                <input name="ord_building" type="" class="form-control" id="" placeholder="Номер дома">
-                            </div>
-                            <div class="col-xs-12 col-md-3">
-                                <label for="postalAddress">Кв./Офис:</label>
-                                <input type="" class="form-control" name="ord_room" id="" placeholder="Кв./Офис">
-                            </div>
-                            <div class="col-xs-12 col-md-3">
-                                <label for="postalAddress">Домофон:</label>
-                                <input type="" class="form-control" name="ord_intercom" id="" placeholder="Домофон">
-                            </div>
-                            <div class="col-xs-12  col-md-3">
-                                <label for="postalAddress">Улица:</label>
-                                <input type="" class="form-control" name="ord_street" id="" placeholder="Улица">
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12 col-md-12">
-                                <label for="postalAddress">Заезд:</label>
-                                <input type="" class="form-control" id="" name="ord_destonation" placeholder="Заезд">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12 col-md-12">
-                                <label for="postalAddress">Примечание:</label>
-                                <textarea rows="3" name="ord_comments" class="form-control" id="postalAddress"
-                                          placeholder="Примечание"></textarea>
-                            </div>
-                        </div>
-                        <br><br>
-                        <div class="form-group">
-                            <p class="text-left">
-                                <a class="btn btn-success update_order">
-                                    <i class="glyphicon glyphicon-ok icon-white"></i>
-                                    Оформить заказ
-                                </a>
-                            </p>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 
-
+<div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Удаление товара из корзины</h3>
+            </div>
+            <div class="modal-body"> <!--Пишем название страны-->
+                <p>Вы действительно хотите удалить товара из корзины?</p>
+                <form>
+                    <input type="hidden" name="ori_id" id="delete_ori_id">
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-default" data-dismiss="modal">Отмена</a>
+                        <a href="#" class="btn btn-primary ajaxDelete_ori" form_url="/admin/delete_ori"
+                           data-dismiss="modal">Да</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     var table;
     $(document).ready(function () {
@@ -367,7 +398,8 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('admin/get_order_items?id=')?>"+$('#order_id').val(), "type": "POST"
+                "url": "<?php echo site_url('admin/get_order_items?id=')?>" + $('#order_id').val(),
+                "type": "POST"
             },
 
             //Set column definition initialisation properties.
@@ -377,7 +409,15 @@
                     "orderable": false, //set not orderable
                 },
             ],
-
+            fnFooterCallback: function (nRow, aaData, iStart, iEnd, aiDisplay) {
+                var TotalMarks = 0;
+                for (var i = iStart; i < iEnd; i++) {
+                    console.log(TotalMarks, aaData[aiDisplay[i]][3].replace(',', '.'));
+                    TotalMarks += parseFloat(aaData[aiDisplay[i]][3].replace(',', '.'));
+                }
+                var nCells = nRow.getElementsByTagName('th');
+                nCells[1].innerHTML = "Total = " + TotalMarks + " &euro;";
+            }
         });
     });
 </script>

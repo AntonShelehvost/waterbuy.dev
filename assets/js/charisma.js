@@ -142,7 +142,7 @@ function set_region_value(value) {
     $.each(lists, function (ind, list) {
         $(list).val(value);
         $(list).chosen({width: '100%!important'});
-        $(list).trigger("chosen:updated");
+        $(list).chosen({width: '100%!important'}).trigger("chosen:updated");
     })
 }
 
@@ -798,6 +798,54 @@ function docReady() {
 
     $(document).on('click', '.deleteAddress', function () {
         $('#del_id').val($(this).attr('id'));
+    });
+
+    $(document).on('click', '.delete_item', function () {
+        $('#delete_ori_id').val($(this).attr('id'));
+    });
+
+    $('a.ajaxDelete_ori').on('click', function () {
+        var url = $(this).attr('form_url');
+        var that = $(this).parent().parent();
+        $.post(url, $(that).serialize(), function (data) {
+            if (data.success !== false) {
+                $('alert-mess').html(data.success)
+                $('alert-mess').removeClass('hide');
+                table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
+                table.ajax.reload();
+            }
+
+        }, 'json')
+            .fail(function (xhr, status, error) {
+                $('alert-mess').html('Ошибка обработки запроса. Обратитесь к администратору сайта.');
+                $('alert-mess').removeClass('hide');
+
+            });
+    });
+    $(document).on('change', '.calc-amount', function () {
+        console.log($(this).attr('id') + '/' + $(this).val());
+        var that = $(this).parent().parent().find('.calc-amount')
+        $.post('change_amount_order_items', {
+            'ori_id': $(that).attr('id'),
+            'ori_count': $(that).val()
+        }, function (data) {
+        }, 'json');
+    });
+
+    $(document).on('click', '.minus-amount', function () {
+        var count = $(this).parent().parent().find('.calc-amount');
+        $(count).val(parseInt($(count).val()) - 1);
+        $(count).change();
+        table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
+        table.ajax.reload();
+    });
+
+    $(document).on('click', '.plus-amount', function () {
+        var count = $(this).parent().parent().find('.calc-amount');
+        $(count).val(parseInt($(count).val()) + 1);
+        $(count).change();
+        table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
+        table.ajax.reload();
     });
 
     $(document).on('click', '.ajaxDeleteProducts', function () {

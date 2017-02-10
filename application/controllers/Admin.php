@@ -935,11 +935,13 @@ class Admin extends CI_Controller
             $config['max_size'] = 1024;
             $config['max_width'] = 1024;
             $config['max_height'] = 768;
+            $new_name = translitNameHTTP($_FILES["prd_file"]["name"]);
+            $config['file_name'] = $new_name;
 
             $this->load->library('upload', $config);
 
             if (isset($_FILES['prd_file']) && !empty($_FILES["prd_file"]["name"])) {
-                $_POST['prd_file'] = $_FILES["prd_file"]["name"];
+                $_POST['prd_file'] = $new_name;
                 if (!$this->upload->do_upload('prd_file')) {
                     $data['error'] = 'prd_file:' . $this->upload->display_errors();
                 }
@@ -1105,11 +1107,14 @@ class Admin extends CI_Controller
             $config['allowed_types'] = 'gif|jpg|png|ico';
             $config['max_size'] = 1024;
             $config['max_width'] = 1024;
+            $new_name = translitNameHTTP($_FILES["prd_file"]["name"]);
+            $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
             $config['max_height'] = 768;
 
+
             if (isset($_FILES['prd_file']) && !empty($_FILES["prd_file"]["name"])) {
-                $_POST['prd_file'] = $_FILES["prd_file"]["name"];
+                $_POST['prd_file'] = $new_name;
                 if (!$this->upload->do_upload('prd_file')) {
                     $data['error'] = 'prd_file:' . $this->upload->display_errors();
                 }
@@ -1735,6 +1740,33 @@ class Admin extends CI_Controller
         echo json_encode(['message'=>'Заказ сохранен успешно!']);
     }
 
+    public function delete_ori()
+    {
+        $this->load->model('model_orders_items');
+        if ($this->model_orders_items->delete($this->input->post('ori_id'))) {
+            $success = 'Успешно удален';
+        }
+        echo json_encode(array('success' => $success, 'message' => ($success === false) ? $this->db->error() : ''));
+
+        return $success;
+    }
+
+    public function change_amount_order_items()
+    {
+        $this->load->model('model_orders_items');
+        $id = $this->input->post('ori_id');
+        unset($_POST['ori_id']);
+        $item = $this->model_orders_items->find($id);
+        if ($item !== flase) {
+            $_POST['ori_sum'] = $_POST['ori_count'] * $item->ori_price;
+            $success = $this->model_orders_items->update($id);
+        } else {
+            $success = false;
+        }
+        echo json_encode(array('success' => $success, 'message' => ($success === false) ? $this->db->error() : ''));
+
+        return $success;
+    }
     public function get_order_items()
     {
         $this->load->model('model_orders_items');
@@ -1747,14 +1779,20 @@ class Admin extends CI_Controller
             $row = array();
             $row[] = $items->prd_title;
             $row[] = $items->ori_price;
-            $row[] = $items->ori_count;
+            $row[] = '<div class="input-group">
+                         <span class="input-group-btn">
+                             <button class="btn btn-primary minus-amount" type="button">-
+                             </button>
+                         </span>
+                        <input id="' . $items->ori_id . '" type="text" class="form-control text-center calc-amount" value="' . $items->ori_count . '">
+                        <span class="input-group-btn">
+                            <button class="btn btn-info plus-amount" type="button">+
+                            </button>
+                        </span>
+                    </div>';
             $row[] = $items->ori_sum;
             $row[] = '
-            <a class="btn btn-info"  id="' . $items->ori_id . '">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
-                Edit
-            </a>
-            <a class="btn btn-danger" data-toggle="modal" href="#myModalDelete"  id="' . $items->ori_id . '">
+            <a class="btn btn-danger delete_item" data-toggle="modal" href="#myModalDelete"  id="' . $items->ori_id . '">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>';
@@ -1816,7 +1854,6 @@ class Admin extends CI_Controller
     {
         $this->load->model('model_orders');
         $data = [
-            'odr_id' => NULL,
             'ord_id_user' => NULL,
             'ord_father_name' => NULL,
             'ord_name' => NULL,
