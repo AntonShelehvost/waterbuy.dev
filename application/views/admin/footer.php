@@ -119,5 +119,6 @@
 <script
     src="/assets/js/jquery.inputmask-multi.min.js?<?= filemtime('./assets/js/jquery.inputmask-multi.min.js') ?>"></script>
 <script src="/assets/js/masked.js?<?= filemtime('./assets/js/masked.js') ?>"></script>
+<script src="/assets/js/jquery.bootcomplete.js?<?= filemtime('./assets/js/jquery.bootcomplete.js') ?>"></script>
 </body>
 </html>

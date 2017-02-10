@@ -34,8 +34,8 @@ class Model_orders_items extends CI_Model
 
 
         $this->db->from($this->table);
-        if(isset($_GET['id'])){
-            $this->db->where('ori_id_orders',$_GET['id']);
+        if (isset($_GET['id'])) {
+            $this->db->where('ori_id_orders', $_GET['id']);
         }
         $this->db->join('products', 'products.prd_id = ori_id_products', 'left');
         $i = 0;
@@ -101,8 +101,8 @@ class Model_orders_items extends CI_Model
     public function count_all()
     {
         $this->db->from($this->table);
-        if(isset($_GET['id'])){
-            $this->db->where('ori_id_orders',$_GET['id']);
+        if (isset($_GET['id'])) {
+            $this->db->where('ori_id_orders', $_GET['id']);
         }
         $this->db->join('products', 'products.prd_id = ori_id_products', 'left');
         return $this->db->count_all_results();
@@ -111,12 +111,43 @@ class Model_orders_items extends CI_Model
 
     /**
      * @param $id
+     *
      * @return bool
      */
     public function find($id)
     {
         $item = $this->db->where('ori_id', $id)->get($this->table)->result();
         return !empty($item[0]) ? $item[0] : false;
+    }
+
+    public function get_all_sum_order($id_order)
+    {
+        $this->db->where('ori_id_orders', $id_order);
+        $this->db->select_sum('ori_sum');
+        $query = $this->db->get($this->table)->result();
+        return $query[0]->ori_sum;
+    }
+
+    function change_amount_order_items($id, $data)
+    {
+        $this->db->where('ori_id', $id);
+        return $this->db->update($this->table, $data);
+    }
+
+    public function find_in_order($id_order, $id_product)
+    {
+        $this->db->where('ori_id_orders', (int)$id_order);
+        $this->db->where('ori_id_products', (int)$id_product);
+        $query = $this->db->get($this->table)->result();
+        return !empty($query[0]) ? $query[0] : false;
+    }
+
+    public function get_count_in_order($id_order, $id_product)
+    {
+        $this->db->from($this->table);
+        $this->db->where('ori_id_orders', (int)$id_order);
+        $this->db->where('ori_id_products', (int)$id_product);
+        return $this->db->count_all_results();
     }
 
     /**
@@ -139,12 +170,13 @@ class Model_orders_items extends CI_Model
 
     /**
      * @param $data
+     *
      * @return mixed
      */
     public function insert_data($data)
     {
         $_ci = &get_instance();
-       return $this->db->insert($this->table, $data);
+        return $this->db->insert($this->table, $data);
 
     }
 
@@ -158,6 +190,7 @@ class Model_orders_items extends CI_Model
 
     /**
      * @param $id
+     *
      * @return mixed
      */
     public function update($id)
@@ -177,7 +210,6 @@ class Model_orders_items extends CI_Model
         $this->db->where('ori_id', $id);
         return $this->db->delete($this->table);
     }
-
 
 
 } // endClass

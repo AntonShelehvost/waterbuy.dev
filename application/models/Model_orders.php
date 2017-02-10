@@ -127,6 +127,16 @@ class Model_orders extends CI_Model
         return $this->db->delete($this->table);
     }
 
-
+    public function get_user_by_name()
+    {
+        $this->db->select('ord_id as id,concat(ord_father_name," ",ord_name," ",ord_last_name)as name');
+        $this->db->like('ord_name', $this->input->get('query'));
+        $query = $this->db->get($this->table)->result();
+        $data = [];
+        foreach ($query as $item) {
+            $data[] = ['id' => $item->id, 'label' => $item->name];
+        }
+        return $data;
+    }
 
 } // endClass

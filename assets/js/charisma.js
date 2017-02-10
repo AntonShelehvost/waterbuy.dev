@@ -834,7 +834,8 @@ function docReady() {
 
     $(document).on('click', '.minus-amount', function () {
         var count = $(this).parent().parent().find('.calc-amount');
-        $(count).val(parseInt($(count).val()) - 1);
+        if (parseInt($(count).val()) > 1)
+            $(count).val(parseInt($(count).val()) - 1);
         $(count).change();
         table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
         table.ajax.reload();

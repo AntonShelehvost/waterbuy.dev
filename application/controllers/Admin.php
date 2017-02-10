@@ -1767,16 +1767,24 @@ class Admin extends CI_Controller
 
         return $success;
     }
+
     public function get_order_items()
     {
+        $this->load->model('model_users');
         $this->load->model('model_orders_items');
         //die(var_dump($_GET));
         $list = $this->model_orders_items->get_datatables();
         $data = array();
         $no = $_POST['start'];
+        $sum = 0;
         foreach ($list as $items) {
             $no++;
             $row = array();
+            $user = $this->model_users->find($items->prd_id_user);
+            $user = !empty($user[0]) ? $user[0] : false;
+            if ($user) $name = $user->use_organization; else $name = '';
+
+            $row[] = $name;
             $row[] = $items->prd_title;
             $row[] = $items->ori_price;
             $row[] = '<div class="input-group">
@@ -1796,7 +1804,7 @@ class Admin extends CI_Controller
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>';
-
+            $sum += $items->ori_sum;
             $data[] = $row;
         }
         $output = array(
@@ -1804,7 +1812,9 @@ class Admin extends CI_Controller
             "recordsTotal" => $this->model_orders_items->count_all(),
             "recordsFiltered" => $this->model_orders_items->count_filtered(),
             "data" => $data,
-            'query' => $this->db->last_query()
+            'query' => $this->db->last_query(),
+            'sum' => $this->model_orders_items->get_all_sum_order($_GET['id'])
+
         );
         echo json_encode($output);
     }
@@ -1838,7 +1848,20 @@ class Admin extends CI_Controller
                     'ori_comments' => '',
                     'created_at' => date('Y-m-d H:i:s')
                 ];
-                $result = $this->model_orders_items->insert_data($insert_data);
+                $item = $this->model_orders_items->get_count_in_order($order_id, $products->prd_id);
+                if ($item == 0) {
+                    $result = $this->model_orders_items->insert_data($insert_data);
+                } else {
+                    $find = $this->model_orders_items->find_in_order($order_id, $products->prd_id);
+                    if ($find !== false) {
+                        $amount = $find->ori_count + $post['amount'];
+                        $data_update = [
+                            'ori_count' => $amount,
+                            'ori_sum' => $find->ori_price * $amount,
+                        ];
+                        $result = $this->model_orders_items->change_amount_order_items($find->ori_id, $data_update);
+                    }
+                }
                 $data['success'] = $result;
                 $data['error'] = ($result) ? '' : 'Ошибка добавления позиции товара';
             } else {
@@ -1848,6 +1871,13 @@ class Admin extends CI_Controller
             $data['error'] = 'Ошибка создания заказа';
         }
         echo json_encode($data);
+    }
+
+    public function getusername()
+    {
+        $this->load->model('model_orders');
+        $user = $this->model_orders->get_user_by_name();
+        echo json_encode($user);
     }
 
     public function add_order()

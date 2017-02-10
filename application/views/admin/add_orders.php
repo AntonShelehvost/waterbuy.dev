@@ -275,6 +275,7 @@
                                    class="table table-striped table-bordered responsive dataTable ">
                                 <thead>
                                 <tr>
+                                    <th>Поставщик</th>
                                     <th>Наименование товара</th>
                                     <th>Цена</th>
                                     <th>Количество</th>
@@ -286,8 +287,8 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th style="text-align:right" colspan="4">Total:</th>
-                                    <th></th>
+                                    <th style="text-align:right" colspan="4">Общая сумма:</th>
+                                    <th colspan="2"></th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -409,16 +410,85 @@
                     "orderable": false, //set not orderable
                 },
             ],
-            fnFooterCallback: function (nRow, aaData, iStart, iEnd, aiDisplay) {
-                var TotalMarks = 0;
-                for (var i = iStart; i < iEnd; i++) {
-                    console.log(TotalMarks, aaData[aiDisplay[i]][3].replace(',', '.'));
-                    TotalMarks += parseFloat(aaData[aiDisplay[i]][3].replace(',', '.'));
-                }
-                var nCells = nRow.getElementsByTagName('th');
-                nCells[1].innerHTML = "Total = " + TotalMarks + " &euro;";
+            footerCallback: function (row, data, start, end, display) {
+                var api = this.api();
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                var total = api.ajax.json().sum ? api.ajax.json().sum : 0;
+
+                // Total over this page
+                var data1 = api.column(4, {page: 'current'}).data();
+                var pageTotal = data1.length ?
+                    data1.reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }) :
+                    0;
+
+                // Update footer
+                $(api.column(4).footer()).html(
+                    '' + pageTotal + ' грн ( ' + total + ' грн)'
+                );
             }
         });
+
+        /*$.post('/admin/getusername',{'name':$("#firstName").val()}, function(data){
+         $("#firstName").typeahead({ source:data });
+         },'json');*/
+
+        $('#firstName').bootcomplete({
+            url: '/admin/getusername'
+        });
+
+        /*$('#firstName').typeahead({
+         hint: true,
+         highlight: true,
+         minLength: 1,
+         //источник данных
+         source: function (query, process) {
+         return $.post('/admin/getusername', {'name':query},
+         function (response) {
+         var data = new Array();
+         //преобразовываем данные из json в массив
+         $.each(response, function(i, name)
+         {
+         data.push(i+'_'+name);
+         })
+         return process(data);
+         },
+         'json'
+         );
+         }
+         //источник данных
+         //вывод данных в выпадающем списке
+         , highlighter: function(item) {
+         var parts = item.split('_');
+         parts.shift();
+         return parts.join('_');
+         }
+         //вывод данных в выпадающем списке
+         //действие, выполняемое при выборе елемента из списка
+         , updater: function(item) {
+         var parts = item.split('_');
+         var userId = parts.shift();
+         $.post('getuserdata', {'user_id':userId},
+         function (user) {
+         $('input[name=email]').val(user.email);
+         $('input[name=phone]').val(user.phone);
+         },
+         'json'
+         );
+         return parts.join('_');
+         }
+         //действие, выполняемое при выборе елемента из списка
+
+         );}*/
     });
 </script>
 
