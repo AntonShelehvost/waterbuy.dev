@@ -159,27 +159,36 @@
                                             <span> Мои товары</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a class="ajax-link" href="#">
-                                            <i class="glyphicon glyphicon-eye-open"></i>
-                                            <span> История заказов</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="ajax-link" href="#">
-                                            <i class="glyphicon glyphicon-eye-open"></i>
-                                            <span> Районы доставки</span>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                                <?php if (($this->session->userdata('emp_employees_groups_id') == 4) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
-                                    <li class="nav-header hidden-md">Менеджеру</li>
+                                    <li class="nav-header hidden-md">Все заказы</li>
                                     <li>
                                         <a href="/admin/add_orders">
                                             <i class="glyphicon glyphicon-plus"></i>
                                             <span> Новый заказ</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a class="ajax-link" href="/admin/orders">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                            <span> Текущие заказы</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="ajax-link" href="/admin/orders_done">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                            <span> Выполненные заказы</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="ajax-link" href="/admin/order_history">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                            <span> История заказов</span>
+                                        </a>
+                                    </li>
+
+
+                                <?php endif; ?>
+                                <?php if (($this->session->userdata('emp_employees_groups_id') == 4) || ($this->session->userdata('emp_employees_groups_id') == 5)) : ?>
+                                    <li class="nav-header hidden-md">Менеджеру</li>
                                     <li>
                                         <a href="/admin/clients">
                                             <i class="glyphicon glyphicon-phone"></i>
@@ -190,6 +199,12 @@
                                         <a href="/admin/providers">
                                             <i class="glyphicon glyphicon-briefcase"></i>
                                             <span> Список поставщиков</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="ajax-link" href="/admin/providers_delivery">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                            <span> Регионы доставки</span>
                                         </a>
                                     </li>
                                     <!--<li>
@@ -222,12 +237,12 @@
                                 <?php if ($this->session->userdata('emp_employees_groups_id') == 5) : ?>
                                     <li class="nav-header hidden-md">Слежебная</li>
 
-                                    <li>
+                                    <!--<li>
                                         <a href="/admin/managers">
                                             <i class="glyphicon glyphicon-user"></i>
                                             <span> Список менеджеров</span>
                                         </a>
-                                    </li>
+                                    </li>-->
                                     <li>
                                         <a href="/admin/location">
                                             <i class="glyphicon glyphicon-plus"></i>

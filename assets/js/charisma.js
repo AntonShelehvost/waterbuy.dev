@@ -849,6 +849,59 @@ function docReady() {
         table.ajax.reload();
     });
 
+    $(document).on('change', 'input[name="ord_name_id"]', function () {
+        post('/admin/get_address_user', {id: $(this).val()}, function (data) {
+            $('input[name="ord_building"]').val();
+            $('input[name="ord_room"]').val();
+            $('input[name="ord_intercom"]').val();
+            $('input[name="ord_street"]').val();
+            $('input[name="ord_destonation"]').val();
+            $('input[name="ord_father_name"]').val();
+            $('input[name="ord_name"]').val();
+            $('input[name="ord_last_name"]').val();
+            if (data.address) {
+                $('input[name="ord_building"]').val(data.address.ord_building);
+                $('input[name="ord_room"]').val(data.address.ord_room);
+                $('input[name="ord_intercom"]').val(data.address.ord_intercom);
+                $('input[name="ord_street"]').val(data.address.ord_street);
+                $('input[name="ord_destonation"]').val(data.address.ord_destonation);
+                $('input[name="ord_father_name"]').val(data.address.ord_father_name);
+                $('input[name="ord_name"]').val(data.address.ord_name);
+                $('input[name="ord_last_name"]').val(data.address.ord_last_name);
+            }
+
+            console.log(data);
+        }, 'json');
+    });
+
+    $('.clear').on('click', function () {
+        $(this).parent().parent().parent().find('.box-content').find('input,select').val('');
+    });
+
+    $(document).on('change', 'select[name="fio"]', function () {
+        post('/admin/get_user', {id: $(this).val()}, function (data) {
+            $('input[name="ord_building"]').val();
+            $('input[name="ord_room"]').val();
+            $('input[name="ord_intercom"]').val();
+            $('input[name="ord_street"]').val();
+            $('input[name="ord_destonation"]').val();
+            $('input[name="ord_father_name"]').val();
+            $('input[name="ord_name"]').val();
+            $('input[name="ord_last_name"]').val();
+            if (data.user) {
+                $('input[name="ord_building"]').val(data.user.use_building);
+                $('input[name="ord_room"]').val(data.user.use_room);
+                $('input[name="ord_intercom"]').val(data.user.use_intercom);
+                $('input[name="ord_street"]').val(data.user.use_street);
+                $('input[name="ord_destonation"]').val(data.user.use_destonation);
+                $('input[name="ord_father_name"]').val(data.user.use_father_name);
+                $('input[name="ord_name"]').val(data.user.use_name);
+                $('input[name="ord_last_name"]').val(data.user.use_last_name);
+            }
+            console.log(data);
+        }, 'json');
+    });
+
     $(document).on('click', '.ajaxDeleteProducts', function () {
         var that = $(this);
         var data = $('#deleteProducts').serialize();

@@ -620,6 +620,33 @@ class Admin extends CI_Controller
 
     }
 
+    function providers_delivery()
+    {
+        $bred = array(
+            [
+                'url' => '/admin',
+                'title' => 'Главная',
+                'flat' => false,
+            ],
+            [
+                'url' => '/admin/providers',
+                'title' => 'Список поставщиков',
+                'flat' => false,
+            ],
+            [
+                'url' => '/admin/providers_delivery',
+                'title' => 'Регионы доставки',
+                'flat' => true,
+            ],
+        );
+        $data = array(
+            'content' => $this->load->view('/admin/providers_delivery', null, true),
+            'bred' => $bred,
+        );
+        $this->load->view('/admin/main', $data);
+
+    }
+
     function products()
     {
         $bred = array(
@@ -912,6 +939,115 @@ class Admin extends CI_Controller
                     'category' => $category,
                     'client' => $client
                 ], true),
+            'bred' => $bred,
+        );
+        $this->load->view('/admin/main', $data);
+
+    }
+
+
+    public function ajax_orders()
+    {
+        $this->load->model('model_orders');
+        $this->load->model('model_orders_items');
+        $status = ['Ожидает выкупа', 'Выкуплен', 'Выполнен'];
+        $list = $this->model_orders->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $clients) {
+            $name = [
+                $clients->ord_last_name,
+                $clients->ord_name,
+                $clients->ord_father_name,
+            ];
+            $address = [
+                $clients->cou_name,
+                $clients->reg_name,
+                'г.',
+                $clients->cit_name,
+                ($clients->ord_id_district == -1) ? 'ВСЕ' : $clients->dis_name,
+                'ул.',
+                $clients->ord_street,
+                ', дом.',
+                $clients->ord_building,
+                ', кв.',
+                $clients->ord_room,
+                ', домоф.',
+                $clients->ord_intercom,
+                ' заезд',
+                $clients->ord_destonation,
+            ];
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = date('d.m.Y H:i:s', strtotime($clients->cdate));
+            $row[] = implode(' ', $address);
+            $row[] = implode(' ', $name);
+            $row[] = $clients->ord_phone;
+            $row[] = $status[$clients->ord_done];
+            $row[] = $clients->use_organization;
+            $row[] = $this->model_orders_items->get_all_sum_order($clients->ord_id);
+            $row[] = '<a class="btn btn-info" href="/admin/edit_orders/' . $clients->ord_id . '">
+                <i class="glyphicon glyphicon-edit icon-white"></i>
+                Edit
+            </a>
+            <a class="btn btn-danger" href="/admin/delete_orders/' . $clients->ord_id . '">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                Delete
+            </a> ';
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->model_orders->count_all(),
+            "recordsFiltered" => $this->model_orders->count_filtered(),
+            "data" => $data,
+            'query' => $this->db->last_query()
+        );
+        echo json_encode($output);
+    }
+
+    public function orders()
+    {
+
+        $bred = array(
+            [
+                'url' => '/admin',
+                'title' => 'Главная',
+                'flat' => false,
+            ],
+            [
+                'url' => '/admin/clients',
+                'title' => 'Список клиентов',
+                'flat' => true,
+            ],
+        );
+        $data = array(
+            'content' => $this->load->view('/admin/orders', null, true),
+            'bred' => $bred,
+        );
+        $this->load->view('/admin/main', $data);
+
+    }
+
+    public function edit_orders()
+    {
+
+        $bred = array(
+            [
+                'url' => '/admin',
+                'title' => 'Главная',
+                'flat' => false,
+            ],
+            [
+                'url' => '/admin/clients',
+                'title' => 'Список клиентов',
+                'flat' => true,
+            ],
+        );
+        $data = array(
+            'content' => $this->load->view('/admin/orders', null, true),
             'bred' => $bred,
         );
         $this->load->view('/admin/main', $data);
@@ -1671,6 +1807,34 @@ class Admin extends CI_Controller
         echo json_encode($output);
     }
 
+    function ajax_providers_delivery()
+    {
+        $this->load->model('model_delivery');
+        $_GET['provider'] = -2;
+        $list = $this->model_delivery->get_datatables();
+        foreach ($list as $delivery) {
+            $row = array();
+            $row[] = $delivery->use_organization;
+            $row[] = $delivery->cou_name;
+            $row[] = $delivery->reg_name;
+            $row[] = $delivery->cit_name;
+            $row[] = ($delivery->del_id_district == -1) ? 'ВСЕ' : $delivery->dis_name;
+
+
+            $data[] = $row;
+        }
+
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->model_delivery->count_all(),
+            "recordsFiltered" => $this->model_delivery->count_filtered(),
+            "data" => $data,
+            "query" => $this->db->last_query()
+        );
+        echo json_encode($output);
+    }
+
     function ajax_category()
     {
         $this->load->model('model_category');
@@ -1732,12 +1896,13 @@ class Admin extends CI_Controller
         echo json_encode($this->model_products->get_min_order((int)$this->input->get('country'), (int)$this->input->get('region'), (int)$this->input->get('city')));
     }
 
-    public function update_order(){
+    public function update_order()
+    {
         $this->load->model('model_orders');
         $id = $this->input->post('order_id');
         unset($_POST['order_id']);
         $this->model_orders->update($id);
-        echo json_encode(['message'=>'Заказ сохранен успешно!']);
+        echo json_encode(['message' => 'Заказ сохранен успешно!']);
     }
 
     public function delete_ori()
@@ -1878,6 +2043,22 @@ class Admin extends CI_Controller
         $this->load->model('model_orders');
         $user = $this->model_orders->get_user_by_name();
         echo json_encode($user);
+    }
+
+    public function get_user()
+    {
+        $this->load->model('model_users');
+        $user = $this->model_users->find($this->input->post('id'));
+        $user = !empty($user[0]) ? $user[0] : false;
+        echo json_encode(['user' => $user]);
+    }
+
+    public function get_address_user()
+    {
+        $this->load->model('model_orders');
+        $address = $this->model_orders->get_address();
+        echo json_encode(['address' => $address]);
+
     }
 
     public function add_order()

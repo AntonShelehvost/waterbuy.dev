@@ -91,7 +91,17 @@
         $('#clients tr input[type="text"]').click(function () {
             return false;
         });
+        table.columns().every(function () {
+            var that = this;
 
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
         /*table.columns().every(function () {
             var that = this;
             $(this.header()).find('input').bind('keyup', function (e) {
@@ -108,17 +118,7 @@
             });
         });
 */
-        table.columns().every( function () {
-            var that = this;
 
-            $( 'input', this.header() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                }
-            } );
-        } );
     });
 
 </script>

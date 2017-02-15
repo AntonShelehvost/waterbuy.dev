@@ -17,12 +17,16 @@ class Model_orders extends CI_Model
     private function _get_datatables_query()
     {
 
-
+        $this->db->select('*,orders.created_at as cdate');
         $this->db->from($this->table);
         if(isset($_POST['id'])&&!empty($_POST['id'])){
             $this->db->where('ord_id_orders',$_POST['id']);
         }
-        
+        $this->db->join('country', 'orders.ord_id_country = country.cou_id', 'left');
+        $this->db->join('users', 'orders.ord_id_user = users.use_id', 'left');
+        $this->db->join('region', 'orders.ord_id_region = region.reg_id', 'left');
+        $this->db->join('city', 'orders.ord_id_city = city.cit_id', 'left');
+        $this->db->join('district', 'orders.ord_id_district = district.dis_id', 'left');
         $i = 0;
 
         foreach ($this->column_search as $item) // loop column
@@ -137,6 +141,13 @@ class Model_orders extends CI_Model
             $data[] = ['id' => $item->id, 'label' => $item->name];
         }
         return $data;
+    }
+
+    public function get_address()
+    {
+        $this->db->where('ord_id', $this->input->post('id'));
+        $arr = $this->db->get($this->table)->result();
+        return !empty($arr[0]) ? $arr[0] : false;
     }
 
 } // endClass

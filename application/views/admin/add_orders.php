@@ -13,7 +13,8 @@
 
         <div class="box-icon">
             <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                    class="glyphicon glyphicon-chevron-up"></i></a>
+                    class="glyphicon glyphicon-chevron-up"></i>
+            </a>
         </div>
     </div>
     <input type="hidden" name="order_id" id="order_id" value="0">
@@ -25,6 +26,9 @@
                     <div class="box-header well" data-original-title="">
                         <h2><i class="glyphicon glyphicon-user"></i> Клиент</h2>
                         <div class="box-icon">
+                            <a href="#" class="btn clear btn-round btn-default"><i
+                                    class="glyphicon glyphicon-file"></i>
+                            </a>
                             <a href="#" class="btn btn-minimize btn-round btn-default"><i
                                     class="glyphicon glyphicon-chevron-up"></i></a>
                         </div>
@@ -39,7 +43,8 @@
                                         <p class="help-block">Выбрать уже зарегистрированого клиента из списка</p>
                                         <div class="controls">
                                             <select data-placeholder="Введите ФИО клиента или название организации"
-                                                    class="col-xs-12 col-md-12" id="selectError2" data-rel="chosen">
+                                                    class="col-xs-12 col-md-12" name="fio" id="selectError2"
+                                                    data-rel="chosen">
                                                 <option value=""></option>
                                                 <?php foreach ($client as $item) { ?>
                                                     <option value="<?= $item->use_id; ?>">
@@ -95,8 +100,10 @@
                 <div class="box-inner">
                     <div class="box-header well" data-original-title="">
                         <h2><i class="glyphicon glyphicon-filter"></i> Фильтр </h2>
-
                         <div class="box-icon">
+                            <a href="#" class="btn clear btn-round btn-default"><i
+                                    class="glyphicon glyphicon-file"></i>
+                            </a>
                             <a href="#" class="btn btn-minimize btn-round btn-default"><i
                                     class="glyphicon glyphicon-chevron-up"></i></a>
                         </div>
@@ -264,6 +271,9 @@
                     <div class="box-header well" data-original-title="">
                         <h2><i class="glyphicon glyphicon-shopping-cart"></i> Корзина</h2>
                         <div class="box-icon">
+                            <a href="#" class="btn clear btn-round btn-default"><i
+                                    class="glyphicon glyphicon-file"></i>
+                            </a>
                             <a href="#" class="btn btn-minimize btn-round btn-default"><i
                                     class="glyphicon glyphicon-chevron-up"></i></a>
                         </div>

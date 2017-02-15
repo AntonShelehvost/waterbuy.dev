@@ -10,14 +10,14 @@ class Model_delivery extends CI_Model
 {
 
     var $table = 'delivery';
-    var $column_order = array(); //set column field database for datatable orderable
+    var $column_order = array('use_organization', 'cou_name', 'reg_name', 'cit_name', 'dis_name'); //set column field database for datatable orderable
     var $column_search = array(); //set column field database for datatable searchable
     var $order = array('del_id' => 'asc'); // default order
 
     private function _get_datatables_query()
     {
 
-        $this->db->select('delivery.*,cit_name,dis_name,cou_name,reg_name');
+        $this->db->select('delivery.*,cit_name,dis_name,cou_name,reg_name,use_organization');
         $this->db->from($this->table);
 
         $this->db->join('country', 'delivery.del_id_country = country.cou_id', 'left');
@@ -26,10 +26,13 @@ class Model_delivery extends CI_Model
         $this->db->join('city', 'delivery.del_id_city = city.cit_id', 'left');
         $this->db->join('district', 'delivery.del_id_district = district.dis_id', 'left');
         $i = 0;
+        $provider = $this->input->get('provider');
         if ($this->session->userdata('emp_employees_groups_id') != 5)
             $id_user = $this->session->userdata('id_user');
-        else
-            $id_user = $this->input->get('provider');
+        elseif (isset($provider)) {
+            $id_user = $provider;
+        }
+        if ($id_user >= -1)
         $this->db->where('del_id_user', $id_user);
         foreach ($this->column_search as $item) // loop column
         {
@@ -85,6 +88,7 @@ class Model_delivery extends CI_Model
         $this->db->from($this->table);
         $this->db->join('country', 'delivery.del_id_country = country.cou_id', 'left');
         $this->db->join('region', 'delivery.del_id_country = region.reg_id', 'left');
+        $this->db->join('users', 'delivery.del_id_user = users.use_id', 'left');
         $this->db->join('city', 'delivery.del_id_country = city.cit_id', 'left');
         $this->db->join('district', 'delivery.del_id_country = district.dis_id', 'left');
         return $this->db->count_all_results();
