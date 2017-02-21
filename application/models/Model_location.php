@@ -76,11 +76,6 @@ null,
 				} else {
 					$this->db->like($item, $_POST['columns'][$key]['search']['value']);
 				}
-				
-//				if (count($this->column_search) - 1 == $i) //last loop
-//				{
-//					$this->db->group_end();
-//				} //close bracket
 			}
 			$i++;
 		}

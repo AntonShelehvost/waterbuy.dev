@@ -19,8 +19,8 @@ class Model_orders extends CI_Model
 
         $this->db->select('*,orders.created_at as cdate');
         $this->db->from($this->table);
-        if(isset($_POST['id'])&&!empty($_POST['id'])){
-            $this->db->where('ord_id_orders',$_POST['id']);
+        if (isset($_POST['id']) && !empty($_POST['id'])) {
+            $this->db->where('ord_id_orders', $_POST['id']);
         }
         $this->db->join('country', 'orders.ord_id_country = country.cou_id', 'left');
         $this->db->join('users', 'orders.ord_id_user = users.use_id', 'left');
@@ -133,9 +133,16 @@ class Model_orders extends CI_Model
 
     public function get_user_by_name()
     {
-        $this->db->select('ord_id as id,concat(ord_father_name," ",ord_name," ",ord_last_name)as name');
-        $this->db->like('ord_name', $this->input->get('query'));
-        $query = $this->db->get($this->table)->result();
+        $query = $this->db->query("
+                select * from (
+                SELECT DISTINCT ord_id AS id,  CONCAT(ord_father_name,' ',ord_name,' ',ord_last_name,' (заказы)') AS name, ord_id_country AS c,ord_id_region AS r,ord_id_city AS ci
+                FROM orders
+                WHERE ord_name LIKE '%" . $this->input->get('query') . "%'
+                UNION
+                SELECT use_id*-1 AS id, CONCAT(use_father_name,' ',use_name,' ',use_last_name,' (справочник)') AS name, u.use_id_country AS c,u.use_id_region AS r,u.use_id_city AS ci
+                FROM users u,employee e ,employees_groups g
+                WHERE  u.use_id=e.emp_id_user and e.emp_employees_groups_id=g.emg_id AND g.emg_id=3 and u.use_name LIKE '%" . $this->input->get('query') . "%') as t
+                GROUP BY name")->result();
         $data = [];
         foreach ($query as $item) {
             $data[] = ['id' => $item->id, 'label' => $item->name];
@@ -145,8 +152,20 @@ class Model_orders extends CI_Model
 
     public function get_address()
     {
-        $this->db->where('ord_id', $this->input->post('id'));
-        $arr = $this->db->get($this->table)->result();
+        $id = $this->input->post('id');
+        if ($id > 0) {
+            $this->db->select('ord_building,ord_comments,ord_destonation,ord_father_name,
+                                ord_id_city,ord_id_country,ord_id_district,ord_id_region,
+                                ord_intercom,ord_last_name,ord_name,ord_room,ord_street,');
+            $this->db->where('ord_id', $this->input->post('id'));
+            $arr = $this->db->get($this->table)->result();
+        } else {
+            $this->db->select('use_id_country as ord_id_country,use_id_region as ord_id_region,use_id_city as ord_id_city,use_street as ord_street ,
+                                use_building as ord_building,use_room as ord_room,use_intercom as ord_intercom,
+                                use_destonation as ord_destonation ,');
+            $this->db->where('use_id', $this->input->post('id') * -1);
+            $arr = $this->db->get('users')->result();
+        }
         return !empty($arr[0]) ? $arr[0] : false;
     }
 

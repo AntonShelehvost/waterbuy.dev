@@ -194,12 +194,12 @@ class Admin extends CI_Controller
         if ($this->input->method() == 'post') {
             $this->form_validation->set_rules('use_last_name', 'use_last_name', 'trim|required');
             $this->form_validation->set_rules('use_name', 'use_name', 'trim|required');
-            $this->form_validation->set_rules('use_email', 'login', 'trim|required');
+            //$this->form_validation->set_rules('use_email', 'login', 'trim|required');
             $this->form_validation->set_rules('use_street', 'use_street', 'trim|required');
             $this->form_validation->set_rules('use_id_city', 'use_id_city', 'trim|required');
             $this->form_validation->set_rules('use_building', 'use_building', 'trim|required');
             $this->form_validation->set_rules('use_room', 'use_room', 'trim|required');
-            $this->form_validation->set_rules('use_phone', 'use_phone', 'trim|required');
+            //$this->form_validation->set_rules('use_phone', 'use_phone', 'trim|required');
             $this->form_validation->set_error_delimiters('<div class="alert alert-danger" role="alert">', '</div>');
 
 
@@ -229,7 +229,7 @@ class Admin extends CI_Controller
             [
                 'url' => '/admin/clients',
                 'title' => 'Список клиентов',
-                'flat' => true,
+                'flat' => false,
             ],
             [
                 'url' => '/admin/view_clients/' . $id,
@@ -649,6 +649,9 @@ class Admin extends CI_Controller
 
     function products()
     {
+        $this->load->model('model_category');
+        $this->load->model('model_providers');
+        $providers = $this->model_providers->get_all();
         $bred = array(
             [
                 'url' => '/admin',
@@ -661,8 +664,10 @@ class Admin extends CI_Controller
                 'flat' => true,
             ],
         );
+        $category = $this->model_category->get_category_tree();
+
         $data = array(
-            'content' => $this->load->view('/admin/products', null, true),
+            'content' => $this->load->view('/admin/products', ['category' => $category, 'providers' => $providers], true),
             'bred' => $bred,
         );
         $this->load->view('/admin/main', $data);
@@ -1428,7 +1433,7 @@ class Admin extends CI_Controller
             $row[] = implode(' ', $name);
             $row[] = $clients->use_phone;
             $row[] = implode(' ', $address);
-            $row[] = '<span class="label-success label label-default">Active</span>';
+            //$row[] = '<span class="label-success label label-default">Active</span>';
             $row[] = '<a class="btn btn-success" href="/admin/view_clients/' . $clients->use_id . '">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 View
@@ -1497,7 +1502,7 @@ class Admin extends CI_Controller
             $row[] = $clients->use_phone;
             $row[] = implode(' ', $name2);
             $row[] = $clients->use_phone_logist;
-            $row[] = '<span class="label-success label label-default">Active</span>';
+            //$row[] = '<span class="label-success label label-default">Active</span>';
             $row[] = '<a class="btn btn-success" href="/admin/view_providers/' . $clients->use_id . '">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 View
@@ -2102,7 +2107,7 @@ class Admin extends CI_Controller
         $min_liytov = (int)$this->input->post('min_liytov');
         $order_price = $this->input->post('order_price');
         if (!empty($category))
-            $data['prd_id_category'] = $category;
+            $this->db->where('prd_id_category in (select c.cat_id from category c where c.cat_id=' . $category . ' or c.cat_pid=' . $category . ')');
         if (!empty($country))
             $data['del_id_country'] = $country;
         if (!empty($region))

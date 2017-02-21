@@ -40,7 +40,7 @@
                                     <!--Для менеджера клиентов вытягивает в выпадающий список со свеми клиентами/поле должно быть по типу в локации - с поиском -->
                                     <div class="control-group">
                                         <label for="prd_id_providers">Клиент:</label>
-                                        <p class="help-block">Выбрать уже зарегистрированого клиента из списка</p>
+                                        <!--                                        <p class="help-block">Выбрать уже зарегистрированого клиента из списка</p>-->
                                         <div class="controls">
                                             <select data-placeholder="Введите ФИО клиента или название организации"
                                                     class="col-xs-12 col-md-12" name="fio" id="selectError2"
@@ -61,24 +61,18 @@
                                     <label for="fatherName">Фамилия:</label>
                                     <input name="ord_father_name" type="text" class="form-control" id="fatherName"
                                            placeholder="Введите фамилию">
-                                    <p class="help-block">Введите фамилию клиента, если он еще не зарегистрирован на
-                                        сайте.</p>
                                 </div>
 
                                 <div class="col-xs-12 col-md-4">
                                     <label for="firstName">Имя:</label>
                                     <input name="ord_name" type="text" class="form-control" id="firstName"
                                            placeholder="Введите имя">
-                                    <p class="help-block">Введите имя клиента, если он еще не зарегистрирован на
-                                        сайте.</p>
                                 </div>
 
                                 <div class="col-xs-12 col-md-4">
                                     <label for="fatherName">Отчество:</label>
                                     <input name="ord_last_name" type="text" class="form-control" id="fatherName"
                                            placeholder="Введите фамилию">
-                                    <p class="help-block">Введите отчество клиента, если он еще не зарегистрирован на
-                                        сайте.</p>
                                 </div>
 
                             </div>
@@ -89,7 +83,58 @@
                                            placeholder="+38 (067)-510-32-23"
                                            pattern="+38[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}">
                                 </div>
+                                <div class="col-xs-12 col-md-4">
+                                    <label for="">Дата доставки:</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" value="<?= date('Y-m-d'); ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-4">
+                                    <label for="">Время доставки:</label>
+                                    <div class="input-group">
+                                        <input name="ord_delivery_datetime" type="time"
+                                               class="form-control border-radius-3"
+                                               value="<?= date("H:i"); ?>"/>
+                                    </div>
+                                </div>
                             </div>
+                        </form>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-xs-12 col-md-4">
+                                    <label for="postalAddress">Улица:</label>
+                                    <input type="" class="form-control" name="ord_street" id="" placeholder="Улица">
+                                </div>
+                                <div class="col-xs-12 col-md-3">
+                                    <label for="postalAddress">Номер дома:</label>
+                                    <input name="ord_building" type="" class="form-control" id=""
+                                           placeholder="Номер дома">
+                                </div>
+                                <div class="col-xs-12 col-md-2">
+                                    <label for="postalAddress">Кв./Офис:</label>
+                                    <input type="" class="form-control" name="ord_room" id=""
+                                           placeholder="Кв./Офис">
+                                </div>
+                                <div class="col-xs-12 col-md-3">
+                                    <label for="postalAddress">Домофон:</label>
+                                    <input type="" class="form-control" name="ord_intercom" id=""
+                                           placeholder="Домофон">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-md-6">
+                                    <label for="postalAddress">Заезд:</label>
+                                    <input type="" class="form-control" id="" name="ord_destonation"
+                                           placeholder="Заезд">
+                                </div>
+
+                                <div class="col-xs-12 col-md-6">
+                                    <label for="postalAddress">Примечание:</label>
+                                    <textarea rows="1" name="ord_comments" class="form-control" id="postalAddress"
+                                              placeholder="Примечание"></textarea>
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -303,59 +348,6 @@
                                 </tfoot>
                             </table>
                             <form class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-xs-12 col-md-4">
-                                        <label for="">Дата доставки:</label>
-                                        <div class="input-group">
-                                            <input type="date" class="form-control" value="<?= date('Y-m-d'); ?>"/>
-                                        </div>
-                                        <p class="help-block">Нажмите на поле для отображения календаря</p>
-                                    </div>
-                                    <div class="col-xs-12 col-md-4">
-                                        <label for="">Время доставки:</label>
-                                        <div class="input-group">
-                                            <input name="ord_delivery_datetime" type="time"
-                                                   class="form-control border-radius-3"
-                                                   value="<?= date("H:i"); ?>"/>
-                                        </div>
-                                        <p class="help-block">Нажмите на поле для ввода времени</p>
-                                    </div>
-                                    <div class="col-xs-12 col-md-4">
-                                        <label for="postalAddress">Номер дома:</label>
-                                        <input name="ord_building" type="" class="form-control" id=""
-                                               placeholder="Номер дома">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12 col-md-4">
-                                        <label for="postalAddress">Кв./Офис:</label>
-                                        <input type="" class="form-control" name="ord_room" id=""
-                                               placeholder="Кв./Офис">
-                                    </div>
-                                    <div class="col-xs-12 col-md-4">
-                                        <label for="postalAddress">Домофон:</label>
-                                        <input type="" class="form-control" name="ord_intercom" id=""
-                                               placeholder="Домофон">
-                                    </div>
-                                    <div class="col-xs-12 col-md-4">
-                                        <label for="postalAddress">Улица:</label>
-                                        <input type="" class="form-control" name="ord_street" id="" placeholder="Улица">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12 col-md-12">
-                                        <label for="postalAddress">Заезд:</label>
-                                        <input type="" class="form-control" id="" name="ord_destonation"
-                                               placeholder="Заезд">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12 col-md-12">
-                                        <label for="postalAddress">Примечание:</label>
-                                        <textarea rows="3" name="ord_comments" class="form-control" id="postalAddress"
-                                                  placeholder="Примечание"></textarea>
-                                    </div>
-                                </div>
                                 <div class="form-group">
                                     <div class="col-xs-12 col-md-12">
                                         <p class="text-left">

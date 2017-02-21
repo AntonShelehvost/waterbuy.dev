@@ -64,8 +64,10 @@ $success = $this->session->flashdata('success');
                                 <label for="day">День:</label>
                                 <select class="form-control" name="day">
                                     <?php for ($i = 1; $i <= 31; $i++) { ?>
-                                        <option <?= (isset($clients->use_birthday) && (int)date('d', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
-                                            value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?></option>
+                                        <option <?= (isset($client->use_birthday) && (int)date('d', strtotime($client->use_birthday)) == $i) ? 'selected' : '' ?>
+                                            value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?>
+
+                                        </option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -77,7 +79,7 @@ $success = $this->session->flashdata('success');
                                     for ($i = 0; $i <= 11; $i++) {
                                         $month_name = $month[$i];
                                         ?>
-                                        <option <?= (isset($clients->use_birthday) && (int)date('m', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                        <option <?= (isset($client->use_birthday) && (int)date('m', strtotime($client->use_birthday)) == $i + 1) ? 'selected' : '' ?>
                                             value="<?= $i + 1 ?>"><?= $month_name; ?></option>
                                     <?php } ?>
                                 </select>
@@ -86,7 +88,7 @@ $success = $this->session->flashdata('success');
                                 <label for="yaer">Год:</label>
                                 <select class="form-control" name="year">
                                     <?php for ($i = (int)date('Y') - 16; $i >= (int)date('Y') - 58; $i--) { ?>
-                                        <option <?= (isset($clients->use_birthday) && (int)date('Y', strtotime($clients->use_birthday)) == $i) ? 'selected' : '' ?>
+                                        <option <?= (isset($client->use_birthday) && (int)date('Y', strtotime($client->use_birthday)) == $i) ? 'selected' : '' ?>
                                             value="<?= $i ?>"><?= number_format($i, 0, '', ''); ?></option>
                                     <?php } ?>
                                 </select>
@@ -101,7 +103,8 @@ $success = $this->session->flashdata('success');
                         <div class="form-group <?= (!empty(form_error('use_phone')) ? 'has-error' : '') ?>">
                             <label class="control-label col-xs-3" for="phoneNumber">Телефон*:</label>
                             <div class="col-xs-9">
-                                <input type="text" id="phone" name="use_phone" placeholder="9990000000">
+                                <input type="text" class="form-control" name="use_phone"
+                                       value="<?php echo $client->use_phone; ?>">
                             </div>
                         </div>
                         <div class="form-group">
@@ -201,3 +204,11 @@ $success = $this->session->flashdata('success');
     <!--/span-->
 
 </div>
+<script>
+    $(document).ready(function () {
+        country =<?=$client->use_id_country?>;
+        region =<?=$client->use_id_region?>;
+        city =<?=$client->use_id_city?>;
+        $('.country').change();
+    });
+</script>

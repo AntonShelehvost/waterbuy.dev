@@ -1,3 +1,4 @@
+var country = 0, region = 0, city = 0, district = 0;
 $(document).ready(function () {
     //themes, change CSS with JS
     //default theme(CSS) is cerulean, change it if needed
@@ -200,15 +201,16 @@ function docReady() {
             }
         }, 'json');
     });
+
     $(document).on('click', '.minus', function () {
         var count = $(this).parent().parent().find('.calc');
         $(count).val(parseInt($(count).val()) - 1);
     });
+
     $(document).on('click', '.plus', function () {
         var count = $(this).parent().parent().find('.calc');
         $(count).val(parseInt($(count).val()) + 1);
     });
-
 
     $(document).on('click', '.update_order', function () {
 
@@ -236,16 +238,16 @@ function docReady() {
                     $('.alert-success').removeClass('hide');
                     $('.alert-success').html(data.message);
                     $('input[name="ord_father_name"]').val(''),
-                    $('input[name="ord_name"]').val(''),
-                    $('input[name="ord_last_name"]').val(''),
-                    $('input[name="ord_phone"]').val(''),
-                    $('input[name="ord_comments"]').val(''),
-                    $('input[name="ord_street"]').val(''),
-                    $('input[name="ord_building"]').val(''),
-                    $('input[name="ord_room"]').val(''),
-                    $('input[name="ord_intercom"]').val(''),
-                    $('input[name="ord_destonation"]').val(''),
-                    $('#order_id').val(0);
+                        $('input[name="ord_name"]').val(''),
+                        $('input[name="ord_last_name"]').val(''),
+                        $('input[name="ord_phone"]').val(''),
+                        $('input[name="ord_comments"]').val(''),
+                        $('input[name="ord_street"]').val(''),
+                        $('input[name="ord_building"]').val(''),
+                        $('input[name="ord_room"]').val(''),
+                        $('input[name="ord_intercom"]').val(''),
+                        $('input[name="ord_destonation"]').val(''),
+                        $('#order_id').val(0);
                     table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
                     table.ajax.reload();
 
@@ -253,6 +255,7 @@ function docReady() {
                 console.log(data);
             }, 'json');
     });
+
     $(document).on('click', '.add_order_item', function () {
         $.post('/admin/add_order_item',
             {
@@ -322,18 +325,17 @@ function docReady() {
 
     });
 
-
     $('a.ajaxSubmitForm').on('click', function () {
         var url = $(this).attr('form_url');
         var that = $(this).parent().parent();
         $.post(url, $(that).serialize(), function (data) {
-                if (data.success !== false) {
-                    $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.success + '</div>')
-                }
-                else {
-                    $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
-                }
-            }, 'json')
+            if (data.success !== false) {
+                $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.success + '</div>')
+            }
+            else {
+                $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
+            }
+        }, 'json')
             .fail(function (xhr, status, error) {
                 $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>');
             });
@@ -361,6 +363,8 @@ function docReady() {
                             $(list).append(new Option(item.reg_name, item.reg_id));
                         });
                         $(list).chosen({width: '100%!important'});
+                        if (region != 0)
+                            $('.region [value="' + region + '"]').attr('selected', true).trigger("chosen:updated");
                         $(list).trigger("chosen:updated");
                         $('.region').change();
                     });
@@ -387,9 +391,12 @@ function docReady() {
                             $(list).append(new Option(item.cit_name, item.cit_id));
                         });
                         $(list).chosen({width: '100%!important'});
+
                         $(list).trigger("chosen:updated");
                         $('.city').change();
                     });
+                    if (city != 0)
+                        $('.city [value="' + city + '"]').attr('selected', true).trigger("chosen:updated");
                 } else console.log('Something wrong in answer');
             }
         });
@@ -411,11 +418,13 @@ function docReady() {
                         $(list).empty();
                         $(list).append(new Option('- ВСЕ -', -1));
                         $.each(data, function (index, item) {
-                            $(list).append(new Option(item.dis_name, item.dis_id));
+                            $(list).append(new Option(item.dis_name, parceInt(item.dis_id)));
                         });
                         $(list).chosen({width: '100%!important'});
+
                         $(list).trigger("chosen:updated");
                     });
+
                 } else console.log('Something wrong in answer');
             }
         });
@@ -868,6 +877,10 @@ function docReady() {
                 $('input[name="ord_father_name"]').val(data.address.ord_father_name);
                 $('input[name="ord_name"]').val(data.address.ord_name);
                 $('input[name="ord_last_name"]').val(data.address.ord_last_name);
+                country = data.address.ord_id_country;
+                region = data.address.ord_id_region;
+                city = data.address.ord_id_city;
+                $('.country').change();
             }
 
             console.log(data);
@@ -897,6 +910,10 @@ function docReady() {
                 $('input[name="ord_father_name"]').val(data.user.use_father_name);
                 $('input[name="ord_name"]').val(data.user.use_name);
                 $('input[name="ord_last_name"]').val(data.user.use_last_name);
+                country = data.user.use_id_country;
+                region = data.user.use_id_region;
+                city = data.user.use_id_city;
+                $('.country').change();
             }
             console.log(data);
         }, 'json');
@@ -1063,9 +1080,9 @@ function docReady() {
     });
 
 
-    /* $('.phone').phonecode({
-     preferCo: 'ru'
-     });*/
+    $('.phone').phonecode({
+        preferCo: 'ru'
+    });
 }
 
 

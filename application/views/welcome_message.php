@@ -14,6 +14,9 @@
     <link href="/assets/bower_components/main-page/css/bootstrap.min.css" rel="stylesheet">
     <!-- Template  -->
     <link href="/assets/bower_components/main-page/css/templatemo_style.css" rel="stylesheet">
+      <link href='/assets/bower_components/chosen/chosen.min.css' rel='stylesheet'>
+      <!--      <link href='/assets/bower_components/colorbox/example3/colorbox.css' rel='stylesheet'>-->
+      <link href='/assets/bower_components/chosen/bootstrap-chosen.css' rel='stylesheet'>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -35,7 +38,7 @@
                 <li><a href="#templatemo_upcomming_event">Типы воды</a></li>
                 <li><a href="#templatemo_pricing">Цена</a></li>
                 <li><a href="#templatemo_blog">Отзывы</a></li>
-                <li><a href="http://www.facebook.com/templatemo" class="external-link" target="_parent">Заказ</a></li>
+                <li><a href="#templatemo_order" class="external-link" target="_parent">Заказ</a></li>
                 <li><a href="#templatemo_contact">Контакты</a></li>
             </ul>
         </div>
@@ -213,16 +216,30 @@
     <div id="templatemo_banner_logo" class="container_wapper">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 col-md-8 col-md-offset-4 center-block">
-                    <img src="/assets/bower_components/main-page/images/100.png" alt="logo" />
-                    <h1><a href="#">waterbuy</a></h1><br /><br /><br />
+                <div class="col-xs-12 col-md-8 col-md-offset-4">
+                    <img src="/assets/bower_components/main-page/images/100.png" alt="logo" class="min-height-120px"/>
+                    <h1><a href="http://waterbuy.net">waterbuy</a></h1>
+                    <br/>
+                    <br/>
+                    <br/>
                     <span>экспресс доставка воды</span>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- <div class="col-md-12">
+        <div class="col-md-3">
+            <img src="/assets/bower_components/main-page/images/taxi.jpg " class="img-responsive">
+        </div>
+
+        <div class="col-md-3">
+            <img src="/assets/bower_components/main-page/images/taxi.jpg " class="img-responsive">
+        </div>
+    </div>-->
+
     <div class="banner" id="templatemo_banner_slide">
+
         <!-- <div id="block-1" class="fixed-btn hidden-sm hidden-xs hidden-md"><!--Кнопки на больших экранах-->
         <!-- <div class="container">
              <div class="row">
@@ -294,7 +311,7 @@
                                <li><a href="#templatemo_upcomming_event">Типы воды</a></li>
                                <li><a href="#templatemo_pricing">Цена</a></li>
                                <li><a href="#templatemo_blog">Отзывы</a></li>
-                               <li><a href="http://www.facebook.com/templatemo" class="external-link" target="_parent">
+                               <li><a href="#templatemo_order" class="external-link" target="_parent">
                                        Заказ</a></li>
                                <li><a href="#templatemo_contact">Контакты</a></li>
                            </ul>
@@ -313,10 +330,10 @@
                         жизнеобеспечения на нашей планете. </p>
                 </div>
                        <div class="clearfix"></div>
-                <div class="col-sm-6 col-md-3">
+                <div class="col-sm-12 col-md-3">
                     <div class="event_box event_animate_left">
                         <img src="/assets/bower_components/main-page/images/voda-1.jpg" alt="Артезианская вода"
-                             class="img-responsive"/>
+                             class="img-responsive img-thumbnail"/>
 
                         <h2 class="text-center padding-10"><span class="blue"> Артезианская<br> вода </span></h2>
                         <p class="voda">На химический состав грунтовых обычных вод влияют условия формирования, кроме
@@ -344,11 +361,11 @@
                             </div>
                         </div>
                     </div>
-                       </div>
-                <div class="col-sm-6 col-md-3">
+                </div>
+                <div class="col-sm-12 col-md-3">
                     <div class="event_box event_animate_left">
                         <img src="/assets/bower_components/main-page/images/voda-miner.jpg" alt="Минеральные воды"
-                             class="img-responsive"/>
+                             class="img-responsive img-thumbnail"/>
                         <h2 class="text-center padding-10"><span class="blue"> Минеральные<br> воды</span></h2>
                         <p class="voda">Разлив минвод в герметически закрытую посуду после предварительного газирования
                             углекислым газом позволяет сохранить их солевой состав и лечебные свойства.
@@ -377,11 +394,11 @@
                             </div>
                         </div>
                     </div>
-                       </div>
-                <div class="col-sm-6 col-md-3">
+                </div>
+                <div class="col-sm-12 col-md-3">
                     <div class="event_box event_animate_right">
                         <img src="/assets/bower_components/main-page/images/voda-ochischena.jpg" alt="Очищенная вода"
-                             class="img-responsive"/>
+                             class="img-responsive img-thumbnail"/>
                         <h2 class="text-center padding-10"><span class="blue"> Очищенная <br> вода</span></h2>
                         <p class="voda">Вода очищенная может быть получена из питьевой воды методами дистилляции
                             (дистиллированная вода), ионного обмена, обратного осмоса или электродиализа.
@@ -409,10 +426,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3">
+                <div class="col-sm-12 col-md-3">
                     <div class="event_box event_animate_right">
                         <img src="/assets/bower_components/main-page/images/voda-rod.jpg" alt="Родниковая вода"
-                             class="img-responsive"/>
+                             class="img-responsive img-thumbnail"/>
                         <h2 class="text-center padding-10"><span class="blue"> Родниковая <br> вода</span></h2>
                         <p class="voda">Пробиваясь на поверхность, родниковая вода проходит через слои гравия и песка,
                             что обеспечивает ей естественную природную фильтрацию.
@@ -443,14 +460,210 @@
         </div>
     </div>
 
+    <!-- <div id="templatemo_blog" class="container_wapper">
+         <div class="container">
+             <div class="row">
+                 <div class="col-xs-12 section_header">
+                     <h1>Заказать <br> сейчас!</h1>
+                 </div>
+                 <div class="clearfix"></div>
+                 <div class="col-sm-4 event_animate_left">
+                     <img src="/assets/bower_components/main-page//images/step-1.png" alt="Blog Post 1" class="img-responsive img-rounded" />
+                 </div>
+                 <div class="col-sm-8 blog_text event_animate_right">
+                     <h1 class="blue"><span class="glyphicon glyphicon-phone"></span> Шаг 1 из 3: Контактные данные</h1>
+                     <div class="panel panel-default">
+                         <div class="panel-body">
+                             <form class="form-horizontal">
+                                 <div class="form-group">
+                                     <div class="col-xs-12 col-md-4">
+                                         <label for="fatherName">Фамилия:*</label>
+                                         <input type="text" class="form-control" id="fatherName" placeholder="Введите фамилию">
+                                         <p class="help-block">Введите Вашу фамилию.</p>
+                                     </div>
+
+                                     <div class="col-xs-12 col-md-4">
+                                         <label for="firstName">Имя:*</label>
+                                         <input type="text" class="form-control" id="firstName" placeholder="Введите имя">
+                                         <p class="help-block">Введите Ваше имя.</p>
+                                     </div>
+
+                                     <div class="col-xs-12 col-md-4">
+                                         <label for="fatherName">Отчество:</label>
+                                         <input type="text" class="form-control" id="fatherName" placeholder="Введите фамилию">
+                                         <p class="help-block">Введите Ваше отчество.</p>
+                                     </div>
+
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="col-xs-12 col-md-4"><!-- Обязательно для заполнения -->
+    <!--<label for="phoneNumber">Телефон:*</label>
+    <input type="tel"  name="tel" class="form-control" id="phoneNumber"
+           placeholder="+38 (067)-510-32-23"  pattern="+38[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}">
+    <p class="help-block">Введите Ваш телефон.</p>
+</div>
+<div class="col-xs-12 col-md-4"><!-- Обязательно для заполнения -->
+    <!-- <label for="email">Email:*</label>
+     <input type="email"  name="" class="form-control" id=""
+            placeholder="Введите email">
+     <p class="help-block">Введите Ваш email.</p>
+ </div>
+ <div class="col-xs-12 col-md-4">
+     <a href="#step-2" class="btn btn-primary dalee"> Далее <span class="glyphicon glyphicon-arrow-right"></span></a>
+ </div>
+</div>
+</div>
+</form>
+</div>
+</div>
+<div class="clearfix"></div>
+<div class="col-sm-4 event_animate_left">
+<img src="/assets/bower_components/main-page//images/step-2.png" alt="Blog Post 1" class="img-responsive img-rounded" />
+</div>
+<div class="col-sm-8 blog_text event_animate_right">
+<h1 class="blue"><span class="glyphicon glyphicon-map-marker"></span> Шаг 2 из 3: Адрес доставки</h1>
+<div class="panel panel-default">
+<div class="panel-body">
+<form class="form-horizontal">
+<div class="form-group">
+ <div class="col-xs-12 col-md-4">
+     <label for="postalAddress">Страна:</label>
+     <div class="controls">
+         <select data-placeholder="Введите название страны" class="col-xs-12 col-md-12" id="selectError2" data-rel="chosen">
+             <option value=""></option>
+         </select>
+     </div>
+ </div>
+ <div class="col-xs-12 col-md-4">
+     <label for="postalAddress">Область</label>
+     <div class="controls">
+         <select data-placeholder="Введите название области" class="col-xs-12 col-md-12" id="selectError2" data-rel="chosen">
+             <option value=""></option>
+         </select>
+     </div>
+ </div>
+
+ <div class="col-xs-12 col-md-4">
+     <label for="postalAddress">Город:</label>
+     <div class="controls">
+         <select data-placeholder="Введите название города" class="col-xs-12 col-md-12" id="selectError2" data-rel="chosen">
+             <option value=""></option>
+         </select>
+     </div>
+ </div>
+</div>
+<div class="form-group">
+ <div class="col-xs-12  col-md-4">
+     <label for="postalAddress">Улица:</label>
+     <input type="" class="form-control" id="" placeholder="Улица">
+ </div>
+ <div class="col-xs-12 col-md-4">
+     <label for="postalAddress">Номер дома:</label>
+     <input type="" class="form-control" id="" placeholder="Номер дома">
+ </div>
+ <div class="col-xs-12 col-md-4">
+     <label for="postalAddress">Кв./Офис:</label>
+     <input type="" class="form-control" id="" placeholder="Кв./Офис">
+ </div>
+
+</div>
+<div class="form-group">
+ <div class="col-xs-12 col-md-4">
+     <label for="postalAddress">Домофон:</label>
+     <input type="" class="form-control" id="" placeholder="Домофон">
+ </div>
+ <div class="col-xs-12 col-md-4">
+     <div class="control-group">
+         <label for="">Район:</label><!--Поле обязательно для заполнения-->
+    <!-- <div class="controls">
+                                                <select data-placeholder="Введите название района" class="col-xs-12 col-md-12" id="selectError2" data-rel="chosen">
+                                                    <option value=""></option>
+                                                    <option>Dallas Cowboys</option>
+                                                    <option>New York Giants</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="delivery_city" name="delivery_city">
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <a href="#step-2" class="btn btn-primary dalee"> Далее <span class="glyphicon glyphicon-arrow-right"></span></a>
+                                    </div>
+
+                                </div>
+
+                        </div>
+
+
+                    </div>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-4 event_animate_left">
+                    <img src="/assets/bower_components/main-page//images/step-3.png" alt="Blog Post 1" class="img-responsive img-rounded" />
+                </div>
+                <div class="col-sm-8 blog_text event_animate_right">
+                    <h1 class="blue"><span class="glyphicon glyphicon-calendar"></span> Шаг 3 из 3: Время доставки</h1>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-md-6">
+                                        <label for="">Дата доставки:</label>
+                                        <div class="input-group" id="">
+                                            <input type="date" class="form-control"  value="<?= date('Y-m-d'); ?>"/>
+                                        </div>
+                                        <p class="help-block">Нажмите на поле для отображения календаря</p>
+                                    </div>
+                                    <div class="col-xs-12 col-md-6">
+                                        <label for="">Время доставки:</label>
+                                        <div class="input-group" id="">
+                                            <input type="time" class="form-control border-radius-3" />
+                                        </div>
+                                        <p class="help-block">Нажмите на поле для ввода времени</p>
+                                    </div>
+                                    <div class="col-xs-12 col-md-12">
+                                        <a href="#step-2" class="btn btn-primary dalee"> Перейти к товарам <span class="glyphicon glyphicon-arrow-right"></span></a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>-->
+
+
     <div id="templatemo_pricing" class="container_wapper">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 section_header">
                     <h1>Цены</h1>
                 </div>
-                       <div class="clearfix"></div>
-
+                <div class="clearfix"></div>
+                <div class="col-md-4 pricing_icon_wapper">
+                    <p class="cycle_icon"><span><img src="/assets/bower_components/main-page/images/watermelon-1.png"
+                                                     class="img-responsive"></span></p>
+                    <div class="clearfix"></div>
+                    <h1>Факт №1</h1>
+                    <p> Один из самых водянистых продуктов – это арбуз. Арбуз на 93% состоит из воды.</p>
+                </div>
+                <div class="col-md-4 pricing_icon_wapper">
+                    <p class="cycle_icon"><span><img src="/assets/bower_components/main-page/images/sckale.png"
+                                                     class="img-responsive"></span></p>
+                    <div class="clearfix"></div>
+                    <h1>Пейте воду</h1>
+                    <p> 2-ух процентное сокращение уровня воды в теле может привести к 20%-ому уменьшению в умственных и
+                        физических показателях.</p>
+                </div>
+                <div class="col-md-4 pricing_icon_wapper">
+                    <p class="cycle_icon"><span><img src="/assets/bower_components/main-page/images/planet.png"
+                                                     class="img-responsive"></span></p>
+                    <div class="clearfix"></div>
+                    <h1>Берегите воду</h1>
+                    <p> Примерно 70 процентов Земли покрыто водой. Но только 1 процент из этой воды годен для питья!</p>
+                </div>
                 <div class="clearfix"></div>
                 <div class="col-md-3">
                     <div class="price_table_box">
@@ -548,6 +761,200 @@
              </div>
          </div>
      </div>
+    <div id="templatemo_order" class="container_wapper">
+        <div class="container">
+            <div class="col-xs-12 section_header">
+                <h1> Заказ</h1>
+            </div>
+            <div class="col-md-6 col-md-offset-3 col-md-offset-3">
+                <p class="text-center"> Оставляйте заявку и наш менеджер обязательно свяжется с Вами!</p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row bs-wizard" style="border-bottom:0;">
+
+                <div class="col-xs-6 bs-wizard-step complete">
+
+                    <div class="text-center bs-wizard-stepnum">Шаг 1</div>
+                    <div class="progress">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <a href="#" class="bs-wizard-dot"></a>
+                    <div class="bs-wizard-info text-center">Укажите Ваши контактные данные.</div>
+                </div>
+
+                <!-- <div class="col-xs-4 bs-wizard-step complete"><!-- complete -->
+                <!--<div class="text-center bs-wizard-stepnum">Шаг 2</div>
+                <div class="progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <a href="#" class="bs-wizard-dot"></a>
+                <div class="bs-wizard-info text-center">Укажите, куда Вам  доставить товар.</div>
+            </div>-->
+
+                <div class="col-xs-6 bs-wizard-step active"><!-- complete -->
+                    <div class="text-center bs-wizard-stepnum">Шаг 2</div>
+                    <div class="progress">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <a href="#" class="bs-wizard-dot"></a>
+                    <div class="bs-wizard-info text-center"> Введите время доставки и подтвердите
+                        заказ!
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-primary min-height-order">
+                        <div class="panel-heading">
+                            <p class="panel-title"><span class="glyphicon glyphicon-phone"></span> Шаг 1 из 2:
+                                Контактные данные</p>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-xs-12 col-md-6">
+                                            <label for="fatherName">Фамилия:*</label>
+                                            <input type="text" class="form-control" id="fatherName"
+                                                   placeholder="Введите фамилию">
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-6">
+                                            <label for="firstName">Имя:*</label>
+                                            <input type="text" class="form-control" id="firstName"
+                                                   placeholder="Введите имя">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12 col-md-6"><!-- Обязательно для заполнения -->
+                                            <label for="phoneNumber">Телефон:*</label>
+                                            <input type="tel" name="tel" class="form-control" id="phoneNumber"
+                                                   placeholder="+38 (067)-510-32-23"
+                                                   pattern="+38[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}">
+                                        </div>
+                                        <div class="col-xs-12 col-md-6"><!-- Обязательно для заполнения -->
+                                            <label for="email">Email:*</label>
+                                            <input type="email" name="" class="form-control" id=""
+                                                   placeholder="Введите email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12 col-md-6">
+                                            <label for="postalAddress">Страна:</label>
+                                            <div class="controls">
+                                                <select data-placeholder="Введите название страны"
+                                                        class="col-xs-12 col-md-12 country" id="selectError2"
+                                                        data-rel="chosen">
+                                                    <?php foreach ($country as $item) { ?>
+                                                        <option
+                                                            value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?>
+                                                            Украина
+                                                        </option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <label for="postalAddress">Область</label>
+                                            <div class="controls">
+                                                <select data-placeholder="Введите название области"
+                                                        class="col-xs-12 col-md-12 region"
+                                                        id="selectError2" data-rel="chosen">
+                                                    <option value="">Днепропетровская</option>
+                                                    <option value="">Днепропетровская</option>
+                                                    <option value="">Днепропетровская</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-md-12">
+                                            <label for="postalAddress">Город:</label>
+                                            <div class="controls">
+                                                <select data-placeholder="Введите название города"
+                                                        class="col-xs-12 col-md-12 city" id="selectError2"
+                                                        data-rel="chosen">
+                                                    <option value="">Днепр</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-primary min-height-order" id="step-2">
+                        <div class="panel-heading">
+                            <p class="panel-title"><span class="glyphicon glyphicon-map-marker"></span> Шаг 2 из 2:
+                                Адрес доставки</p>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-xs-12  col-md-6">
+                                    <label for="postalAddress">Улица:</label>
+                                    <input type="" class="form-control" id="" placeholder="Улица">
+                                </div>
+
+                                <div class="col-xs-12 col-md-6">
+                                    <label for="postalAddress">Номер дома:</label>
+                                    <input type="" class="form-control" id="" placeholder="Номер дома">
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <label for="postalAddress">Кв./Офис:</label>
+                                    <input type="" class="form-control" id="" placeholder="Кв./Офис">
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <label for="postalAddress">Домофон:</label>
+                                    <input type="" class="form-control" id="" placeholder="Домофон">
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <div class="control-group">
+                                        <label for="">Район:</label><!--Поле обязательно для заполнения-->
+                                        <div class="controls">
+                                            <select data-placeholder="Введите название района"
+                                                    class="col-xs-12 col-md-12 district"
+                                                    id="selectError2" data-rel="chosen">
+                                                <option value=""></option>
+                                                <option>Dallas Cowboys</option>
+                                                <option>New York Giants</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="delivery_city" name="delivery_city">
+                                </div>
+
+                                <div class="col-xs-12 col-md-6">
+                                    <label for="postalAddress">Заезд:</label>
+                                    <input type="" class="form-control" id="" placeholder="Заезд">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-md-6"><span class="glyphicon glyphicon-calendar"></span>
+                                    <label for="">Дата доставки:</label>
+                                    <div class="input-group" id="">
+                                        <input type="date" class="form-control" value="<?= date('Y-m-d'); ?>"/>
+                                    </div>
+                                    <p class="help-block help-order">Нажмите на поле для отображения календаря</p>
+                                </div>
+                                <div class="col-xs-12 col-md-6"><span class="glyphicon glyphicon-time"></span>
+                                    <label for="">Время доставки:</label>
+                                    <div class="input-group" id="">
+                                        <input type="time" class="form-control border-radius-3"/>
+                                    </div>
+                                    <p class="help-block help-order">Нажмите на поле для ввода времени</p>
+                                </div>
+                                <div class="col-xs-12 col-md-12">
+                                    <a href="#step-2" class="btn btn-success orange-btn"><span
+                                            class="glyphicon glyphicon-share-alt"></span> Перейтив каталог товаров </a>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
      <div id="templatemo_contact" class="container_wapper">
          <div class="container">
              <div class="row">
@@ -587,7 +994,10 @@
     <div id="templatemo_footer" class="container_wapper">
         <div class="container">
             <div class="row">
-                <div class="col-md-5 col-sm-6">
+                <div class="col-md-1 hidden-sm">
+                    &ensp;
+                </div>
+                <div class="col-md-3 col-sm-4">
                     <ul class="center-block">
                         <li><a href="#"> Главная</a></li>
                         <li><a href="#"> Типы воды</a></li>
@@ -596,15 +1006,21 @@
                     </ul>
                 </div><!--/.col-md-3-->
 
-                <div class="col-md-5 col-sm-6">
+                <div class="col-md-1 hidden-sm">
+                    &ensp;
+                </div>
+                <div class="col-md-3 col-sm-4">
                     <ul class="center-block">
                         <li><a href="#"> Обратная связь</a></li>
                         <li><a href="#"> Сотрудничество</a></li>
                         <li><a href="#"> Доставка воды</a></li>
+                        <li><a href="#"> Оплата</a></li>
                     </ul>
                 </div><!--/.col-md-3-->
-
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-1 hidden-sm">
+                    &ensp;
+                </div>
+                <div class="col-md-3 col-sm-4">
                     <ul>
                         <li><a href="#"> Условия пользования</a></li>
                         <li><a href="#"> Правовая база</a></li>
@@ -617,13 +1033,15 @@
             </div>
         </div>
     </div>
+    <!-- select or dropdown enhancer -->
+    <script src="/assets/bower_components/chosen/chosen.jquery.min.js"></script>
     <script src="/assets/bower_components/main-page/js/jquery.min.js"></script>
     <script src="/assets/bower_components/main-page/js/bootstrap.min.js"></script>
     <script src="/assets/bower_components/main-page/js/jquery.easing.1.3.js"></script>
     <script src="/assets/bower_components/main-page/js/jquery.mobile.customized.min.js"></script>
     <script src="/assets/bower_components/main-page/js/unslider.min.js"></script>
     <script src="/assets/bower_components/main-page/js/jquery.singlePageNav.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>-->
     <script src="/assets/bower_components/main-page/js/templatemo_script.js"></script>
     <!-- templatemo 404 reactive -->
   </body>

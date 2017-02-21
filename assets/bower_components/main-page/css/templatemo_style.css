@@ -93,7 +93,11 @@ body {
 #templatemo_banner_logo {
     background-color: #ffffff;
     background-image: url("../images/banner_logo_bg.jpg");
-    height: 135px;
+    height: 145px; /*135 old*/
+}
+
+.min-height-120px {
+    min-height: 120px;
 }
 #templatemo_banner_logo img {
     float: left;
@@ -119,7 +123,7 @@ body {
 .banner {
     width: 50%; /*50 old*/
     height: 500px;
-    position: relative; 
+    position: relative;
     overflow: hidden;
     margin-left: 25%; /*не было*/
 }
@@ -158,20 +162,21 @@ body {
     margin: 10px 0 0 0 ;
 }
 .templatemo_banner_slide_01 {
-    background: url('../images/header.png'); /*url('../images/banner_slide_0111.jpg');*/
+    background: url('../images/header-1.png'); /*url('../images/banner_slide_0111.jpg');*/
     background-size: cover;
 }
 .templatemo_banner_slide_02 {
-    background: url('../images/header.png'); /*url('../images/banner_slide_0222.jpg');*/
+    background: url('../images/header-1.png'); /*url('../images/banner_slide_0222.jpg');*/
     background-size: cover;
 }
 .templatemo_banner_slide_03 {
-    background: url('../images/header.png'); /* url('../images/banner_slide_0333.jpg');*/
+    background: url('../images/header-1.png'); /* url('../images/banner_slide_0333.jpg');*/
     background-size: cover;
 }
 /* templatemo_main_menu */
 #templatemo_main_menu {
     background: #e7eaef;
+    /*background: url("../images/fon.jpg")no-repeat;*/
     border-bottom: 1px solid #d7dadd;
     z-index: 1500;
 }
@@ -190,6 +195,38 @@ body {
 #templatemo_main_menu .nav-justified li a:hover {
     background: #35abd9 url("../images/menu_bg.jpg") center center;
     color: #fff;
+}
+
+#templatemo_order { /*my style*/
+    background: #35abd9;
+!important;
+    background: url("../images/fon-order.png") center top no-repeat;
+    overflow: hidden;
+    background-size: cover;
+}
+
+#templatemo_order label {
+    font-size: 14px;
+}
+
+.help-order {
+    font-size: 12px;
+}
+
+.min-height-order {
+    min-height: 450px;
+    border: 0px;
+}
+
+.orange-btn {
+    background-color: #FF8C00;
+    border-color: #FF8C00;
+    padding: 11px;
+}
+
+.orange-btn:hover {
+    background-color: #ff7514;
+    border-color: #ff7514;
 }
 /* templatemo_upcomming_event */
 #templatemo_upcomming_event {
@@ -419,18 +456,19 @@ body {
     background: #b3e9ff;
 }
 #templatemo_footer {
-    background: #3d444e;
+    /*background: #3d444e;*/
+    background: url("../images/fon.jpg") no-repeat;
     padding: 30px 0px;
 }
 #templatemo_footer p {
     text-align: center;
     padding: 0;
     margin: 0;
-    color: white;
+    color: black;
 }
 #templatemo_footer a {
     text-decoration: none;
-    color: white;
+    color: black;
 
 }
 /*my style*/
@@ -451,14 +489,12 @@ body {
     font-size: 14px;
 !important;
 }
-
 .fixed-btn {
     position: absolute;
     z-index: 1600;
     margin-left: 25%;
     margin-top: 56%;
 }
-
 .text-shadow-11 {
     padding: 8px;;
 }
@@ -485,6 +521,10 @@ li {
     margin-top: 59px;
 }
 
+.dalee { /*кнопка на стартовой Далее*/
+    font-size: 36px;
+    margin-top: 20%;
+}
 /*login*/
 .bg-white{
     background-color: white;
@@ -540,6 +580,116 @@ li {
     }
 }
 /*login*/
+CSS
+.bs-wizard {
+    margin-top: 40px;
+}
+
+/*Form Wizard*/
+.bs-wizard {
+    border-bottom: solid 1px #e0e0e0;
+    padding: 0 0 10px 0;
+}
+
+.bs-wizard > .bs-wizard-step {
+    padding: 0;
+    position: relative;
+}
+
+.bs-wizard > .bs-wizard-step + .bs-wizard-step {
+}
+
+.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {
+    color: black;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.bs-wizard > .bs-wizard-step .bs-wizard-info {
+    color: black;
+    font-size: 14px;
+}
+
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: block;
+    background: #008fc9;
+    top: 45px;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-radius: 50%;
+}
+
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {
+    content: ' ';
+    width: 14px;
+    height: 14px;
+    background: #FF8C00;
+    border-radius: 50px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
+
+.bs-wizard > .bs-wizard-step > .progress {
+    position: relative;
+    border-radius: 0px;
+    height: 8px;
+    box-shadow: none;
+    margin: 20px 0;
+}
+
+.bs-wizard > .bs-wizard-step > .progress > .progress-bar {
+    width: 0px;
+    box-shadow: none;
+    background: #35a9d8;
+}
+
+.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {
+    width: 100%;
+}
+
+.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {
+    width: 50%;
+}
+
+.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {
+    width: 0%;
+}
+
+.bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {
+    width: 100%;
+}
+
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {
+    background-color: #f5f5f5;
+}
+
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {
+    opacity: 0;
+}
+
+.bs-wizard > .bs-wizard-step:first-child > .progress {
+    left: 50%;
+    width: 50%;
+}
+
+.bs-wizard > .bs-wizard-step:last-child > .progress {
+    width: 50%;
+}
+
+.bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot {
+    pointer-events: none;
+}
+
+/*END Form Wizard*/
+
+.float-right-1 {
+    float: right;
+}
 /*end my style*/
 /*  Extra small devices (phones, less than 768px)  */
 @media (max-width: 768px ) { 
@@ -579,7 +729,6 @@ li {
 @media (min-width: 768px ) {
 
 }
-
 /*  Small devices (tablets, 768px and down)  */
 @media (max-width: 767px ) {
 
@@ -621,7 +770,6 @@ li {
         margin-left: -43%;
         margin-top: 67%;
     }
-
     #templatemo_upcomming_event .event_box {
         min-height: 500px; /*425 old*/
 
