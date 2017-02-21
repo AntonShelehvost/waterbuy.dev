@@ -78,8 +78,12 @@
 						<label class="control-label col-xs-3" for="postalAddress">Адрес:</label>
 						
 							<div class="col-xs-9">
-								<span class="control-label">г.<?php echo $client->cit_name;?> ул.<?php echo $client->use_street;?> дом.<?php echo $client->use_building;?>
-								кв/пом.<?php echo $client->use_room;?> домофон (<?php echo $client->use_intercom;?>)
+								<span
+									class="control-label"><?php echo $client->cou_name; ?> <?php echo $client->reg_name; ?>
+									г.<?php echo $client->cit_name; ?> ул.<?php echo $client->use_street; ?>
+									дом.<?php echo $client->use_building; ?>
+									кв/пом.<?php echo $client->use_room; ?> домофон <?php echo $client->use_intercom; ?>
+									заезд <?= $client->use_destonation; ?>
 								</span>
 								
 							</div>
@@ -88,12 +92,8 @@
 						<label class="control-label col-xs-3">Пол*:</label>
 						<div class="col-xs-2">
 							<label class="radio-inline">
-								<input type="radio" name="use_male"  <?php ($client->use_male==1)?'checked':"";?>> Мужской
-							</label>
-						</div>
-						<div class="col-xs-2">
-							<label class="radio-inline">
-								<input type="radio" name="use_male" <?php ($client->use_male==2)?'checked':"";?>> Женский
+								<?php if ((int)$client->use_male == 1) echo 'Мужской'; ?>
+								<?php if ((int)$client->use_male == 2) echo 'Женский'; ?>
 							</label>
 						</div>
 					</div>

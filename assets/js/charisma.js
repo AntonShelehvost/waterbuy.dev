@@ -222,10 +222,10 @@ function docReady() {
                 'ord_phone': $('input[name="ord_phone"]').val(),
                 'ord_comments': $('input[name="ord_comments"]').val(),
                 'ord_delivery_datetime': $('input[name="ord_delivery_datetime"]').val(),
-                'ord_id_country': $('input[name="ord_id_country"]').val(),
-                'ord_id_region': $('input[name="ord_id_region"]').val(),
-                'ord_id_city': $('input[name="ord_id_city"]').val(),
-                'ord_id_district': $('input[name="ord_id_district"]').val(),
+                'ord_id_country': $('select[name="ord_id_country"]').val(),
+                'ord_id_region': $('select[name="ord_id_region"]').val(),
+                'ord_id_city': $('select[name="ord_id_city"]').val(),
+                'ord_id_district': $('select[name="ord_id_district"]').val(),
                 'ord_street': $('input[name="ord_street"]').val(),
                 'ord_building': $('input[name="ord_building"]').val(),
                 'ord_room': $('input[name="ord_room"]').val(),
@@ -251,6 +251,38 @@ function docReady() {
                     table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
                     table.ajax.reload();
 
+                }
+                console.log(data);
+            }, 'json');
+    });
+
+    $(document).on('click', '.update_order_edit', function () {
+
+        $.post('/admin/update_order',
+            {
+                'ord_father_name': $('input[name="ord_father_name"]').val(),
+                'ord_name': $('input[name="ord_name"]').val(),
+                'ord_last_name': $('input[name="ord_last_name"]').val(),
+                'ord_phone': $('input[name="ord_phone"]').val(),
+                'ord_comments': $('input[name="ord_comments"]').val(),
+                'ord_delivery_datetime': $('input[name="ord_delivery_datetime"]').val(),
+                'ord_id_country': $('select[name="ord_id_country"]').val(),
+                'ord_id_region': $('select[name="ord_id_region"]').val(),
+                'ord_id_city': $('select[name="ord_id_city"]').val(),
+                'ord_id_district': $('select[name="ord_id_district"]').val(),
+                'ord_street': $('input[name="ord_street"]').val(),
+                'ord_building': $('input[name="ord_building"]').val(),
+                'ord_room': $('input[name="ord_room"]').val(),
+                'ord_intercom': $('input[name="ord_intercom"]').val(),
+                'ord_destonation': $('input[name="ord_destonation"]').val(),
+                'order_id': $('#order_id').val()
+            },
+            function (data) {
+                if (data.message !== false) {
+                    $('.alert-success').removeClass('hide');
+                    $('.alert-success').html(data.message);
+                    table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
+                    table.ajax.reload();
                 }
                 console.log(data);
             }, 'json');
@@ -329,13 +361,13 @@ function docReady() {
         var url = $(this).attr('form_url');
         var that = $(this).parent().parent();
         $.post(url, $(that).serialize(), function (data) {
-            if (data.success !== false) {
-                $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.success + '</div>')
-            }
-            else {
-                $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
-            }
-        }, 'json')
+                if (data.success !== false) {
+                    $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + data.success + '</div>')
+                }
+                else {
+                    $('#Form_main').before('<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>')
+                }
+            }, 'json')
             .fail(function (xhr, status, error) {
                 $('#Form_main').before('<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Ошибка обработки запроса. Обратитесь к администратору сайта.</div>');
             });
@@ -416,9 +448,9 @@ function docReady() {
                     var lists = $('.district');
                     $.each(lists, function (ind, list) {
                         $(list).empty();
-                        $(list).append(new Option('- ВСЕ -', -1));
+                        $(list).append(new Option('- ВСЕ -', 'null'));
                         $.each(data, function (index, item) {
-                            $(list).append(new Option(item.dis_name, parceInt(item.dis_id)));
+                            $(list).append(new Option(item.dis_name, parseInt(item.dis_id)));
                         });
                         $(list).chosen({width: '100%!important'});
 
@@ -812,25 +844,65 @@ function docReady() {
     $(document).on('click', '.delete_item', function () {
         $('#delete_ori_id').val($(this).attr('id'));
     });
+    $(document).on('click', '.delete_ord_id', function () {
+        $('#delete_ord_id').val($(this).attr('id'));
+    });
 
     $('a.ajaxDelete_ori').on('click', function () {
         var url = $(this).attr('form_url');
         var that = $(this).parent().parent();
         $.post(url, $(that).serialize(), function (data) {
-            if (data.success !== false) {
-                $('alert-mess').html(data.success)
-                $('alert-mess').removeClass('hide');
-                table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
-                table.ajax.reload();
-            }
+                if (data.success !== false) {
+                    $('alert-mess').html(data.success)
+                    $('alert-mess').removeClass('hide');
+                    table.ajax.url('/admin/get_order_items?id=' + $('#order_id').val());
+                    table.ajax.reload();
+                }
 
-        }, 'json')
+            }, 'json')
             .fail(function (xhr, status, error) {
                 $('alert-mess').html('Ошибка обработки запроса. Обратитесь к администратору сайта.');
                 $('alert-mess').removeClass('hide');
 
             });
     });
+
+    $('a.ajaxDelete_ord').on('click', function () {
+        var url = $(this).attr('form_url');
+        var that = $(this).parent().parent();
+        $.post(url, $(that).serialize(), function (data) {
+                if (data.success !== false) {
+                    $('alert-mess').html(data.success);
+                    $('alert-mess').removeClass('hide');
+                    table.ajax.url('/admin/ajax_orders');
+                    table.ajax.reload();
+                }
+            }, 'json')
+            .fail(function (xhr, status, error) {
+                $('alert-mess').html('Ошибка обработки запроса. Обратитесь к администратору сайта.');
+                $('alert-mess').removeClass('hide');
+
+            });
+    });
+
+    $('a.ajaxDelete_cli').on('click', function () {
+        var url = $(this).attr('form_url');
+        var that = $(this).parent().parent();
+        $.post(url, $(that).serialize(), function (data) {
+                if (data.success !== false) {
+                    $('alert-mess').html(data.success);
+                    $('alert-mess').removeClass('hide');
+                    table.ajax.url('/admin/ajax_clients');
+                    table.ajax.reload();
+                }
+            }, 'json')
+            .fail(function (xhr, status, error) {
+                $('alert-mess').html('Ошибка обработки запроса. Обратитесь к администратору сайта.');
+                $('alert-mess').removeClass('hide');
+
+            });
+    });
+
     $(document).on('change', '.calc-amount', function () {
         console.log($(this).attr('id') + '/' + $(this).val());
         var that = $(this).parent().parent().find('.calc-amount')
@@ -940,6 +1012,7 @@ function docReady() {
             console.log(data);
         }, 'json');
     });
+
     $(document).on('change', "#formFilter select", function () {
         var that = $(this);
         post('/admin/filter_product', $('#formFilter').serialize(), function (data) {
@@ -954,6 +1027,10 @@ function docReady() {
 
     $(document).on('click', '.delete_product', function () {
         $('#prd_id').val($(this).attr('id'));
+    });
+
+    $(document).on('click', '.deleteClient', function () {
+        $('#cli_id').val($(this).attr('id'));
     });
 
     $(document).on('click', '.ajaxDeleteProducts', function () {

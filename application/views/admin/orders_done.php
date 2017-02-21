@@ -11,7 +11,7 @@
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-phone"></i> Текущие заказы</h2>
+                <h2><i class="glyphicon glyphicon-phone"></i> Выполненные заказы</h2>
 
                 <div class="box-icon">
                     <a href="#" class="btn btn-minimize btn-round btn-default"><i
@@ -84,7 +84,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('admin/ajax_orders')?>", "type": "POST"
+                "url": "<?php echo site_url('admin/ajax_orders?done=1')?>", "type": "POST"
             },
 
             //Set column definition initialisation properties.

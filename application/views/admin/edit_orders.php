@@ -9,7 +9,7 @@
 
 <div class="box-inner">
     <div class="box-header well" data-original-title="">
-        <h2><i class="glyphicon glyphicon-edit"></i> Новый заказ</h2>
+        <h2><i class="glyphicon glyphicon-edit"></i> Заказ №<?= $ord_id ?></h2>
 
         <div class="box-icon">
             <a href="#" class="btn btn-minimize btn-round btn-default"><i
@@ -17,7 +17,7 @@
             </a>
         </div>
     </div>
-    <input type="hidden" name="order_id" id="order_id" value="0">
+    <input type="hidden" name="order_id" id="order_id" value="<?= $ord_id ?>">
     <div class="box-content">
         <div class="col-md-12 alert alert-success hide" role="alert"></div>
         <div class="row">
@@ -60,19 +60,19 @@
                                 <div class="col-xs-12 col-md-4">
                                     <label for="fatherName">Фамилия:</label>
                                     <input name="ord_last_name" type="text" class="form-control" id="fatherName"
-                                           placeholder="Введите фамилию">
+                                           placeholder="Введите фамилию" value="<?= $ord_last_name ?>">
                                 </div>
 
                                 <div class="col-xs-12 col-md-4">
                                     <label for="firstName">Имя:</label>
                                     <input name="ord_name" type="text" class="form-control" id="firstName"
-                                           placeholder="Введите имя">
+                                           placeholder="Введите имя" value="<?= $ord_name ?>">
                                 </div>
 
                                 <div class="col-xs-12 col-md-4">
                                     <label for="fatherName">Отчество:</label>
                                     <input name="ord_father_name" type="text" class="form-control" id="fatherName"
-                                           placeholder="Введите фамилию">
+                                           placeholder="Введите фамилию" value="<?= $ord_father_name ?>">
                                 </div>
 
                             </div>
@@ -80,13 +80,14 @@
                                 <div class="col-xs-12 col-md-4"><!-- Обязательно для заполнения -->
                                     <label for="phoneNumber">Телефон:*</label>
                                     <input type="tel" name="ord_phone" class="form-control" id="phoneNumber"
-                                           placeholder="+38 (067)-510-32-23"
+                                           placeholder="+38 (067)-510-32-23" value="<?= $ord_phone ?>"
                                            pattern="+38[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}">
                                 </div>
                                 <div class="col-xs-12 col-md-4">
                                     <label for="">Дата доставки:</label>
                                     <div class="input-group">
-                                        <input type="date" class="form-control" value="<?= date('Y-m-d'); ?>"/>
+                                        <input type="date" class="form-control"
+                                               value="<?= date('Y-m-d', strtotime($created_at)); ?>"/>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-4">
@@ -94,7 +95,7 @@
                                     <div class="input-group">
                                         <input name="ord_delivery_datetime" type="time"
                                                class="form-control border-radius-3"
-                                               value="<?= date("H:i"); ?>"/>
+                                               value="<?= date("H:i", strtotime($ord_delivery_datetime)); ?>"/>
                                     </div>
                                 </div>
                             </div>
@@ -103,35 +104,36 @@
                             <div class="form-group">
                                 <div class="col-xs-12 col-md-4">
                                     <label for="postalAddress">Улица:</label>
-                                    <input type="" class="form-control" name="ord_street" id="" placeholder="Улица">
+                                    <input type="text" value="<?= $ord_street ?>" class="form-control" name="ord_street"
+                                           id="" placeholder="Улица">
                                 </div>
                                 <div class="col-xs-12 col-md-3">
                                     <label for="postalAddress">Номер дома:</label>
-                                    <input name="ord_building" type="" class="form-control" id=""
-                                           placeholder="Номер дома">
+                                    <input name="ord_building" type="text" class="form-control" id=""
+                                           placeholder="Номер дома" value="<?= $ord_building ?>">
                                 </div>
                                 <div class="col-xs-12 col-md-2">
                                     <label for="postalAddress">Кв./Офис:</label>
-                                    <input type="" class="form-control" name="ord_room" id=""
-                                           placeholder="Кв./Офис">
+                                    <input type="text" class="form-control" name="ord_room" id=""
+                                           placeholder="Кв./Офис" value="<?= $ord_room ?>">
                                 </div>
                                 <div class="col-xs-12 col-md-3">
                                     <label for="postalAddress">Домофон:</label>
-                                    <input type="" class="form-control" name="ord_intercom" id=""
-                                           placeholder="Домофон">
+                                    <input type="text" class="form-control" name="ord_intercom" id=""
+                                           placeholder="Домофон" value="<?= $ord_intercom ?>">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12 col-md-6">
                                     <label for="postalAddress">Заезд:</label>
                                     <input type="" class="form-control" id="" name="ord_destonation"
-                                           placeholder="Заезд">
+                                           placeholder="Заезд" value="<?= $ord_destonation ?>">
                                 </div>
 
                                 <div class="col-xs-12 col-md-6">
                                     <label for="postalAddress">Примечание:</label>
                                     <textarea rows="1" name="ord_comments" class="form-control" id="postalAddress"
-                                              placeholder="Примечание"></textarea>
+                                              placeholder="Примечание"><?= $ord_comments ?></textarea>
                                 </div>
                             </div>
 
@@ -163,7 +165,7 @@
                                                 class="col-xs-12 col-md-12 country"
                                                 id="selectError2" data-rel="chosen">
                                             <?php foreach ($country as $item) { ?>
-                                                <option
+                                                <option <?php echo ($ord_id_country == $item->cou_id) ? 'selected' : ''; ?>
                                                     value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
                                             <?php } ?>
                                         </select>
@@ -351,9 +353,9 @@
                                 <div class="form-group">
                                     <div class="col-xs-12 col-md-12">
                                         <p class="text-left">
-                                            <a class="btn btn-success update_order">
+                                            <a class="btn btn-success update_order_edit">
                                                 <i class="glyphicon glyphicon-ok icon-white"></i>
-                                                Оформить заказ
+                                                Сохранить заказ
                                             </a>
                                         </p>
                                     </div>
@@ -440,57 +442,12 @@
             }
         });
 
-        /*$.post('/admin/getusername',{'name':$("#firstName").val()}, function(data){
-         $("#firstName").typeahead({ source:data });
-         },'json');*/
 
-        $('#firstName').bootcomplete({
-            url: '/admin/getusername'
-        });
+        country =<?=$ord_id_country?>;
+        region =<?=$ord_id_region?>;
+        city =<?=$ord_id_city?>;
+        $('.country').change();
 
-        /*$('#firstName').typeahead({
-         hint: true,
-         highlight: true,
-         minLength: 1,
-         //источник данных
-         source: function (query, process) {
-         return $.post('/admin/getusername', {'name':query},
-         function (response) {
-         var data = new Array();
-         //преобразовываем данные из json в массив
-         $.each(response, function(i, name)
-         {
-         data.push(i+'_'+name);
-         })
-         return process(data);
-         },
-         'json'
-         );
-         }
-         //источник данных
-         //вывод данных в выпадающем списке
-         , highlighter: function(item) {
-         var parts = item.split('_');
-         parts.shift();
-         return parts.join('_');
-         }
-         //вывод данных в выпадающем списке
-         //действие, выполняемое при выборе елемента из списка
-         , updater: function(item) {
-         var parts = item.split('_');
-         var userId = parts.shift();
-         $.post('getuserdata', {'user_id':userId},
-         function (user) {
-         $('input[name=email]').val(user.email);
-         $('input[name=phone]').val(user.phone);
-         },
-         'json'
-         );
-         return parts.join('_');
-         }
-         //действие, выполняемое при выборе елемента из списка
-
-         );}*/
     });
 </script>
 

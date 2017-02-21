@@ -70,7 +70,11 @@ class Model_users extends CI_Model {
 	}
 	
 	public function find($id) {
-        return $this->db->where('use_id', $id)->join('city', 'city.cit_id=users.use_id_city', 'left')->get('users')->result();
+		$this->db->join('country', 'users.use_id_country = country.cou_id', 'left');
+		$this->db->join('region', 'users.use_id_region = region.reg_id', 'left');
+		$this->db->join('city', 'users.use_id_city = city.cit_id', 'left');
+		$this->db->join('district', 'users.use_id_district = district.dis_id', 'left');
+		return $this->db->where('use_id', $id)->get('users')->result();
 	}
 	
 	public function insert() {

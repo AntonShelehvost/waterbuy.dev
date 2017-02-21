@@ -11,8 +11,10 @@ class Model_clients extends CI_Model
 	
 	
 	var $table = 'users';
-	var $column_order = array(null, 'use_mane','employee.emp_online_date','use_phone','employees_groups.emg_name','employee.emp_online'); //set column field database for datatable orderable
-	var $column_search = array( 'use_mane','employee.emp_online_date','use_phone','employees_groups.emg_name','employee.emp_online'); //set column field database for datatable searchable
+
+
+	var $column_order = array("concat(use_last_name,' ',use_name,' ',use_father_name)", 'use_phone', null); //set column field database for datatable orderable
+	var $column_search = array("concat(use_last_name,' ',use_name,' ',use_father_name)", 'use_phone', null); //set column field database for datatable searchable
 	var $order = array('use_id' => 'asc'); // default order
 	
 	public function __construct()
@@ -33,27 +35,45 @@ class Model_clients extends CI_Model
 		$this->db->join('city', 'users.use_id_city = city.cit_id', 'left');
 		$this->db->join('district', 'users.use_id_district = district.dis_id', 'left');
 		$i = 0;
-		
-		foreach ($this->column_search as $item) // loop column
+
+		$set = false;
+		foreach ($this->column_search as $key => $item) // loop column
 		{
-			if($_POST['search']['value']) // if datatable send POST for search
+			if (isset($_POST['columns'][$key]['search']) && !empty($_POST['columns'][$key]['search']['value']) && !empty($item)) // if datatable send POST for search
 			{
-				
-				if($i===0) // first loop
+				$set = true;
+				if ($i === 0) // first loop
 				{
-					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-					$this->db->like($item, $_POST['search']['value']);
+					//$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+					$this->db->like($item, $_POST['columns'][$key]['search']['value']);
+				} else {
+					$this->db->like($item, $_POST['columns'][$key]['search']['value']);
 				}
-				else
-				{
-					$this->db->or_like($item, $_POST['search']['value']);
-				}
-				
-				if(count($this->column_search) - 1 == $i) //last loop
-					$this->db->group_end(); //close bracket
 			}
 			$i++;
 		}
+
+		if (!$set)
+			foreach ($this->column_search as $item) // loop column
+			{
+				if ($_POST['search']['value'] && !empty($item)) // if datatable send POST for search
+				{
+
+					if ($i === 0) // first loop
+					{
+						$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+						$this->db->like($item, $_POST['search']['value'], 'before');
+					} else {
+						$this->db->or_like($item, $_POST['search']['value'], 'before');
+					}
+
+					if (count($this->column_search) - 1 == $i) //last loop
+					{
+						$this->db->group_end();
+					} //close bracket
+				}
+				$i++;
+			}
 		
 		if(isset($_POST['order'])) // here order processing
 		{
@@ -108,6 +128,15 @@ class Model_clients extends CI_Model
 		$this->db->join('district', 'users.use_id_district = district.dis_id', 'left');
         return $this->db->count_all_results();
 	}
-	
+
+	public function delete($id)
+	{
+		$this->db->where('use_id', $id);
+		$this->db->delete('users');
+		$this->db->where('emp_id_user', $id);
+		return $this->db->delete('employee');
+	}
+
+
 
 } // endClass

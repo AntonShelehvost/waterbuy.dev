@@ -10,8 +10,8 @@ class Model_orders extends CI_Model
 {
 
     var $table = 'orders';
-    var $column_order = array(); //set column field database for datatable orderable
-    var $column_search = array(); //set column field database for datatable searchable
+    var $column_order = array(null, 'orders.created_at', null, "concat(ord_last_name,' ',ord_name,' ',ord_father_name)", 'ord_phone', 'ord_done', 'use_organization'); //set column field database for datatable orderable
+    var $column_search = array(null, 'orders.created_at', null, "concat(ord_last_name,' ',ord_name,' ',ord_father_name)", 'ord_phone', 'ord_done', 'use_organization'); //set column field database for datatable searchable
     var $order = array('ord_id' => 'asc'); // default order
 
     private function _get_datatables_query()
@@ -22,6 +22,9 @@ class Model_orders extends CI_Model
         if (isset($_POST['id']) && !empty($_POST['id'])) {
             $this->db->where('ord_id_orders', $_POST['id']);
         }
+        if (isset($_GET['done']) && !empty($_GET['done'])) {
+            $this->db->where('ord_done', $_GET['done']);
+        }
         $this->db->join('country', 'orders.ord_id_country = country.cou_id', 'left');
         $this->db->join('users', 'orders.ord_id_user = users.use_id', 'left');
         $this->db->join('region', 'orders.ord_id_region = region.reg_id', 'left');
@@ -29,30 +32,48 @@ class Model_orders extends CI_Model
         $this->db->join('district', 'orders.ord_id_district = district.dis_id', 'left');
         $i = 0;
 
-        foreach ($this->column_search as $item) // loop column
+        $set = false;
+        foreach ($this->column_search as $key => $item) // loop column
         {
-            if ($_POST['search']['value']) // if datatable send POST for search
+            if (isset($_POST['columns'][$key]['search']) && !empty($_POST['columns'][$key]['search']['value']) && !empty($item)) // if datatable send POST for search
             {
-
+                $set = true;
                 if ($i === 0) // first loop
                 {
-                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-                    $this->db->like($item, $_POST['search']['value']);
+                    //$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['columns'][$key]['search']['value']);
                 } else {
-                    $this->db->or_like($item, $_POST['search']['value']);
+                    $this->db->like($item, $_POST['columns'][$key]['search']['value']);
                 }
-
-                if (count($this->column_search) - 1 == $i) //last loop
-                {
-                    $this->db->group_end();
-                } //close bracket
             }
             $i++;
         }
 
+        if (!$set)
+            foreach ($this->column_search as $item) // loop column
+            {
+                if ($_POST['search']['value'] && !empty($item)) // if datatable send POST for search
+                {
+
+                    if ($i === 0) // first loop
+                    {
+                        $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                        $this->db->like($item, $_POST['search']['value'], 'before');
+                    } else {
+                        $this->db->or_like($item, $_POST['search']['value'], 'before');
+                    }
+
+                    if (count($this->column_search) - 1 == $i) //last loop
+                    {
+                        $this->db->group_end();
+                    } //close bracket
+                }
+                $i++;
+            }
+
         if (isset($_POST['order'])) // here order processing
         {
-            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir'], false);
         } else {
             if (isset($this->order)) {
                 $order = $this->order;
@@ -84,10 +105,9 @@ class Model_orders extends CI_Model
         return $this->db->count_all_results();
     }
 
-
     public function find($id)
     {
-        return $this->db->where('ord_id', $id)->get('city');
+        return $this->db->where('ord_id', $id)->get($this->table)->result_array();
     }
 
     public function get_all()
@@ -117,6 +137,8 @@ class Model_orders extends CI_Model
     {
         $_ci = &get_instance();
         $this->db->where('ord_id', $id);
+        $this->db->set('ord_id_district', $_POST['ord_id_district'], false);
+        unset($_POST['ord_id_district']);
         return $this->db->update($this->table, $_ci->input->post());
     }
 

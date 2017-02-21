@@ -47,6 +47,29 @@
 
 </div>
 
+<div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+	 aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Удаление заказа</h3>
+			</div>
+			<div class="modal-body"> <!--Пишем название страны-->
+				<p>Вы действительно хотите удалить Клиента?</p>
+				<form>
+					<input type="hidden" name="cli_id" id="cli_id">
+					<div class="modal-footer">
+						<a href="#" class="btn btn-default" data-dismiss="modal">Отмена</a>
+						<a href="#" class="btn btn-primary ajaxDelete_cli" form_url="/admin/delete_cli"
+						   data-dismiss="modal">Да</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
 	var table;
 	$(document).ready(function () {
@@ -65,11 +88,32 @@
 			//Set column definition initialisation properties.
 			"columnDefs": [
 				{
-					"targets": [0], //first column / numbering column
+					"targets": [0, 3, 4], //first column / numbering column
 					"orderable": false, //set not orderable
 				},
-			],
-			
+			]
+		});
+
+		var pos = 0;
+		$('#clients thead th').each(function () {
+			pos++;
+			var title = $(this).text();
+			if (pos == 2 || pos == 3)$(this).html('<input type="text" class="full form-control input-sx" placeholder="' + title + '" />');
+		});
+
+		$('#clients tr input[type="text"]').click(function () {
+			return false;
+		});
+		table.columns().every(function () {
+			var that = this;
+
+			$('input', this.header()).on('keyup change', function () {
+				if (that.search() !== this.value) {
+					that
+						.search(this.value)
+						.draw();
+				}
+			});
 		});
 	});
 </script>

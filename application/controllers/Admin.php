@@ -131,7 +131,7 @@ class Admin extends CI_Controller
             [
                 'url' => '/admin/clients',
                 'title' => 'Список клиентов',
-                'flat' => true,
+                'flat' => false,
             ],
             [
                 'url' => '/admin/view_clients/' . $id,
@@ -966,12 +966,12 @@ class Admin extends CI_Controller
                 $clients->ord_father_name,
             ];
             $address = [
-                $clients->cou_name,
-                $clients->reg_name,
-                'г.',
+                $clients->cou_name . ' ',
+                $clients->reg_name . ' ',
+                ' г.',
                 $clients->cit_name,
                 ($clients->ord_id_district == -1) ? 'ВСЕ' : $clients->dis_name,
-                'ул.',
+                ' ул.',
                 $clients->ord_street,
                 ', дом.',
                 $clients->ord_building,
@@ -986,7 +986,7 @@ class Admin extends CI_Controller
             $row = array();
             $row[] = $no;
             $row[] = date('d.m.Y H:i:s', strtotime($clients->cdate));
-            $row[] = implode(' ', $address);
+            $row[] = implode('', $address);
             $row[] = implode(' ', $name);
             $row[] = $clients->ord_phone;
             $row[] = $status[$clients->ord_done];
@@ -996,7 +996,7 @@ class Admin extends CI_Controller
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="/admin/delete_orders/' . $clients->ord_id . '">
+            <a class="btn btn-danger delete_ord_id" data-toggle="modal" href="#myModalDelete" id="' . $clients->ord_id . '">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a> ';
@@ -1036,7 +1036,7 @@ class Admin extends CI_Controller
 
     }
 
-    public function edit_orders()
+    public function orders_done()
     {
 
         $bred = array(
@@ -1052,7 +1052,70 @@ class Admin extends CI_Controller
             ],
         );
         $data = array(
-            'content' => $this->load->view('/admin/orders', null, true),
+            'content' => $this->load->view('/admin/orders_done', null, true),
+            'bred' => $bred,
+        );
+        $this->load->view('/admin/main', $data);
+
+    }
+
+    public function order_history()
+    {
+
+        $bred = array(
+            [
+                'url' => '/admin',
+                'title' => 'Главная',
+                'flat' => false,
+            ],
+            [
+                'url' => '/admin/order_history',
+                'title' => 'История заказа',
+                'flat' => true,
+            ],
+        );
+        $data = array(
+            'content' => $this->load->view('/admin/orders_history', null, true),
+            'bred' => $bred,
+        );
+        $this->load->view('/admin/main', $data);
+    }
+
+    public function edit_orders()
+    {
+        $this->load->model('model_orders');
+        $this->load->model('model_country');
+        $this->load->model('model_category');
+        $this->load->model('model_providers');
+        $this->load->model('model_clients');
+
+        $bred = array(
+            [
+                'url' => '/admin',
+                'title' => 'Главная',
+                'flat' => false,
+            ], [
+                'url' => '/admin/orders',
+                'title' => 'Заказы',
+                'flat' => false,
+            ],
+            [
+                'url' => '/admin/edit_orders',
+                'title' => 'Редактирование заказа',
+                'flat' => true,
+            ],
+        );
+        $id = (int)$this->uri->segment(3);
+        $order = $this->model_orders->find($id);
+        $order[0]['country'] = $this->model_country->get_all();
+
+        $order[0]['providers'] = $this->model_providers->get_all();
+        $order[0]['country'] = $this->model_country->get_all();
+        $order[0]['category'] = $this->model_category->get_category_tree();
+        $order[0]['client'] = $this->model_clients->get_all();
+
+        $data = array(
+            'content' => $this->load->view('/admin/edit_orders', $order[0], true),
             'bred' => $bred,
         );
         $this->load->view('/admin/main', $data);
@@ -1442,7 +1505,7 @@ class Admin extends CI_Controller
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="/admin/delete_clients/' . $clients->use_id . '">
+            <a class="btn btn-danger deleteClient" data-toggle="modal" href="#myModalDelete" id="' . $clients->use_id . '">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>';
@@ -1702,10 +1765,7 @@ class Admin extends CI_Controller
             $row[] = $this->model_products->get_locations($products->prd_id);
             if ($this->session->userdata('emp_employees_groups_id') != 5) $uri = 'profile'; else $uri = 'admin';
             //$row[] = '<span class="label-success label label-default">Active</span>';
-            $row[] = '<a target="_blank" class="btn btn-success" href="/' . $uri . '/view_products/' . $products->prd_id . '">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                View
-            </a>
+            $row[] = '
             <a target="_blank" class="btn btn-info" href="/' . $uri . '/edit_products/' . $products->prd_id . '">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
@@ -1914,6 +1974,29 @@ class Admin extends CI_Controller
     {
         $this->load->model('model_orders_items');
         if ($this->model_orders_items->delete($this->input->post('ori_id'))) {
+            $success = 'Успешно удален';
+        }
+        echo json_encode(array('success' => $success, 'message' => ($success === false) ? $this->db->error() : ''));
+
+        return $success;
+    }
+
+
+    public function delete_ord()
+    {
+        $this->load->model('model_orders');
+        if ($this->model_orders->delete($this->input->post('ord_id'))) {
+            $success = 'Успешно удален';
+        }
+        echo json_encode(array('success' => $success, 'message' => ($success === false) ? $this->db->error() : ''));
+
+        return $success;
+    }
+
+    public function delete_cli()
+    {
+        $this->load->model('model_clients');
+        if ($this->model_clients->delete($this->input->post('cli_id'))) {
             $success = 'Успешно удален';
         }
         echo json_encode(array('success' => $success, 'message' => ($success === false) ? $this->db->error() : ''));
