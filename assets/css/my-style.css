@@ -12,8 +12,9 @@
     margin-left: -19px;!important;
 }
 
-.chosen-container.chosen-container-single {
-   /* width: 250px !important;*/
+#selectError2_chosen {
+    min-width: 250px;
+!important;
 }
 
 .float-right {
@@ -24,7 +25,7 @@
     margin-bottom: 10px;
 }
 
-CSS
+/*CSS*/
 .bs-wizard {
     margin-top: 40px;
 }

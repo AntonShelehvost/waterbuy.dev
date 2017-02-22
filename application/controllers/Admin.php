@@ -146,6 +146,34 @@ class Admin extends CI_Controller
         $this->load->view('/admin/main', $data);
     }
 
+    function finance()
+    {
+        //$id = (int)$this->uri->segment(3);
+
+        $this->load->model('model_users');
+
+        // $client = $this->model_users->find($id);
+        // $client = (isset($client[0]) && !empty($client[0]) ? $client[0] : false);
+
+        $bred = array(
+            [
+                'url' => '/admin',
+                'title' => 'Главная',
+                'flat' => false,
+            ],
+            [
+                'url' => '/admin/finance/',
+                'title' => 'Финансы',
+                'flat' => true,
+            ],
+        );
+        $data = array(
+            'content' => $this->load->view('/admin/finance', [], true),
+            'bred' => $bred,
+        );
+        $this->load->view('/admin/main', $data);
+    }
+
     function view_managers()
     {
         $id = (int)$this->uri->segment(3);

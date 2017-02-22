@@ -455,16 +455,24 @@ $success = $this->session->flashdata('success');
                                                placeholder="Заезд">
                                     </div>
                                     <label class="label col-xs-12 col-md-3" for="postalAddress">&nbsp;</label>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-md-3">&nbsp;</div>
                                     <div class="col-xs-12 col-md-9">
-                                        <label for="">Район:</label><!--Поле обязательно для заполнения-->
+                                        <label for="postalAddress">Район:</label>
                                         <div class="controls">
-                                            <select id="selectError1" multiple class="form-control" data-rel="chosen">
+                                            <select data-placeholder="Выбирите район" id="selectError2"
+                                                    data-rel="chosen">
+                                                <option value=""></option>
                                                 <option>Солнечный</option>
-                                                <option>2</option>
+                                                <option>New York Giants</option>
+                                                <option>Philadelphia Eagles</option>
+                                                <option>Washington Redskins</option>
                                             </select>
-                                            <input type="hidden" id="delivery_city" name="delivery_city">
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-xs-12 col-md-3">Пол*:</label>
@@ -501,7 +509,7 @@ $success = $this->session->flashdata('success');
                         </div>
                     </div>
 
-<!--                --><?php //echo validation_errors(); ?>
+                <!--                <?php //echo validation_errors(); ?>-->
 <!--                <form class="form-horizontal" method="post" action="">-->
 <!--	                <input type="hidden" name="use_id_country" value="null" />-->
 <!--                    <div class="form-group --><?//= (!empty(form_error('use_organization')) ? 'has-error' : '') ?><!--">-->

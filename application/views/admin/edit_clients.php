@@ -119,6 +119,7 @@ $success = $this->session->flashdata('success');
                             <label class="control-label col-xs-3" for="postalAddress">Адрес:</label>
 
                             <div class="col-xs-3">
+                                <label for="use_id_city">Страна:</label>
                                 <select class="form-control country"
                                         name="use_id_city" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
                                     <?php foreach ($country as $item) { ?>
@@ -128,11 +129,13 @@ $success = $this->session->flashdata('success');
                                 </select>
                             </div>
                             <div class="col-xs-3">
+                                <label for="use_id_region">Область:</label>
                                 <select class="form-control region"
                                         name="use_id_region" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
                                 </select>
                             </div>
                             <div class="col-xs-3">
+                                <label for="use_id_city">Город:</label>
                                 <select class="form-control city"
                                         name="use_id_city" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
                                 </select>
@@ -145,14 +148,17 @@ $success = $this->session->flashdata('success');
                             <label class="label col-xs-3" for="postalAddress">&nbsp;</label>
 
                             <div class="col-xs-3 <?= (!empty(form_error('use_street')) ? 'has-error' : '') ?>">
+                                <label for="use_street">Улица:</label>
                                 <input type="text" name="use_street" value="<?php echo $client->use_street; ?>"
                                        class="form-control" id="" placeholder="Улица*">
                             </div>
                             <div class="col-xs-3 <?= (!empty(form_error('use_building')) ? 'has-error' : '') ?>">
+                                <label for="use_building">Дом:</label>
                                 <input type="text" name="use_building" value="<?php echo $client->use_building; ?>"
                                        class="form-control" id="" placeholder="Номер дома*">
                             </div>
                             <div class="col-xs-3 <?= (!empty(form_error('use_room')) ? 'has-error' : '') ?>">
+                                <label for="use_room">Квартира:</label>
                                 <input type="text" name="use_room" value="<?php echo $client->use_room; ?>"
                                        class="form-control" id="" placeholder="Кв./Офис*">
                             </div>
@@ -161,10 +167,12 @@ $success = $this->session->flashdata('success');
                         <div class="form-group">
                             <label class="label col-xs-3" for="postalAddress">&nbsp;</label>
                             <div class="col-xs-3">
+                                <label for="use_intercom">Домофон:</label>
                                 <input type="text" name="use_intercom" value="<?php echo $client->use_intercom; ?>"
                                        class="form-control" id="" placeholder="Домофон">
                             </div>
                             <div class="col-xs-3">
+                                <label for="use_destonation">Заезд:</label>
                                 <input type="text" name="use_destonation"
                                        value="<?php echo $client->use_destonation; ?>" class="form-control" id=""
                                        placeholder="Заезд">
