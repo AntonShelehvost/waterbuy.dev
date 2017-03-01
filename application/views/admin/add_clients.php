@@ -136,7 +136,8 @@ $success = $this->session->flashdata('success');
                                     <label class="control-label col-xs-12 col-md-3" for="postalAddress">Адрес клиента</label>
                                     <div class="col-xs-12 col-md-4">
                                         <label for="use_id_country">Страна:</label>
-                                        <select value="<?php echo set_value('use_id_country'); ?>" class="form-control"
+                                        <select value="<?php echo set_value('use_id_country'); ?>"
+                                                class="form-control country"
                                                 name="use_id_country" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
                                             <?php foreach ($country as $item) { ?>
                                                 <option value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
@@ -145,7 +146,7 @@ $success = $this->session->flashdata('success');
                                     </div>
                                     <div class="col-xs-12 col-md-5">
                                         <label for="postalAddress">Область</label>
-                                        <select class="form-control">
+                                        <select class="form-control region">
                                             <option>Винницкая область</option>
                                             <option>Волынская область</option>
                                             <option selected>Днепропетровская область</option>
@@ -180,7 +181,8 @@ $success = $this->session->flashdata('success');
 
                                     <div class="col-xs-12 col-md-3">
                                         <label for="use_id_city">Город:</label>
-                                        <select value="<?php echo set_value('use_id_city'); ?>" class="form-control"
+                                        <select value="<?php echo set_value('use_id_city'); ?>"
+                                                class="form-control city"
                                                 name="use_id_city" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
                                             <?php foreach ($city as $item) { ?>
                                                 <option value="<?= $item->cit_id; ?>"><?= trim($item->cit_name); ?></option>
@@ -374,7 +376,8 @@ $success = $this->session->flashdata('success');
                                     <label class="control-label col-xs-12 col-md-3" for="postalAddress">Адрес клиента:</label>
                                     <div class="col-xs-12 col-md-4">
                                         <label for="use_id_country">Страна:</label>
-                                        <select value="<?php echo set_value('use_id_country'); ?>" class="form-control"
+                                        <select value="<?php echo set_value('use_id_country'); ?>"
+                                                class="form-control country"
                                                 name="use_id_country" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
                                             <?php foreach ($country as $item) { ?>
                                                 <option value="<?= $item->cou_id; ?>"><?= trim($item->cou_name); ?></option>
@@ -383,7 +386,7 @@ $success = $this->session->flashdata('success');
                                     </div>
                                     <div class="col-xs-12 col-md-5">
                                         <label for="postalAddress">Область</label>
-                                        <select class="form-control">
+                                        <select class="form-control region">
                                             <option>Винницкая область</option>
                                             <option>Волынская область</option>
                                             <option selected>Днепропетровская область</option>
@@ -416,7 +419,8 @@ $success = $this->session->flashdata('success');
                                     <label class="label col-xs-3 col-md-3" for="postalAddress">&nbsp;</label>
                                     <div class="col-xs-12 col-md-3">
                                         <label for="use_id_city">Город:</label>
-                                        <select value="<?php echo set_value('use_id_city'); ?>" class="form-control"
+                                        <select value="<?php echo set_value('use_id_city'); ?>"
+                                                class="form-control city"
                                                 name="use_id_city" <?= (!empty(form_error('use_id_city')) ? 'has-error' : '') ?>>
                                             <?php foreach ($city as $item) { ?>
                                                 <option value="<?= $item->cit_id; ?>"><?= trim($item->cit_name); ?></option>

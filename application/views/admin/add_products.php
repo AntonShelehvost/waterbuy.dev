@@ -36,6 +36,7 @@ $success = $this->session->flashdata('success');
                                 <label class="control-label col-xs-12 col-md-3" for="prd_id_providers">Организация/ЧП(Поставщик):</label>
                                 <div class="col-xs-12 col-md-9">
                                     <select value="<?php echo set_value('prd_id_providers'); ?>" name="prd_id_user"
+                                            data-rel="chosen"
                                             id="prd_id_user2" class="form-control">
                                         <option value="-1"></option>
                                         <?php foreach ($providers as $item) { ?>
@@ -146,6 +147,7 @@ $success = $this->session->flashdata('success');
                                 <label class="control-label col-xs-12 col-md-3" for="prd_id_providers">Организация/ЧП(Поставщик):</label>
                                 <div class="col-xs-12 col-md-9">
                                     <select value="<?php echo set_value('prd_id_user'); ?>" name="prd_id_user"
+                                            data-rel="chosen"
                                             id="prd_id_user" class="form-control">
                                         <option value="-1"></option>
                                         <?php foreach ($providers as $item) { ?>
